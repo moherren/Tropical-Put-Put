@@ -15,7 +15,7 @@ import visibleObjects.VisibleObject;
 
 public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter{
 
-	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2;
+	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4;
 	Display display;
 	boolean running=true;
 	Course c;
@@ -108,6 +108,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 	}
 
+	public void setScreen(int i){
+		screen=i;
+	}
+	
 	public int getScreen() {
 		return screen;
 	}
