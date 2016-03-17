@@ -9,14 +9,18 @@ import java.util.Arrays;
 
 import graphics.Display;
 import graphics.Render2D;
+import menu.Background;
 import visibleObjects.Painter;
 import visibleObjects.VisibleObject;
 
 public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter{
 
+	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2;
 	Display display;
 	boolean running=true;
 	Course c;
+	int screen=SC_MAIN_MENU;
+	Background background;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -29,13 +33,25 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addMouseListener(this);
 		
 		c=new Course();
+		background=new Background(this);
 		
 		new Thread(this).run();
 	}
 
 	public void render(Render2D r) {
-		Arrays.fill(r.pixels, 0x01A611);
-		c.render(r);
+		switch(screen){
+		
+		case SC_MAIN_MENU:{
+			background.render(r);
+			break;
+		}
+		
+		case SC_GOLF_GAME:{
+			Arrays.fill(r.pixels, 0x01A611);
+			c.render(r);
+			break;
+		}
+		}
 	}
 
 
@@ -90,6 +106,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void keyTyped(KeyEvent arg0) {
 		
+	}
+
+	public int getScreen() {
+		return screen;
 	}
 
 }
