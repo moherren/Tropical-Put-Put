@@ -5,11 +5,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import graphics.Display;
 import graphics.Render2D;
 import menu.Background;
+import menu.MenuButton;
 import visibleObjects.Painter;
 import visibleObjects.VisibleObject;
 
@@ -21,6 +23,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	Course c;
 	int screen=SC_MAIN_MENU;
 	Background background;
+	MenuButton[] buttons;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -31,6 +34,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addVObject(this);
 		display.addKeyListener(this);
 		display.addMouseListener(this);
+		buttons=MenuButton.getMenuButtons(this);
 		
 		c=new Course();
 		background=new Background(this);
@@ -43,6 +47,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 		case SC_MAIN_MENU:{
 			background.render(r);
+			for(MenuButton mb:buttons)
+				mb.render(r);
 			break;
 		}
 		

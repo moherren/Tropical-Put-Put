@@ -40,9 +40,18 @@ public class MenuButton implements VisibleObject{
 		
 	}
 	
-	public class PlayButton extends MenuButton{
+	public static MenuButton[] getMenuButtons(Game game){
+		MenuButton[] mb=new MenuButton[4];
+		mb[0]=new PlayButton(game);
+		mb[1]=new TutorialButton(game);
+		mb[2]=new SettingsButton(game);
+		mb[3]=new QuitButton(game);
+		return mb;
+	}
+	
+	public static class PlayButton extends MenuButton{
 		public PlayButton(Game g){
-			super(100,100,Texture.loadBitmap("textures/playButton.png"),g);
+			super(100,70,Texture.loadBitmap("textures/playButton.png"),g);
 		}
 		
 		public void click(){
@@ -50,9 +59,9 @@ public class MenuButton implements VisibleObject{
 		}
 	}
 	
-	public class TutorialButton extends MenuButton{
+	public static class TutorialButton extends MenuButton{
 		public TutorialButton(Game g){
-			super(100,200,Texture.loadBitmap("textures/tutorialButton.png"),g);
+			super(100,170,Texture.loadBitmap("textures/tutorialButton.png"),g);
 		}
 		
 		public void click(){
@@ -60,9 +69,9 @@ public class MenuButton implements VisibleObject{
 		}
 	}
 	
-	public class SettingsButton extends MenuButton{
+	public static class SettingsButton extends MenuButton{
 		public SettingsButton(Game g){
-			super(100,300,Texture.loadBitmap("textures/playButton.png"),g);
+			super(100,270,Texture.loadBitmap("textures/settingsButton.png"),g);
 		}
 		
 		public void click(){
@@ -70,9 +79,9 @@ public class MenuButton implements VisibleObject{
 		}
 	}
 	
-	public class QuitButton extends MenuButton{
+	public static class QuitButton extends MenuButton{
 		public QuitButton(Game g){
-			super(100,300,Texture.loadBitmap("textures/quitButton.png"),g);
+			super(100,370,Texture.loadBitmap("textures/quitButton.png"),g);
 		}
 		
 		public void click(){
