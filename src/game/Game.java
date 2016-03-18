@@ -46,6 +46,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		switch(screen){
 		
 		case SC_MAIN_MENU:{
+			Arrays.fill(r.pixels, 0x87CEEB);
 			background.render(r);
 			for(MenuButton mb:buttons)
 				mb.render(r);

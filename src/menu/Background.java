@@ -25,19 +25,19 @@ public class Background implements VisibleObject{
 			long time=(int) (System.currentTimeMillis());
 			for(int x=0;x<r.width;x++){
 				for(int y=400;y<r.height;y++){
-					double alter=1;
+					double alter=0.9;
 					if(y>440)
 						alter=1.1;
 					if(y>480)
 						alter=1.3;
 					if(y>520)
-						alter=1.6;
+						alter=1.5;
 					if(y>560)
-						alter=1.9;
+						alter=1.7;
 					
 					//alter=1.6;
 					
-					int newChange=(int) (time*alter/10%waterTile.width);
+					int newChange=(int) (time*alter/20%waterTile.width);
 					r.pixels[x+y*r.width]=waterTile.pixels[(((x-newChange)%waterTile.width+waterTile.width)%waterTile.width)+((y-400)%waterTile.height)*waterTile.width];
 				}
 			}
