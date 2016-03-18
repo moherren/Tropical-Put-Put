@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 
+import course.GolfCourse;
 import graphics.Display;
 import graphics.Render2D;
 import visibleObjects.Painter;
@@ -16,7 +17,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	Display display;
 	boolean running=true;
-	Course c;
+	GolfCourse c;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -28,7 +29,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addKeyListener(this);
 		display.addMouseListener(this);
 		
-		c=new Course();
+		c=new GolfCourse();
 		
 		new Thread(this).run();
 	}
@@ -91,5 +92,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void keyTyped(KeyEvent arg0) {
 		
 	}
+
+	public void render(Graphics g) {}
 
 }
