@@ -60,7 +60,7 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 	
 	public void handleCollision(GameEntity entity){
 		Vector2D normal=getNormal(entity.shape.translate(entity.getVelocity()));
-		if(normal!=null){
+		if(normal!=null&&!normal.isZeroed()){
 			Vector2D impulse=normal.normalize().mult(Math.abs(entity.getVelocity().dot(normal.negative()))/normal.magnitude()*(1+elasticity));
 			entity.applyImpulse(impulse);
 		}
