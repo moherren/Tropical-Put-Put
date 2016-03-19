@@ -19,7 +19,7 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 	private Polygon shape;
 	private Vector2D[] normals;
 	private Color color;
-	private int col;
+	private int col=0xffffff;
 	public double elasticity;//percentage of speed that is conserved in collisions
 	int minX=Integer.MAX_VALUE,minY=Integer.MAX_VALUE,maxX=Integer.MIN_VALUE,maxY=Integer.MIN_VALUE;
 	double X,Y;
@@ -36,11 +36,16 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 			maxX=(int) Math.max(maxX, v.x);
 			maxY=(int) Math.max(maxY, v.y);
 		}
-		col=color.getRGB();
+		int r=c.getRed();
+		int b=c.getBlue();
+		int g=c.getGreen();
+		int rgb = r;
+		rgb = (rgb << 8) + g;
+		rgb = (rgb << 8) + b;
+		col=rgb;
 		Vector2D v=shape.getPosition();
 		X=v.x;
 		Y=v.y;
-		
 	}
 
 	public Wall(Polygon shape){
@@ -55,18 +60,25 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 			maxX=(int) Math.max(maxX, v.x);
 			maxY=(int) Math.max(maxY, v.y);
 		}
-		col=color.getRGB();
+		Color c=new Color(1);
+		int r=c.getRed();
+		int b=c.getBlue();
+		int g=c.getGreen();
+		int rgb = r;
+		rgb = (rgb << 8) + g;
+		rgb = (rgb << 8) + b;
+		col=rgb;
 		Vector2D v=shape.getPosition();
 		X=v.x;
-		Y=v.y;System.out.println(minX+"");
+		Y=v.y;
 	}
 	
 	public void render(Render2D r){
 		//Still needs to be added
 		for(int x=minX;x<maxX;x++)
 			for(int y=minY;y<maxY;y++){
-				if(shape.includes(new Vector2D(x,y)))
-					r.pixels[x+r.width*y]=col;
+				if(shape.includes(new Vector2D(x+X,y+Y)))
+					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=col;
 			}
 	}
 	

@@ -43,7 +43,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		buttons=MenuButton.getMenuButtons(this);
 		
 		c=new GolfCourse();
-		c.addWall(new Wall(new Rectangle(100,100,100,100),new Color(100,0,100)));
+		c.addWall(new Wall(new Rectangle(100,100,100,100),Color.BLUE));
 		background=new Background(this);
 		
 		new Thread(this).run();
@@ -61,7 +61,6 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_GOLF_GAME:{
-			Arrays.fill(r.pixels, 0x01A611);
 			c.render(r);
 			break;
 		}

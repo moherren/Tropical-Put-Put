@@ -3,6 +3,7 @@ package course;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import entities.Entity;
 import entities.GameEntity;
@@ -81,6 +82,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 	
 	public void render(Render2D r){
+		Arrays.fill(r.pixels, 0x01A611);
 		for(Entity e:entities){
 			if(e instanceof VisibleObject){
 				((VisibleObject)e).render(r);
