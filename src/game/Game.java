@@ -12,7 +12,9 @@ import java.util.Arrays;
 
 import course.GolfCourse;
 import course.Wall;
+import entities.GolfBall;
 import geometry.Rectangle;
+import geometry.Vector2D;
 import graphics.Display;
 import graphics.Render2D;
 import menu.Background;
@@ -44,6 +46,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 		c=new GolfCourse();
 		c.addWall(new Wall(new Rectangle(100,100,100,100),Color.BLUE));
+		c.addEntity(new GolfBall(new Vector2D(450,100),c));
 		background=new Background(this);
 		
 		new Thread(this).run();
