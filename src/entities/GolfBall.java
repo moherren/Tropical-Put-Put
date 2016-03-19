@@ -1,11 +1,12 @@
 package entities;
 
+import visibleObjects.VisibleObject;
 import course.GolfCourse;
 import geometry.Circle;
 import geometry.Shape;
 import geometry.Vector2D;
 
-public class GolfBall extends GameEntity{
+public class GolfBall extends GameEntity implements VisibleObject{
 
 	public static double BALL_RADIUS=20;
 	private GolfCourse course;

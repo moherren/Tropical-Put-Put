@@ -1,6 +1,8 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import course.GolfCourse;
+import course.Wall;
+import geometry.Rectangle;
 import graphics.Display;
 import graphics.Render2D;
 import menu.Background;
@@ -25,6 +29,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	int screen=SC_MAIN_MENU;
 	Background background;
 	MenuButton[] buttons;
+	int mX=0,mY=0;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -38,6 +43,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		buttons=MenuButton.getMenuButtons(this);
 		
 		c=new GolfCourse();
+		c.addWall(new Wall(new Rectangle(100,100,100,100),new Color(100,0,100)));
 		background=new Background(this);
 		
 		new Thread(this).run();
@@ -70,8 +76,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void run() {
 		while(running){
+			Point mouse=display.getMousePosition();
+			if(mouse!=null){
+				mX=mouse.x;
+				mY=mouse.y;
+			}
 			
-			
+			for(MenuButton mb:buttons)
+				mb.update(mX, mY);
+				
 			display.Render();
 		}
 	}
@@ -93,7 +106,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mousePressed(MouseEvent arg0) {
-		
+		for(MenuButton mb:buttons)
+			mb.click(mX, mY);
 	}
 
 
