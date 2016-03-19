@@ -9,9 +9,10 @@ import entities.GameEntity;
 import geometry.Circle;
 import geometry.Vector2D;
 import graphics.Render2D;
+import visibleObjects.TempGraphics;
 import visibleObjects.VisibleObject;
 
-public class GolfCourse implements VisibleObject{
+public class GolfCourse implements VisibleObject, TempGraphics{
 
 	private ArrayList<Entity> entities;
 	private ArrayList<Obstacle> obstacles;
@@ -106,8 +107,8 @@ public class GolfCourse implements VisibleObject{
 	@Override
 	public void render(Graphics g) {
 		for(Entity e:entities){
-			if(e instanceof VisibleObject){
-				((VisibleObject)e).render(g);
+			if(e instanceof TempGraphics){
+				((TempGraphics)e).render(g);
 			}
 		}
 		for(Obstacle o:obstacles){

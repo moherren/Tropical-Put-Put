@@ -8,9 +8,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import course.GolfCourse;
+import visibleObjects.TempGraphics;
 import visibleObjects.VisibleObject;
 
-public class GameEntity extends MobileEntity implements VisibleObject{
+public class GameEntity extends MobileEntity implements VisibleObject,TempGraphics{
 
 	public Vector2D heading;
 	public Shape shape;

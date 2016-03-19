@@ -9,10 +9,11 @@ import geometry.Polygon;
 import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
+import visibleObjects.TempGraphics;
 import visibleObjects.VisibleObject;
 import entities.GameEntity;
 
-public class Wall implements VisibleObject,Obstacle{
+public class Wall implements VisibleObject,Obstacle,TempGraphics{
 
 	private Line[] sides;
 	private Polygon shape;
