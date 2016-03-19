@@ -30,6 +30,11 @@ public class MenuButton implements VisibleObject{
 		return Math.sqrt(dx*dx + dy*dy)==0;
 	}
 	
+	public void click(int x,int y){
+		if(isWithin(x,y))
+			click();
+	}
+	
 	public void click(){
 		
 	}
