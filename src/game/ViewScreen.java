@@ -35,6 +35,11 @@ import geometry.Rectangle;
 import geometry.Shape;
 import geometry.Vector2D;
 
+/**
+ * I was using this to test the physics
+ * @author Peter
+ *
+ */
 public class ViewScreen extends JPanel{
 
 	private GolfCourse world;
