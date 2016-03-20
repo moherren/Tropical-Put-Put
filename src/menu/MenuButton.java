@@ -62,6 +62,7 @@ public class MenuButton implements VisibleObject{
 		
 		public void click(){
 			game.setScreen(Game.SC_GOLF_GAME);
+			game.startGame();
 		}
 	}
 	

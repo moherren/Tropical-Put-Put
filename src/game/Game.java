@@ -3,12 +3,16 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.swing.Timer;
 
 import course.GolfCourse;
 import course.Wall;
@@ -32,6 +36,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	Background background;
 	MenuButton[] buttons;
 	int mX=0,mY=0;
+	private boolean playing=false;
+	private double updatePerSecond=100;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -45,8 +51,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		buttons=MenuButton.getMenuButtons(this);
 		
 		c=new GolfCourse();
-		c.addWall(new Wall(new Rectangle(100,100,100,100),Color.BLUE));
-		c.addEntity(new GolfBall(new Vector2D(450,100),c));
+		c.addWall(new Wall(new Rectangle(40,250,40,300)));
+		c.addWall(new Wall(new Rectangle(400,80,760,40)));
+		c.addWall(new Wall(new Rectangle(400,420,760,40)));
+		c.addWall(new Wall(new Rectangle(760,250,40,300)));
+		c.addEntity(new GolfBall(new Vector2D(450,200),c));
 		background=new Background(this);
 		
 		new Thread(this).run();
@@ -138,6 +147,18 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	
 	public int getScreen() {
 		return screen;
+	}
+
+	public void startGame() {
+		if(!playing){
+			new Timer((int)(1000/updatePerSecond),new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					c.update((int)(1000/updatePerSecond)/10);
+				}
+			}).start();
+			playing=true;
+		}
 	}
 
 }
