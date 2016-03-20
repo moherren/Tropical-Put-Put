@@ -11,6 +11,8 @@ public class MenuButton implements VisibleObject{
 	Render sprite;
 	boolean hover=false;
 	Game game;
+	static Render buttons=Texture.loadBitmap("textures/buttons.png");
+	
 	private MenuButton(int x,int y,Render sprite,Game game){
 		this.x=x;
 		this.y=y;
@@ -55,7 +57,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class PlayButton extends MenuButton{
 		public PlayButton(Game g){
-			super(100,70,Texture.loadBitmap("textures/playButton.png"),g);
+			super(100,70,Texture.getSpriteSheet(buttons, 199, 75, 0),g);
 		}
 		
 		public void click(){
@@ -65,7 +67,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class TutorialButton extends MenuButton{
 		public TutorialButton(Game g){
-			super(100,170,Texture.loadBitmap("textures/tutorialButton.png"),g);
+			super(100,170,Texture.getSpriteSheet(buttons, 199, 75, 1),g);
 		}
 		
 		public void click(){
@@ -75,7 +77,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class SettingsButton extends MenuButton{
 		public SettingsButton(Game g){
-			super(100,270,Texture.loadBitmap("textures/settingsButton.png"),g);
+			super(100,270,Texture.getSpriteSheet(buttons, 199, 75, 2),g);
 		}
 		
 		public void click(){
@@ -85,7 +87,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class QuitButton extends MenuButton{
 		public QuitButton(Game g){
-			super(100,370,Texture.loadBitmap("textures/quitButton.png"),g);
+			super(100,370,Texture.getSpriteSheet(buttons, 199, 75, 3),g);
 		}
 		
 		public void click(){

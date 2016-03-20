@@ -78,7 +78,7 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		for(int x=minX;x<maxX;x++)
 			for(int y=minY;y<maxY;y++){
 				if(shape.includes(new Vector2D(x+X,y+Y)))
-					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=col;
+					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=GolfCourse.tilesA[0].pixels[((int)(x+X)%GolfCourse.tilesA[1].width)+((int)(y+Y)%GolfCourse.tilesA[1].height)*GolfCourse.tilesA[1].width];
 			}
 	}
 	

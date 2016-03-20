@@ -85,7 +85,7 @@ public class Texture {
 		for(int x=0;x<width;x++){
 			int xPix=x+((num%columns)*width);
 			for(int y=0;y<height;y++){
-				int yPix=y+(num/columns);
+				int yPix=y+(num/columns)*height;
 				int alpha=r.pixels[xPix+yPix*r.width];
 				sprite.pixels[x+y*sprite.width]=alpha;
 			}
@@ -103,7 +103,7 @@ public class Texture {
 		for(int x=0;x<width;x++){
 			int xPix=x+((num%columns)*width);
 			for(int y=0;y<height;y++){
-				int yPix=y+(num/columns);
+				int yPix=y+(num/columns)*height;
 				int alpha=r.pixels[xPix+yPix*r.width];
 				if(!flipped)
 					sprite.pixels[x+y*sprite.width]=alpha;

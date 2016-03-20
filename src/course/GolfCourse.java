@@ -9,7 +9,9 @@ import entities.Entity;
 import entities.GameEntity;
 import geometry.Circle;
 import geometry.Vector2D;
+import graphics.Render;
 import graphics.Render2D;
+import graphics.Texture;
 import visibleObjects.TempGraphics;
 import visibleObjects.VisibleObject;
 
@@ -22,6 +24,8 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public double g;//gravity
 	public double tiltAngle;//in degrees
 	public Vector2D tiltDirection;
+	static Render tiles;
+	static Render tilesA[]=new Render[3];
 	
 	public GolfCourse() {
 		entities=new ArrayList<Entity>();
@@ -30,6 +34,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		g=0.1;
 		tiltAngle=90;
 		tiltDirection=new Vector2D(1,0);
+		tiles=Texture.loadBitmap("textures/tiles.png");
+		for(int i=0;i<tilesA.length;i++){
+			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
+		}
 	}
 	
 	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles){
@@ -39,6 +47,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		g=0.1;
 		tiltAngle=90;
 		tiltDirection=new Vector2D(1,0);
+		tiles=Texture.loadBitmap("textures/tiles.png");
+		for(int i=0;i<tilesA.length;i++){
+			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
+		}
 	}
 	
 	public double getCoefFriction(){
@@ -82,7 +94,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 	
 	public void render(Render2D r){
-		Arrays.fill(r.pixels, 0x01A611);
+		for(int x=0;x<r.width;x++)
+			for(int y=0;y<r.height;y++)
+				r.pixels[x+y*r.width]=tilesA[2].pixels[(x%tilesA[2].width)+(y%tilesA[2].height)*tilesA[2].width];
 		for(Entity e:entities){
 			if(e instanceof VisibleObject){
 				((VisibleObject)e).render(r);
