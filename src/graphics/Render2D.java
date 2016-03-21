@@ -13,6 +13,8 @@ public class Render2D extends Render{
 	 * @param y
 	 * @param depth
 	 */
+	
+	
 	public void drawPixel(int color,int x,int y,int depth){
 		if(depthMap[x+y*width]<=depth){
 			pixels[x+y*width]=color;

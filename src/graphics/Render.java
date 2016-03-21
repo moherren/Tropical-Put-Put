@@ -42,6 +42,11 @@ public class Render {
 		
 	}
 	
+	public void drawPixel(int color,int x,int y){
+		if(x>=0&&x<width&&y>=0&&y<height){
+			pixels[x+y*width]=color;
+		}
+	}
 	
 	/** This method shades the image to a specified degree and color.
 	 * @param shadeAmount - A double used to define how powerful the shading should be. Should be a value 1 to 0.

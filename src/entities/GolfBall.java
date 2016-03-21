@@ -49,11 +49,11 @@ public class GolfBall extends GameEntity implements VisibleObject{
 				int x=(int) (Math.cos(angle)*length+X);
 				int y=(int) (Math.sin(angle)*length+Y);
 				int lineLength=(int) (Math.cos(angle)*2*length);
-				r.pixels[x+y*r.width]=1;
+				r.drawPixel(1,x,y);
 				for(int line=-1;line>lineLength;line--)
 					if(r.pixels[x+y*r.width-line]!=1)
 					r.pixels[x+y*r.width-line]=0xffffff;
-				r.pixels[x+y*r.width-lineLength]=1;
+				r.drawPixel(1,x-lineLength,y);
 				
 			}
 	}
