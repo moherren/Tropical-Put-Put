@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import javax.swing.Timer;
 
@@ -158,6 +159,19 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				}
 			}).start();
 			playing=true;
+			new Thread(){
+				public void run(){
+					Scanner scan=new Scanner(System.in);
+					while(true){
+						System.out.println("new tilt direction:");
+						Vector2D newTilt=new Vector2D(scan.nextDouble(),scan.nextDouble()).normalize();
+						System.out.println("new angle:");
+						double newAngle=scan.nextDouble();
+						c.tiltDirection=newTilt;
+						c.tiltAngle=newAngle;
+					}
+				}
+			}.start();
 		}
 	}
 

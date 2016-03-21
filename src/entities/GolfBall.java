@@ -10,7 +10,7 @@ import graphics.Render2D;
 
 public class GolfBall extends GameEntity implements VisibleObject{
 
-	public static double BALL_RADIUS=20;
+	public static double BALL_RADIUS=7;
 	private GolfCourse course;
 		
 	public GolfBall(Vector2D position, GolfCourse course) {
@@ -21,8 +21,6 @@ public class GolfBall extends GameEntity implements VisibleObject{
 	public void update(double time){
 		super.update(time);
 		velocity.iadd(course.getTiltDirection().mult(course.getGravity()*Math.sin(Math.toRadians(course.getTiltAngle()))*time));
-		
-		course.handleCollisions(this);
 		if(!velocity.isZeroed()){
 			Vector2D frictionDirection=velocity.normalize().negative();
 			double frictionStrength=course.getCoefFriction()*course.getGravity()*Math.cos(Math.toRadians(course.getTiltAngle()))*time;
@@ -31,6 +29,10 @@ public class GolfBall extends GameEntity implements VisibleObject{
 			else{
 				velocity.iadd(frictionDirection.mult(frictionStrength));
 			}
+		}
+		course.handleCollisions(this);
+		if(velocity.magnitudeSq()<0.01*0.01){
+			velocity.zero();
 		}
 	}
 	
@@ -52,7 +54,7 @@ public class GolfBall extends GameEntity implements VisibleObject{
 				r.drawPixel(1,x,y);
 				for(int line=-1;line>lineLength;line--)
 					if(r.pixels[x+y*r.width-line]!=1)
-					r.pixels[x+y*r.width-line]=0xffffff;
+						r.drawPixel(0xffffff, x-line,y);
 				r.drawPixel(1,x-lineLength,y);
 				
 			}

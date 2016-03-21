@@ -20,7 +20,7 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 	private Vector2D[] normals;
 	private Color color;
 	private int col=0xffffff;
-	public double elasticity;//percentage of speed that is conserved in collisions
+	public double elasticity=0.3;//percentage of speed that is conserved in collisions
 	int minX=Integer.MAX_VALUE,minY=Integer.MAX_VALUE,maxX=Integer.MIN_VALUE,maxY=Integer.MIN_VALUE;
 	double X,Y;
 	
@@ -29,7 +29,6 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		this.shape=shape;
 		normals=calculateNormals(sides);
 		color=c;
-		elasticity=.70;
 		for(Vector2D v:shape.points){
 			minX=(int) Math.min(minX, v.x);
 			minY=(int) Math.min(minY, v.y);
@@ -53,7 +52,6 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		this.shape=shape;
 		normals=calculateNormals(sides);
 		color=Color.black;
-		elasticity=.70;
 		for(Vector2D v:shape.points){
 			minX=(int) Math.min(minX, v.x);
 			minY=(int) Math.min(minY, v.y);

@@ -22,7 +22,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public long time=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
-	public double tiltAngle;//in degrees
+	public double tiltAngle=0;//in degrees
 	public Vector2D tiltDirection;
 	static Render tiles;
 	static Render tilesA[]=new Render[3];
@@ -30,9 +30,8 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public GolfCourse() {
 		entities=new ArrayList<Entity>();
 		obstacles=new ArrayList<Obstacle>();
-		mu=.1;
+		mu=.10;
 		g=0.1;
-		tiltAngle=90;
 		tiltDirection=new Vector2D(1,0);
 		tiles=Texture.loadBitmap("textures/tiles.png");
 		for(int i=0;i<tilesA.length;i++){
@@ -43,9 +42,8 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles){
 		this.entities=entities;
 		this.obstacles=obstacles;
-		mu=.1;
+		mu=.10;
 		g=0.1;
-		tiltAngle=90;
 		tiltDirection=new Vector2D(1,0);
 		tiles=Texture.loadBitmap("textures/tiles.png");
 		for(int i=0;i<tilesA.length;i++){
