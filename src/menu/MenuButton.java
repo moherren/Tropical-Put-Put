@@ -57,7 +57,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class PlayButton extends MenuButton{
 		public PlayButton(Game g){
-			super(100,70,Texture.getSpriteSheet(buttons, 199, 75, 0),g);
+			super(50,200,Texture.getSpriteSheet(buttons, 199, 75, 0),g);
 		}
 		
 		public void click(){
@@ -68,7 +68,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class TutorialButton extends MenuButton{
 		public TutorialButton(Game g){
-			super(100,170,Texture.getSpriteSheet(buttons, 199, 75, 1),g);
+			super(50,300,Texture.getSpriteSheet(buttons, 199, 75, 1),g);
 		}
 		
 		public void click(){
@@ -78,7 +78,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class SettingsButton extends MenuButton{
 		public SettingsButton(Game g){
-			super(100,270,Texture.getSpriteSheet(buttons, 199, 75, 2),g);
+			super(50,400,Texture.getSpriteSheet(buttons, 199, 75, 2),g);
 		}
 		
 		public void click(){
@@ -88,7 +88,7 @@ public class MenuButton implements VisibleObject{
 	
 	public static class QuitButton extends MenuButton{
 		public QuitButton(Game g){
-			super(100,370,Texture.getSpriteSheet(buttons, 199, 75, 3),g);
+			super(50,500,Texture.getSpriteSheet(buttons, 199, 75, 3),g);
 		}
 		
 		public void click(){

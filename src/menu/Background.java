@@ -13,12 +13,14 @@ public class Background implements VisibleObject{
 	Render waterTile;
 	Render ship;
 	Render sun;
+	Render title;
 	
 	public Background(Game g){
 		game=g;
 		waterTile=Texture.loadBitmap("textures/watertile.png");
 		ship=Texture.loadBitmap("textures/ship.png");
 		sun=Texture.loadBitmap("textures/sun.png");
+		title=Texture.loadBitmap("textures/Title.png");
 	}
 	
 	public void render(Render2D r) {
@@ -44,32 +46,49 @@ public class Background implements VisibleObject{
 				}
 			}
 			
-			r.draw(sun, 700, 25);
-			double rayRadius=150;
-			double increment=1/150.0;
 			
-			double beginRad=time/2000.0;
-			int beginX=725;
-			int beginY=50;
+			double rayRadius=175;
+			double increment=1/rayRadius;
 			
-			for(double i=0;i<Math.PI/32.0;i+=increment){
+			double beginRad=time/6000.0;
+			int beginX=800;
+			int beginY=0;
+			
+			for(double i=0;i<Math.PI/16.0;i+=increment){
 				int endX=(int) (beginX+Math.cos((beginRad+i)%(Math.PI/2.0)-Math.PI)*rayRadius);
 				int endY=(int) (beginY+Math.sin((beginRad+i)%(Math.PI/2.0)-Math.PI)*rayRadius);
-				Render2D.drawLine(r, 0, 0xff0000, beginX, beginY, endX, endY);
+				drawRay(r, 0xFCDC3B, beginX, beginY, endX, endY);
 			}
 			
-			for(double i=0;i<Math.PI/32.0;i+=increment){
+			for(double i=0;i<Math.PI/16.0;i+=increment){
 				int endX=(int) (beginX+Math.cos((beginRad+i+Math.PI/4.0)%(Math.PI/2.0)-Math.PI)*rayRadius);
 				int endY=(int) (beginY+Math.sin((beginRad+i+Math.PI/4.0)%(Math.PI/2.0)-Math.PI)*rayRadius);
-				Render2D.drawLine(r, 0, 0xff0000, beginX, beginY, endX, endY);
+				drawRay(r, 0xFCDC3B, beginX, beginY, endX, endY);
 			}
 			
+			r.draw(sun, 775, -25);
 				
 			r.draw(ship, r.width-ship.width, r.height/2-ship.height/2);
 			
+			r.draw(title, 250, 50);
+			
 			break;
 			}
+		
+			
 		}
 	}
 
+	public static void drawRay(Render2D r,int color,double x1,double y1,double x2,double y2){
+		double length=Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2));
+		double slopeY=(y2-y1)/length,slopeX=(x2-x1)/length;
+		
+		for(int i=0;i<length;i++){
+			int x=(int) (x1+slopeX*i);
+			int y=(int) (y1+slopeY*i);
+			if(x>=0&&y>=0&&x<r.width&&y<r.height){
+				r.pixels[x+y*r.width]=Render.mixColor(0x87CEEB, color, 1-(i/length));
+			}
+		}			
+	}
 }
