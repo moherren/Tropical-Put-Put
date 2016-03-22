@@ -12,11 +12,13 @@ public class Background implements VisibleObject{
 	Game game;
 	Render waterTile;
 	Render ship;
+	Render sun;
 	
 	public Background(Game g){
 		game=g;
 		waterTile=Texture.loadBitmap("textures/watertile.png");
 		ship=Texture.loadBitmap("textures/ship.png");
+		sun=Texture.loadBitmap("textures/sun.png");
 	}
 	
 	public void render(Render2D r) {
@@ -41,6 +43,28 @@ public class Background implements VisibleObject{
 					r.pixels[x+y*r.width]=waterTile.pixels[(((x-newChange)%waterTile.width+waterTile.width)%waterTile.width)+((y-400)%waterTile.height)*waterTile.width];
 				}
 			}
+			
+			r.draw(sun, 700, 25);
+			double rayRadius=150;
+			double increment=1/150.0;
+			
+			double beginRad=time/2000.0;
+			int beginX=725;
+			int beginY=50;
+			
+			for(double i=0;i<Math.PI/32.0;i+=increment){
+				int endX=(int) (beginX+Math.cos((beginRad+i)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endY=(int) (beginY+Math.sin((beginRad+i)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				Render2D.drawLine(r, 0, 0xff0000, beginX, beginY, endX, endY);
+			}
+			
+			for(double i=0;i<Math.PI/32.0;i+=increment){
+				int endX=(int) (beginX+Math.cos((beginRad+i+Math.PI/4.0)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endY=(int) (beginY+Math.sin((beginRad+i+Math.PI/4.0)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				Render2D.drawLine(r, 0, 0xff0000, beginX, beginY, endX, endY);
+			}
+			
+				
 			r.draw(ship, r.width-ship.width, r.height/2-ship.height/2);
 			
 			break;
