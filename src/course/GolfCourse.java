@@ -27,7 +27,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public double tiltAngle=0;//in degrees
 	public Vector2D tiltDirection;
 	static Render tiles;
-	static Render tilesA[]=new Render[3];
+	public static Render tilesA[]=new Render[3];
 	
 	public GolfCourse() {
 		entities=new ArrayList<Entity>();
