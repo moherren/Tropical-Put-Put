@@ -110,6 +110,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(Obstacle o:obstacles){
 			o.render(r);
 		}
+		for(Surface s:surfaces){
+			s.render(r);
+		}
 			
 	}
 
@@ -134,6 +137,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		}
 		for(Obstacle o:obstacles){
 			o.render(g);
+		}
+		for(Surface s:surfaces){
+			s.render(g);
 		}
 		
 	}
