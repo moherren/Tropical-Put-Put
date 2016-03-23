@@ -20,6 +20,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 
 	private ArrayList<Entity> entities;
 	private ArrayList<Obstacle> obstacles;
+	private ArrayList<Surface> surfaces;
 	public long time=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
@@ -31,7 +32,8 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public GolfCourse() {
 		entities=new ArrayList<Entity>();
 		obstacles=new ArrayList<Obstacle>();
-		mu=.10;
+		surfaces=new ArrayList<Surface>();
+		mu=.20;
 		g=0.1;
 		tiltDirection=new Vector2D(1,0);
 		tiles=Texture.loadBitmap("textures/tiles.png");
@@ -40,10 +42,11 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		}
 	}
 	
-	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles){
+	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles,ArrayList<Surface> surfaces){
 		this.entities=entities;
 		this.obstacles=obstacles;
-		mu=.10;
+		this.surfaces=surfaces;
+		mu=.20;
 		g=0.1;
 		tiltDirection=new Vector2D(1,0);
 		tiles=Texture.loadBitmap("textures/tiles.png");
@@ -52,7 +55,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		}
 	}
 	
-	public double getCoefFriction(){
+	public double getCoefFriction(Vector2D position){
+		for(Surface s:surfaces)
+			if(s.contains(position))
+				return s.getCoefFriction();
 		return mu;
 	}
 	

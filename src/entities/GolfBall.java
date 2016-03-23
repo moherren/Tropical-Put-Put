@@ -23,7 +23,7 @@ public class GolfBall extends GameEntity implements VisibleObject{
 		velocity.iadd(course.getTiltDirection().mult(course.getGravity()*Math.sin(Math.toRadians(course.getTiltAngle()))*time));
 		if(!velocity.isZeroed()){
 			Vector2D frictionDirection=velocity.normalize().negative();
-			double frictionStrength=course.getCoefFriction()*course.getGravity()*Math.cos(Math.toRadians(course.getTiltAngle()))*time;
+			double frictionStrength=course.getCoefFriction(position)*course.getGravity()*Math.cos(Math.toRadians(course.getTiltAngle()))*time;
 			if(velocity.magnitudeSq()<frictionStrength*frictionStrength)
 				velocity.zero();
 			else{
