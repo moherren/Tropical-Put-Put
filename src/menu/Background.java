@@ -91,4 +91,8 @@ public class Background implements VisibleObject{
 			}
 		}			
 	}
+	
+	public void drawCloud(){
+		
+	}
 }
