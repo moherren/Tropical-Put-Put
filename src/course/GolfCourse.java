@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import entities.Entity;
 import entities.GameEntity;
+import entities.GolfBall;
 import geometry.Circle;
 import geometry.Vector2D;
 import graphics.Render;

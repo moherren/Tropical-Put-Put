@@ -49,6 +49,10 @@ public class MobileEntity extends Entity{
 		return velocity;
 	}
 	
+	public Vector2D getPosition(){
+		return position;
+	}
+	
 	/**
 	 * adds to velocity
 	 * @param impulse

@@ -36,10 +36,6 @@ public class GolfBall extends GameEntity implements VisibleObject{
 		}
 	}
 	
-	public void hit(double strength,double dx,double dy){
-		applyImpulse(new Vector2D(dx,dy).normalize().mult(strength));
-	}
-	
 	public void render(Render2D r){
 		Vector2D v=position;
 		int X=(int) v.x,Y=(int) v.y;
@@ -58,5 +54,9 @@ public class GolfBall extends GameEntity implements VisibleObject{
 				r.drawPixel(1,x-lineLength,y);
 				
 			}
+	}
+	
+	public void putt(double strength, Vector2D direction){
+		applyImpulse(direction.normalize().mult(strength));
 	}
 }

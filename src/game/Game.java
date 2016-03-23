@@ -27,7 +27,7 @@ import menu.MenuButton;
 import visibleObjects.Painter;
 import visibleObjects.VisibleObject;
 
-public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter{
+public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter, ActionListener{
 
 	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4;
 	Display display;
@@ -37,8 +37,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	Background background;
 	MenuButton[] buttons;
 	int mX=0,mY=0;
-	private boolean playing=false;
+	private boolean putting=false;
 	private double updatePerSecond=100;
+	private GolfBall ball;
+	private boolean playing=false;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -56,7 +58,6 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		c.addWall(new Wall(new Rectangle(400,80,760,40)));
 		c.addWall(new Wall(new Rectangle(400,420,760,40)));
 		c.addWall(new Wall(new Rectangle(760,250,40,300)));
-		c.addEntity(new GolfBall(new Vector2D(450,200),c));
 		background=new Background(this);
 		
 		new Thread(this).run();
@@ -75,6 +76,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 		case SC_GOLF_GAME:{
 			c.render(r);
+			if(putting)
+				r.drawLine(r, 0, 0xFFFFFF, mX, mY, ball.getPosition().x, ball.getPosition().y);
 			break;
 		}
 		}
@@ -103,7 +106,23 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mouseClicked(MouseEvent arg0) {
+		System.out.println("hello");
+		switch(screen){
+		case SC_MAIN_MENU:{
+			for(MenuButton mb:buttons)
+				mb.click(mX, mY);
+			break;
+		}
 		
+		case SC_GOLF_GAME:{
+			if(putting){
+				Vector2D toBall=new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y);
+				ball.putt(Math.min(toBall.magnitude()/20,10), toBall.normalize());
+				putting=false;
+			}
+			break;
+		}
+		}
 	}
 
 
@@ -118,8 +137,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mousePressed(MouseEvent arg0) {
-		for(MenuButton mb:buttons)
-			mb.click(mX, mY);
+		
+		
 	}
 
 
@@ -152,13 +171,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void startGame() {
 		if(!playing){
-			new Timer((int)(1000/updatePerSecond),new ActionListener(){
-
-				public void actionPerformed(ActionEvent e) {
-					c.update((int)(1000/updatePerSecond)/10);
-				}
-			}).start();
+			new Timer((int)(1000/updatePerSecond),this).start();
+			putting=true;
 			playing=true;
+			ball=new GolfBall(new Vector2D(450,200),c);
+			c.addEntity(ball);
 			new Thread(){
 				public void run(){
 					Scanner scan=new Scanner(System.in);
@@ -172,6 +189,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 					}
 				}
 			}.start();
+		}
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		c.update((int)(1000/updatePerSecond)/10);
+		if(ball.getVelocity().isZeroed()&&!putting){
+			putting=true;
 		}
 	}
 
