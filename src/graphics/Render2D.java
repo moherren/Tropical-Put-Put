@@ -54,4 +54,17 @@ public class Render2D extends Render{
 			}
 		}
 	}
+	
+	public static void drawLine(Render2D r,int color,double x1,double y1,double x2,double y2){
+		double length=Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2));
+		double slopeY=(y2-y1)/length,slopeX=(x2-x1)/length;
+		
+		for(int i=0;i<length;i++){
+			int x=(int) (x1+slopeX*i);
+			int y=(int) (y1+slopeY*i);
+			if(x>=0&&y>=0&&x<r.width&&y<r.height){
+				r.pixels[x+y*r.width]=color;
+			}
+		}
+	}
 }

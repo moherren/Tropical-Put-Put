@@ -106,6 +106,21 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mouseClicked(MouseEvent arg0) {
+		
+	}
+
+
+	public void mouseEntered(MouseEvent arg0) {
+		
+	}
+
+
+	public void mouseExited(MouseEvent arg0) {
+		
+	}
+
+
+	public void mousePressed(MouseEvent arg0) {
 		System.out.println("hello");
 		switch(screen){
 		case SC_MAIN_MENU:{
@@ -123,21 +138,6 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			break;
 		}
 		}
-	}
-
-
-	public void mouseEntered(MouseEvent arg0) {
-		
-	}
-
-
-	public void mouseExited(MouseEvent arg0) {
-		
-	}
-
-
-	public void mousePressed(MouseEvent arg0) {
-		
 		
 	}
 

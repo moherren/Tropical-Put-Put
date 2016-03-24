@@ -13,6 +13,7 @@ import geometry.Vector2D;
 import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
+import menu.GUI;
 import visibleObjects.TempGraphics;
 import visibleObjects.VisibleObject;
 
@@ -28,6 +29,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public Vector2D tiltDirection;
 	static Render tiles;
 	public static Render tilesA[]=new Render[3];
+	GUI gui;
 	
 	public GolfCourse() {
 		entities=new ArrayList<Entity>();
@@ -40,6 +42,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(int i=0;i<tilesA.length;i++){
 			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
 		}
+		gui=new GUI();
 	}
 	
 	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles,ArrayList<Surface> surfaces){
@@ -53,6 +56,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(int i=0;i<tilesA.length;i++){
 			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
 		}
+		gui=new GUI();
 	}
 	
 	public double getCoefFriction(Vector2D position){
@@ -113,7 +117,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(Surface s:surfaces){
 			s.render(r);
 		}
-			
+		gui.render(r);
 	}
 
 	public void removeEntity(Entity e) {
