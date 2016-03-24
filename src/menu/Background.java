@@ -1,5 +1,7 @@
 package menu;
 
+import java.util.Random;
+
 import game.Game;
 import graphics.Display;
 import graphics.Render;
@@ -14,6 +16,8 @@ public class Background implements VisibleObject{
 	Render ship;
 	Render sun;
 	Render title;
+	Render cloud;
+	int[] cloudXs, cloudYs;
 	
 	public Background(Game g){
 		game=g;
@@ -21,6 +25,15 @@ public class Background implements VisibleObject{
 		ship=Texture.loadBitmap("textures/ship.png");
 		sun=Texture.loadBitmap("textures/sun.png");
 		title=Texture.loadBitmap("textures/Title.png");
+		cloud=Texture.loadBitmap("textures/cloud.png");
+		Random rand=new Random();
+		int cloudCount=3;
+		cloudXs=new int[cloudCount];
+		cloudYs=new int[cloudCount];
+		for(int i=0;i<cloudCount;i++){
+			cloudXs[i]=rand.nextInt(800);
+			cloudYs[i]=rand.nextInt(300);
+		}
 	}
 	
 	public void render(Render2D r) {
@@ -68,6 +81,9 @@ public class Background implements VisibleObject{
 			
 			r.draw(sun, 775, -25);
 				
+			for(int i=0;i<cloudXs.length;i++){
+				drawCloud((int)((cloudXs[i]+(time/50.0))%(r.width+cloud.width))+(r.width),cloudYs[i],r);
+			}
 			r.draw(ship, r.width-ship.width, r.height/2-ship.height/2);
 			
 			r.draw(title, 250, 50);
@@ -92,7 +108,7 @@ public class Background implements VisibleObject{
 		}			
 	}
 	
-	public void drawCloud(){
-		
+	public void drawCloud(int x,int y,Render r){
+		r.draw(cloud, x, y);
 	}
 }
