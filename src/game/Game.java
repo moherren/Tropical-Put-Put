@@ -82,9 +82,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			c.render(r);
 			
 			if(putting){
-				r.drawLine(r, 0, 0xFFFFFF, mX, mY, ball.getPosition().x, ball.getPosition().y);
-				System.out.println(gui);
-				gui.powerLevel=Math.min(new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y).magnitude()/200,1);
+				double x=ball.getPosition().x;
+				double y=ball.getPosition().y;
+				Vector2D dir=new Vector2D(mX-x,mY-y).negative().normalize();
+				r.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*200, y+dir.y*gui.powerLevel*200);
+				//the rendering here could be replaced with some sort of arrow maybe?
 			}
 			else{
 				gui.powerLevel=0;
@@ -144,7 +146,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_GOLF_GAME:{
 			if(putting){
 				Vector2D toBall=new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y);
-				ball.putt(Math.min(toBall.magnitude()/20,10), toBall.normalize().negative());
+				ball.putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
 				gui.strokesNum++;
 			}
@@ -209,6 +211,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		c.update((int)(1000/updatePerSecond)/10);
 		if(ball.getVelocity().isZeroed()&&!putting){
 			putting=true;
+		}
+		else if(putting){
+			gui.powerLevel=gui.powerLevel%1+0.005;
 		}
 	}
 
