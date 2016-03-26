@@ -9,7 +9,7 @@ import graphics.Render2D;
 public class Grass extends Surface {
 
 	public Grass(Polygon shape){
-		this.shape=shape;
+		super(shape);
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class Grass extends Surface {
 
 	@Override
 	public double getCoefFriction() {
-		return 0.3;
+		return 1;
 	}
 
 }

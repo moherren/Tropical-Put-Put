@@ -12,6 +12,8 @@ public class GUI implements VisibleObject{
 	Game game;
 	Render wordArt;
 	Render strokes;
+	public double powerLevel;
+	public int strokesNum;
 	
 	public GUI(){
 		wordArt=new Render(100,20);
@@ -22,6 +24,8 @@ public class GUI implements VisibleObject{
 		strokes=new Render(94,20);
 		Arrays.fill(strokes.pixels,0);
 		strokes.drawString("Strokes", 10, 19, 1);
+		strokesNum=0;
+		powerLevel=0;
 	}
 	
 	public void render(Render2D r) {
@@ -35,8 +39,7 @@ public class GUI implements VisibleObject{
 		int width=400;
 		int height=20;
 		int startColor=0xffff00,endColor=0xff0000;
-		double level=0.5;
-		int color=Render2D.mixColor(startColor, endColor, level);
+		int color=Render2D.mixColor(startColor, endColor, powerLevel);
 		
 		Render2D.drawLine(r, 1, x+1, y, x+width, y);
 		Render2D.drawLine(r, 1, x+1, y+height, x+width, y+height);
@@ -44,12 +47,12 @@ public class GUI implements VisibleObject{
 		Render2D.drawLine(r, 1, x+width, y+1, x+width, y+height);
 		
 		if(horizontal){
-			for(int X=1;X<(int)(level*(width-1));X++){
+			for(int X=1;X<(int)(powerLevel*(width-1));X++){
 				Render2D.drawLine(r, color, X+x, y+1, X+x, y+height);
 			}
 		}
 		else{
-			for(int Y=1;Y<(int)(level*(height-1));Y++){
+			for(int Y=1;Y<(int)(powerLevel*(height-1));Y++){
 				Render2D.drawLine(r, color, x+1, y+Y, x+width, y+Y);
 			}
 		}
@@ -60,8 +63,7 @@ public class GUI implements VisibleObject{
 	
 	public void renderStrokes(Render2D r){
 		int x=100,y=100;
-		int num=0;
 		r.draw(strokes,x-strokes.width/2,y);
-		r.drawString(num+"", x, y+45, 1);
+		r.drawString(strokesNum+"", x, y+45, 1);
 	}
 }
