@@ -5,6 +5,7 @@ import java.util.Arrays;
 import game.Game;
 import graphics.Render;
 import graphics.Render2D;
+import graphics.Texture;
 import visibleObjects.VisibleObject;
 
 public class GUI implements VisibleObject{
@@ -16,12 +17,15 @@ public class GUI implements VisibleObject{
 	public GUI(){
 		wordArt=new Render(100,20);
 		Arrays.fill(wordArt.pixels,0);
-		wordArt.setFont("/LithosBlack.ttf");
+		wordArt.setFont("LithosBlack.ttf");
 		wordArt.drawString("Power", 0, 19, 1);
 		
-		strokes=new Render(94,20);
+		strokes=new Render(125,110);
 		Arrays.fill(strokes.pixels,0);
-		strokes.drawString("Strokes", 10, 19, 1);
+		strokes.draw(Texture.loadBitmap("textures/displayBack.png"),12,10);
+		strokes.setFont("LithosBlack.ttf");
+		
+		strokes.drawString("Strokes", 10, 59, 1);
 	}
 	
 	public void render(Render2D r) {
@@ -62,6 +66,6 @@ public class GUI implements VisibleObject{
 		int x=100,y=100;
 		int num=0;
 		r.draw(strokes,x-strokes.width/2,y);
-		r.drawString(num+"", x, y+45, 1);
+		r.drawString(num+"", x, y+85, 1);
 	}
 }
