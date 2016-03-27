@@ -16,6 +16,7 @@ import java.util.Scanner;
 import javax.swing.Timer;
 
 import course.GolfCourse;
+import course.Grass;
 import course.Wall;
 import entities.GolfBall;
 import geometry.Rectangle;
@@ -23,6 +24,7 @@ import geometry.Vector2D;
 import graphics.Display;
 import graphics.Render2D;
 import menu.Background;
+import menu.GUI;
 import menu.MenuButton;
 import visibleObjects.Painter;
 import visibleObjects.VisibleObject;
@@ -35,6 +37,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	GolfCourse c;
 	int screen=SC_MAIN_MENU;
 	Background background;
+	GUI gui;
 	MenuButton[] buttons;
 	int mX=0,mY=0;
 	private boolean putting=false;
@@ -52,12 +55,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addKeyListener(this);
 		display.addMouseListener(this);
 		buttons=MenuButton.getMenuButtons(this);
-		
+		gui=new GUI();
 		c=new GolfCourse();
-		c.addWall(new Wall(new Rectangle(40,250,40,300)));
-		c.addWall(new Wall(new Rectangle(400,80,760,40)));
-		c.addWall(new Wall(new Rectangle(400,420,760,40)));
-		c.addWall(new Wall(new Rectangle(760,250,40,300)));
+		c.addObstacle(new Wall(new Rectangle(40,250,40,300)));
+		c.addObstacle(new Wall(new Rectangle(400,80,760,40)));
+		c.addObstacle(new Wall(new Rectangle(400,420,760,40)));
+		c.addObstacle(new Wall(new Rectangle(760,250,40,300)));
+		c.addSurface(new Grass(new Rectangle(500,250,400,300)));
 		background=new Background(this);
 		
 		new Thread(this).run();
@@ -76,8 +80,18 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 		case SC_GOLF_GAME:{
 			c.render(r);
-			if(putting)
-				r.drawLine(r, 0, 0xFFFFFF, mX, mY, ball.getPosition().x, ball.getPosition().y);
+			
+			if(putting){
+				double x=ball.getPosition().x;
+				double y=ball.getPosition().y;
+				Vector2D dir=new Vector2D(mX-x,mY-y).negative().normalize();
+				r.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*200, y+dir.y*gui.powerLevel*200);
+				//the rendering here could be replaced with some sort of arrow maybe?
+			}
+			else{
+				gui.powerLevel=0;
+			}
+			gui.render(r);
 			break;
 		}
 		}
@@ -132,8 +146,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_GOLF_GAME:{
 			if(putting){
 				Vector2D toBall=new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y);
-				ball.putt(Math.min(toBall.magnitude()/20,10), toBall.normalize());
+				ball.putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
+				gui.strokesNum++;
 			}
 			break;
 		}
@@ -172,10 +187,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void startGame() {
 		if(!playing){
 			new Timer((int)(1000/updatePerSecond),this).start();
-			putting=true;
 			playing=true;
 			ball=new GolfBall(new Vector2D(450,200),c);
 			c.addEntity(ball);
+			putting=true;
 			new Thread(){
 				public void run(){
 					Scanner scan=new Scanner(System.in);
@@ -196,6 +211,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		c.update((int)(1000/updatePerSecond)/10);
 		if(ball.getVelocity().isZeroed()&&!putting){
 			putting=true;
+		}
+		else if(putting){
+			gui.powerLevel=gui.powerLevel%1+0.005;
 		}
 	}
 

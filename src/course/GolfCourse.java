@@ -29,7 +29,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public Vector2D tiltDirection;
 	static Render tiles;
 	public static Render tilesA[]=new Render[3];
-	GUI gui;
 	
 	public GolfCourse() {
 		entities=new ArrayList<Entity>();
@@ -42,7 +41,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(int i=0;i<tilesA.length;i++){
 			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
 		}
-		gui=new GUI();
 	}
 	
 	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles,ArrayList<Surface> surfaces){
@@ -56,7 +54,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(int i=0;i<tilesA.length;i++){
 			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
 		}
-		gui=new GUI();
 	}
 	
 	public double getCoefFriction(Vector2D position){
@@ -86,6 +83,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		return obstacles;
 	}
 	
+	public ArrayList<Surface> getSurfaces(){
+		return surfaces;
+	}
+	
 	public void update(double time){
 		this.time+=time;
 		ArrayList<Entity> temp=new ArrayList<Entity>(entities);
@@ -98,14 +99,22 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		entities.add(e);
 	}
 	
-	public void addWall(Obstacle o){
+	public void addObstacle(Obstacle o){
 		obstacles.add(o);
 	}
 	
+	public void addSurface(Surface s){
+		surfaces.add(s);
+	}
+	
 	public void render(Render2D r){
+		
 		for(int x=0;x<r.width;x++)
 			for(int y=0;y<r.height;y++)
 				r.pixels[x+y*r.width]=tilesA[2].pixels[(x%tilesA[2].width)+(y%tilesA[2].height)*tilesA[2].width];
+		for(Surface s:surfaces){
+			s.render(r);
+		}
 		for(Entity e:entities){
 			if(e instanceof VisibleObject){
 				((VisibleObject)e).render(r);
@@ -114,10 +123,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(Obstacle o:obstacles){
 			o.render(r);
 		}
-		for(Surface s:surfaces){
-			s.render(r);
-		}
-		gui.render(r);
+		
 	}
 
 	public void removeEntity(Entity e) {
@@ -134,6 +140,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 
 	@Override
 	public void render(Graphics g) {
+		for(Surface s:surfaces){
+			s.render(g);
+		}
 		for(Entity e:entities){
 			if(e instanceof TempGraphics){
 				((TempGraphics)e).render(g);
@@ -142,9 +151,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(Obstacle o:obstacles){
 			o.render(g);
 		}
-		for(Surface s:surfaces){
-			s.render(g);
-		}
+		
 		
 	}
 

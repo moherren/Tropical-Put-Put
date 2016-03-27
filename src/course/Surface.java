@@ -15,13 +15,14 @@ public abstract class Surface implements VisibleObject{
 	int minX=Integer.MAX_VALUE,minY=Integer.MAX_VALUE,maxX=Integer.MIN_VALUE,maxY=Integer.MIN_VALUE;
 	double X,Y;
 	
-	public Surface(){
+	public Surface(Polygon shape){
 		for(Vector2D v:shape.points){
 			minX=(int) Math.min(minX, v.x);
 			minY=(int) Math.min(minY, v.y);
 			maxX=(int) Math.max(maxX, v.x);
 			maxY=(int) Math.max(maxY, v.y);
 		}
+		this.shape=shape;
 		Vector2D v=shape.getPosition();
 		X=v.x;
 		Y=v.y;

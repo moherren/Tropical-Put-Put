@@ -51,10 +51,10 @@ public class ViewScreen extends JPanel{
 		world=new GolfCourse();
 		GolfBall ball=new GolfBall(new Vector2D(200,200), world);
 		world.addEntity(ball);
-		world.addWall(new Wall(new Rectangle(40,250,40,300)));
-		world.addWall(new Wall(new Rectangle(500,80,960,40)));
-		world.addWall(new Wall(new Rectangle(500,420,960,40)));
-		world.addWall(new Wall(new Rectangle(960,250,40,300)));
+		world.addObstacle(new Wall(new Rectangle(40,250,40,300)));
+		world.addObstacle(new Wall(new Rectangle(500,80,960,40)));
+		world.addObstacle(new Wall(new Rectangle(500,420,960,40)));
+		world.addObstacle(new Wall(new Rectangle(960,250,40,300)));
 		ball.applyForce(new Vector2D(5,0));
 		world.tiltAngle=0;
 		world.tiltDirection=new Vector2D(0,1);
