@@ -55,7 +55,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addKeyListener(this);
 		display.addMouseListener(this);
 		buttons=MenuButton.getMenuButtons(this);
-		gui=new GUI();
+		//gui=new GUI();
 		c=new GolfCourse();
 		c.addObstacle(new Wall(new Rectangle(40,250,40,300)));
 		c.addObstacle(new Wall(new Rectangle(400,80,760,40)));
