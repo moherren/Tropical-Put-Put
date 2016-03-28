@@ -22,9 +22,13 @@ public class GUI implements VisibleObject{
 		wordArt.setFont("LithosBlack.ttf");
 		wordArt.drawString("Power", 0, 19, 1);
 		
-		strokes=new Render(125,110);
-		Arrays.fill(strokes.pixels,0);
-		strokes.drawString("Strokes", 10, 19, 1);
+		strokes=new Render(90,50);
+		Texture.addGUIEdging(strokes, 0x00ff00,5);
+		strokes.setFont("LithosBlack.ttf");
+		strokes.setFont(strokes.getFont().deriveFont(16f));
+		//Arrays.fill(strokes.pixels,0xaaaaaa);
+		//strokes.draw(Texture.loadBitmap("textures/displayBack.png"), 20, 0);
+		strokes.drawString("Strokes", 5, 19, 1);
 		strokesNum=0;
 		powerLevel=0;
 	}
@@ -36,8 +40,8 @@ public class GUI implements VisibleObject{
 
 	public void renderPowerBar(Render2D r){
 		boolean horizontal=true;
-		int x=0,y=0;
-		int width=400;
+		int x=20,y=540;
+		int width=300;
 		int height=20;
 		int startColor=0xffff00,endColor=0xff0000;
 		int color=Render2D.mixColor(startColor, endColor, powerLevel);
@@ -63,8 +67,8 @@ public class GUI implements VisibleObject{
 	
 	
 	public void renderStrokes(Render2D r){
-		int x=100,y=100;
+		int x=70,y=450;
 		r.draw(strokes,x-strokes.width/2,y);
-		r.drawString(strokesNum+"", x, y+45, 1);
+		r.drawString(strokesNum+"", x-40, y+40, 1);
 	}
 }
