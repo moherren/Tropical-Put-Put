@@ -45,6 +45,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	private double updatePerSecond=100;
 	private GolfBall ball;
 	private boolean playing=false;
+	private boolean mouseDown=false;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -122,7 +123,17 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mouseClicked(MouseEvent arg0) {
+		switch(screen){
+		case SC_MAIN_MENU:{
+			for(MenuButton mb:buttons)
+				mb.click(mX, mY);
+			break;
+		}
 		
+		case SC_GOLF_GAME:{
+			
+		}
+		}
 	}
 
 
@@ -140,13 +151,30 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		System.out.println("hello");
 		switch(screen){
 		case SC_MAIN_MENU:{
+			
+			break;
+		}
+		
+		case SC_GOLF_GAME:{
+			
+			break;
+		}
+		}
+		mouseDown=true;
+		
+	}
+
+
+	public void mouseReleased(MouseEvent arg0) {
+		switch(screen){
+		case SC_MAIN_MENU:{
 			for(MenuButton mb:buttons)
 				mb.click(mX, mY);
 			break;
 		}
 		
 		case SC_GOLF_GAME:{
-			if(putting){
+			if(putting&&mouseDown){
 				Vector2D toBall=new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y);
 				ball.putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
@@ -155,12 +183,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			break;
 		}
 		}
-		
-	}
-
-
-	public void mouseReleased(MouseEvent arg0) {
-		
+		mouseDown=false;
 	}
 
 
@@ -214,7 +237,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		if(ball.getVelocity().isZeroed()&&!putting){
 			putting=true;
 		}
-		else if(putting){
+		else if(putting&&mouseDown){
 			gui.powerLevel=gui.powerLevel%1+0.005;
 		}
 	}
