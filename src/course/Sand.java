@@ -6,9 +6,9 @@ import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
 
-public class Grass extends Surface {
+public class Sand extends Surface {
 
-	public Grass(Polygon shape){
+	public Sand(Polygon shape){
 		super(shape);
 	}
 	
@@ -17,8 +17,9 @@ public class Grass extends Surface {
 		for(int x=minX;x<maxX;x++)
 			for(int y=minY;y<maxY;y++){
 				if(shape.includes(new Vector2D(x+X,y+Y)))
-					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=GolfCourse.tilesA[1].pixels[((int)(x+X)%GolfCourse.tilesA[1].width)+((int)(y+Y)%GolfCourse.tilesA[1].height)*GolfCourse.tilesA[1].width];
+					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=0xFF9900;
 			}
+		//to be implemented
 	}
 
 	@Override
@@ -28,7 +29,7 @@ public class Grass extends Surface {
 
 	@Override
 	public double getCoefFriction() {
-		return 0.3;
+		return 1.0;
 	}
 
 }

@@ -11,65 +11,11 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundHandler {
-
-	/**
-	 * A guttural, quick grunt "OOAH"
-	 */
-	public static String GRUNT_ONE = "SoundSource/GRUNT_ONE.wav";
-	/**
-	 * A guttural, quick grunt "AH"
-	 */
-	public static String GRUNT_TWO = "SoundSource/GRUNT_TWO.wav";
-	/**
-	 * A booming voice saying "Colosseum Simulator 2012"
-	 */
-	public static String VOICE_ONE = "SoundSource/MENUSHOUT.wav";
-	/**
-	 * A Decapitation sound (slice and splash)
-	 */
-	public static String DECAP = "SoundSource/DECAP_ONE.wav";
-	/**
-	 * The Executioner grunting
-	 */
-	public static String EX1 = "SoundSource/EX1.wav";
-	/**
-	 * The Executioner laughing (may need lower gain to match others)
-	 */
-	public static String EX2 = "SoundSource/EX2.wav";
-	/**
-	 * The Executioner grunting
-	 */
-	public static String EX3 = "SoundSource/EX3.wav";
-	/**
-	 * The announcer saying "EXECUTION"
-	 */
-	public static String EXECUTION = "SoundSource/EXECUTION.wav";
-	/**
-	 * The announcer saying "EXECUTION"
-	 */
-	public static String KO = "SoundSource/KO.wav";
-	/**
-	 * The announcer saying "Round one"
-	 */
-	public static String ROUND_ONE = "SoundSource/ROUND1.wav";
-	/**
-	 * The announcer saying "Round two"
-	 */
-	public static String ROUND_TWO = "SoundSource/ROUND2.wav";
-	/**
-	 * A loud stomp
-	 */
-	public static String STOMP = "SoundSource/STOMP.wav";
-	/**
-	 * A swinging sound
-	 */
-	public static String SWING = "SoundSource/SWING1.wav";
-
 	
 	/**
-	 * "Mighty And Meek" potential fight music
+	 * "Loading" potential fight music
 	 */
-	public static String SONG_ONE = "SoundSource/Song_1.wav";
+	public static String SONG_ONE = "sounds/loading.wav";
 	
 	public static Clip music=null;
 	

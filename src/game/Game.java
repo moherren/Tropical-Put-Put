@@ -26,6 +26,7 @@ import graphics.Render2D;
 import menu.Background;
 import menu.GUI;
 import menu.MenuButton;
+import sound.SoundHandler;
 import visibleObjects.Painter;
 import visibleObjects.VisibleObject;
 
@@ -63,6 +64,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		c.addObstacle(new Wall(new Rectangle(760,250,40,300)));
 		c.addSurface(new Grass(new Rectangle(500,250,400,300)));
 		background=new Background(this);
+		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		
 		new Thread(this).run();
 	}
