@@ -82,6 +82,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			break;
 		}
 		
+		case SC_SETTINGS_GAME:{
+			background.renderSettings(r);
+			break;
+		}
+		
 		case SC_GOLF_GAME:{
 			c.render(r);
 			
@@ -134,7 +139,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_GOLF_GAME:{
 			
 		}
-		}
+	}
 	}
 
 
