@@ -45,6 +45,27 @@ public class Texture {
 		return render;
 	}
 	
+	public static Render addGUIEdging(Render r,int color,int edgeLength){
+		
+		for(int x=0;x<r.width;x++){
+			for(int y=0;y<r.height;y++){
+				int dRight=r.width-x,dBottom=r.height-y;
+				if(x<edgeLength&&((y>r.height/2&&x<dBottom)||(y<r.height/2&&x<y)||(y==r.height/2)))
+					r.pixels[x+y*r.width]=Render.mixColor(color, 0, 0.20);
+				else if(dRight<edgeLength&&((y>r.height/2&&dRight<dBottom)||(y<r.height/2&&dRight<y)||(y==r.height/2)))
+					r.pixels[x+y*r.width]=Render.mixColor(color, 0, 0.50);
+				else if(y<edgeLength)
+					r.pixels[x+y*r.width]=Render.mixColor(color, 0, 0.30);
+				else if(dBottom<edgeLength)
+					r.pixels[x+y*r.width]=Render.mixColor(color, 0, 0.40);
+				else
+					r.pixels[x+y*r.width]=color;
+			}
+		}
+		
+		return r;
+	}
+	
 	/**  This method loads an image file onto a Render object.
 	 * @param fileName
 	 * @return Render with file loaded onto it
