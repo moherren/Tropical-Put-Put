@@ -127,7 +127,7 @@ public class GUI implements VisibleObject{
 	public void renderTilt(Render2D r){
 		int X=150,Y=450;
 		Vector2D vec=gc.getTilt();
-		int tiltX=(int) (vec.x/gc.maxTilt),tiltY=(int) (vec.y/gc.maxTilt);
+		int tiltX=(int) (vec.x/(Math.sin(Math.toRadians(gc.maxTilt))*gc.g)*tiltCircle.width/2),tiltY=(int)(vec.y/(Math.sin(Math.toRadians(gc.maxTilt))*gc.g)*tiltCircle.height/2);
 		int length=50;
 		r.draw(tiltCircle, X, Y);
 		r.draw(tiltBall, tiltCircle.width/2+X+tiltX-tiltBall.width/2, tiltCircle.height/2+Y+tiltY-tiltBall.width/2);
