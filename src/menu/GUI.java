@@ -2,7 +2,9 @@ package menu;
 
 import java.util.Arrays;
 
+import course.GolfCourse;
 import game.Game;
+import geometry.Vector2D;
 import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
@@ -10,32 +12,80 @@ import visibleObjects.VisibleObject;
 
 public class GUI implements VisibleObject{
 
-	Game game;
 	Render wordArt;
 	Render strokes;
+	Render par;
+	Render tiltCircle;
+	Render tiltBall;
+	final int tiltX=0,tiltY=0;
 	public double powerLevel;
 	public int strokesNum;
+	public int parNum;
+	GolfCourse gc;
 	
-	public GUI(){
+	public GUI(GolfCourse gc){
 		wordArt=new Render(100,20);
 		Arrays.fill(wordArt.pixels,0);
 		wordArt.setFont("LithosBlack.ttf");
 		wordArt.drawString("Power", 0, 19, 1);
 		
-		strokes=new Render(90,50);
+		strokes=new Render(90,45);
 		Texture.addGUIEdging(strokes, 0x00ff00,5);
 		strokes.setFont("LithosBlack.ttf");
 		strokes.setFont(strokes.getFont().deriveFont(16f));
-		//Arrays.fill(strokes.pixels,0xaaaaaa);
 		//strokes.draw(Texture.loadBitmap("textures/displayBack.png"), 20, 0);
 		strokes.drawString("Strokes", 5, 19, 1);
 		strokesNum=0;
 		powerLevel=0;
+		
+		par=new Render(strokes.width,strokes.height);
+		Texture.addGUIEdging(par, 0x00ff00,5);
+		par.setFont(strokes.getFont());
+		par.drawString("Par", 5, 19, 1);
+		parNum=0;
+		
+		Render wood=Texture.getSpriteSheet(GolfCourse.tiles, 50, 50, 2);
+		
+		int length=40;
+		double perimeter=(length)*Math.PI*2;
+		tiltCircle=new Render(length*2,length*2);
+		Arrays.fill(tiltCircle.pixels,0);
+		for(double angle=Math.PI/2.0;angle<=Math.PI*3/2.0;angle+=Math.PI*2/perimeter){
+			int x=(int) (Math.cos(angle)*length+length);
+			int y=(int) (Math.sin(angle)*length+length);
+			int lineLength=(int) (Math.cos(angle)*2*length);
+			tiltCircle.drawPixel(0x0000ff,x,y);
+			for(int line=-1;line>lineLength;line--)
+				if(tiltCircle.pixels[x+y*tiltCircle.width-line]!=0x0000ff){
+					tiltCircle.drawPixel(Render2D.mixColor(wood.pixels[((x-line)%wood.width)+(y%wood.height)*wood.width], 0x0000ff,0.3), x-line,y);
+				}
+			tiltCircle.drawPixel(0x0000ff,x-lineLength,y);
+			
+			this.gc=gc;
+		}
+		
+		tiltBall=new Render(10,10);
+		Arrays.fill(tiltBall.pixels,0);
+		length=5;
+		perimeter=(5)*Math.PI*2;
+		for(double angle=Math.PI/2.0;angle<=Math.PI*3/2.0;angle+=Math.PI*2/perimeter){
+			int x=(int) (Math.cos(angle)*length+length);
+			int y=(int) (Math.sin(angle)*length+length);
+			int lineLength=(int) (Math.cos(angle)*2*length);
+			tiltBall.drawPixel(0x0000ff,x,y);
+			for(int line=-1;line>lineLength;line--)
+				if(tiltBall.pixels[x+y*tiltBall.width-line]!=1){
+					tiltBall.drawPixel(0x0000ff, x-line,y);
+				}
+			tiltBall.drawPixel(1,x-lineLength,y);
+			
+		}
 	}
 	
 	public void render(Render2D r) {
 		renderPowerBar(r);
 		renderStrokes(r);
+		renderTilt(r);
 	}
 
 	public void renderPowerBar(Render2D r){
@@ -67,8 +117,19 @@ public class GUI implements VisibleObject{
 	
 	
 	public void renderStrokes(Render2D r){
-		int x=70,y=450;
+		int x=65,y=450;
 		r.draw(strokes,x-strokes.width/2,y);
 		r.drawString(strokesNum+"", x-40, y+40, 1);
+		r.draw(par,x-par.width/2,y+strokes.height);
+		r.drawString(parNum+"", x-40, y+40+strokes.height, 1);
+	}
+	
+	public void renderTilt(Render2D r){
+		int X=150,Y=450;
+		Vector2D vec=gc.getTilt();
+		int tiltX=(int) (vec.x/gc.maxTilt),tiltY=(int) (vec.y/gc.maxTilt);
+		int length=50;
+		r.draw(tiltCircle, X, Y);
+		r.draw(tiltBall, tiltCircle.width/2+X+tiltX-tiltBall.width/2, tiltCircle.height/2+Y+tiltY-tiltBall.width/2);
 	}
 }

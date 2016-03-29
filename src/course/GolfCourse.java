@@ -26,8 +26,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public double mu;//coefficient of friction
 	public double g;//gravity
 	public double tiltAngle=0;//in degrees
+	public double maxTilt=20;
 	public Vector2D tiltDirection;
-	static Render tiles;
+	public static Render tiles=Texture.loadBitmap("textures/tiles.png");
 	public static Render tilesA[]=new Render[3];
 	
 	public GolfCourse() {
@@ -37,7 +38,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		mu=.20;
 		g=0.1;
 		tiltDirection=new Vector2D(1,0);
-		tiles=Texture.loadBitmap("textures/tiles.png");
 		for(int i=0;i<tilesA.length;i++){
 			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
 		}
@@ -69,6 +69,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	
 	public Vector2D getTiltDirection(){
 		return tiltDirection.normalize();
+	}
+	
+	public Vector2D getTilt(){
+		return getTiltDirection().mult(getGravity()*Math.sin(Math.toRadians(getTiltAngle())));
 	}
 	
 	public double getGravity(){
