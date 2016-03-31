@@ -72,7 +72,7 @@ public class GUI implements VisibleObject{
 			int x=(int) (Math.cos(angle)*length+length);
 			int y=(int) (Math.sin(angle)*length+length);
 			int lineLength=(int) (Math.cos(angle)*2*length);
-			tiltBall.drawPixel(0x0000ff,x,y);
+			tiltBall.drawPixel(1,x,y);
 			for(int line=-1;line>lineLength;line--)
 				if(tiltBall.pixels[x+y*tiltBall.width-line]!=1){
 					tiltBall.drawPixel(0x0000ff, x-line,y);

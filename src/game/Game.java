@@ -33,19 +33,21 @@ import visibleObjects.VisibleObject;
 public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter, ActionListener{
 
 	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4;
-	Display display;
+	public Display display;
 	boolean running=true;
 	GolfCourse c;
 	int screen=SC_MAIN_MENU;
 	Background background;
 	GUI gui;
-	MenuButton[] buttons;
+	MenuButton[] menuButtons;
+	MenuButton[] settingsButtons;
 	int mX=0,mY=0;
 	private boolean putting=false;
 	private double updatePerSecond=100;
 	private GolfBall ball;
 	private boolean playing=false;
 	private boolean mouseDown=false;
+	double volume=0.5;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -56,7 +58,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addVObject(this);
 		display.addKeyListener(this);
 		display.addMouseListener(this);
-		buttons=MenuButton.getMenuButtons(this);
+		menuButtons=MenuButton.getMenuButtons(this);
+		settingsButtons=MenuButton.getSettingsButtons(this);
 		
 		c=new GolfCourse();
 		c.addObstacle(new Wall(new Rectangle(40,250,40,300)));
@@ -67,23 +70,29 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		gui=new GUI(c);
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
+		SoundHandler.setMusicVolume(volume);
 		
 		new Thread(this).run();
 	}
 
 	public void render(Render2D r) {
+		
+		r.setFont("LithosBlack.ttf");
+		
 		switch(screen){
 		
 		case SC_MAIN_MENU:{
 			Arrays.fill(r.pixels, 0x87CEEB);
 			background.render(r);
-			for(MenuButton mb:buttons)
+			for(MenuButton mb:menuButtons)
 				mb.render(r);
 			break;
 		}
 		
 		case SC_SETTINGS_GAME:{
 			background.renderSettings(r);
+			for(MenuButton mb:settingsButtons)
+				mb.render(r);
 			break;
 		}
 		
@@ -105,8 +114,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		}
 	}
+	
+	public Point getMouse(){
+		return display.getMousePosition();
+	}
 
-
+	public boolean getMouseDown(){
+		return mouseDown;
+	}
+	
 	public void paint(Graphics g) {
 		
 	}
@@ -120,9 +136,12 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				mY=mouse.y;
 			}
 			
-			for(MenuButton mb:buttons)
+			for(MenuButton mb:menuButtons)
 				mb.update(mX, mY);
 				
+			for(MenuButton mb:settingsButtons)
+				mb.update(mX, mY);
+			
 			display.Render();
 		}
 	}
@@ -131,9 +150,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void mouseClicked(MouseEvent arg0) {
 		switch(screen){
 		case SC_MAIN_MENU:{
-			for(MenuButton mb:buttons)
-				mb.click(mX, mY);
-			break;
+			
 		}
 		
 		case SC_GOLF_GAME:{
@@ -154,10 +171,16 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mousePressed(MouseEvent arg0) {
-		System.out.println("hello");
 		switch(screen){
 		case SC_MAIN_MENU:{
-			
+			for(MenuButton mb:menuButtons)
+				mb.click(mX, mY);
+			break;
+		}
+		
+		case SC_SETTINGS_GAME:{
+			for(MenuButton mb:settingsButtons)
+				mb.click(mX, mY);
 			break;
 		}
 		
@@ -174,7 +197,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void mouseReleased(MouseEvent arg0) {
 		switch(screen){
 		case SC_MAIN_MENU:{
-			for(MenuButton mb:buttons)
+			for(MenuButton mb:menuButtons)
 				mb.click(mX, mY);
 			break;
 		}
@@ -246,6 +269,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		else if(putting&&mouseDown){
 			gui.powerLevel=gui.powerLevel%1+0.005;
 		}
+	}
+
+	public void setVolume(double amount) {
+		volume=amount;
+		SoundHandler.setMusicVolume(amount);
+	}
+
+	public void setDifficulty(double d) {
+		
 	}
 
 }

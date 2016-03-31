@@ -13,11 +13,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SoundHandler {
 	
 	/**
-	 * "Loading" potential fight music
+	 * "Loading" menu music
 	 */
 	public static String SONG_ONE = "sounds/loading.wav";
 	
 	public static Clip music=null;
+	
+	static FloatControl gainControl;
 	
 	public static void play(String ref) {
 		try {
@@ -94,7 +96,7 @@ public class SoundHandler {
 			
 			music.open(audio);
 			
-			FloatControl gainControl = (FloatControl) music
+			gainControl = (FloatControl) music
 					.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(deltaGain);
 			
@@ -106,4 +108,9 @@ public class SoundHandler {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void setMusicVolume(double gain){
+		gainControl.setValue((float) (Math.log(gain) / Math.log(10.0) * 20.0));
+	}
+	
 }
