@@ -135,4 +135,26 @@ public class Texture {
 		
 		return sprite;
 	}
+
+	public static Render[] getSpriteSheet(Render r, int width, int height) {
+		
+		int columns=r.width/width,rows=r.height/height;
+		Render[] array=new Render[rows*columns];
+		for(int num=0;num<rows*columns;num++){
+			Render2D sprite=new Render2D(width,height);
+			
+			for(int x=0;x<width;x++){
+				int xPix=x+((num%columns)*width);
+				for(int y=0;y<height;y++){
+					int yPix=y+(num/columns)*height;
+					int alpha=r.pixels[xPix+yPix*r.width];
+					sprite.pixels[x+y*sprite.width]=alpha;
+				}
+			}
+			
+			array[num]=sprite;
+		}
+		
+		return array;
+	}
 }

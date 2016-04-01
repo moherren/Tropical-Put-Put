@@ -49,6 +49,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	private boolean mouseDown=false;
 	double volume=0.5;
 	
+	
 	public static void main(String[] args) {
 		new Game();
 	}
