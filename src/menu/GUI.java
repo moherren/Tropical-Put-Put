@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import course.GolfCourse;
 import game.Game;
+import game.TextBox;
 import geometry.Vector2D;
 import graphics.Render;
 import graphics.Render2D;
@@ -22,8 +23,11 @@ public class GUI implements VisibleObject{
 	public int strokesNum;
 	public int parNum;
 	GolfCourse gc;
+	TextBox tip;
 	
 	public GUI(GolfCourse gc){
+		tip=TextBox.newHelpBox(200, 0, 300, 90, "Hello, I'm a text box. Who are you????");
+		
 		wordArt=new Render(100,20);
 		Arrays.fill(wordArt.pixels,0);
 		wordArt.setFont("LithosBlack.ttf");
@@ -72,7 +76,7 @@ public class GUI implements VisibleObject{
 			int x=(int) (Math.cos(angle)*length+length);
 			int y=(int) (Math.sin(angle)*length+length);
 			int lineLength=(int) (Math.cos(angle)*2*length);
-			tiltBall.drawPixel(0x0000ff,x,y);
+			tiltBall.drawPixel(1,x,y);
 			for(int line=-1;line>lineLength;line--)
 				if(tiltBall.pixels[x+y*tiltBall.width-line]!=1){
 					tiltBall.drawPixel(0x0000ff, x-line,y);
@@ -86,6 +90,7 @@ public class GUI implements VisibleObject{
 		renderPowerBar(r);
 		renderStrokes(r);
 		renderTilt(r);
+		tip.render(r);
 	}
 
 	public void renderPowerBar(Render2D r){
