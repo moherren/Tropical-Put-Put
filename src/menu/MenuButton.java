@@ -1,7 +1,13 @@
 package menu;
 
 import visibleObjects.VisibleObject;
+
+import java.awt.Point;
+
+import javax.swing.JOptionPane;
+
 import game.Game;
+import geometry.Vector2D;
 import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
@@ -24,6 +30,8 @@ public class MenuButton implements VisibleObject{
 		if(isWithin(mX,mY)){
 			hover=true;
 		}
+		else
+			hover=false;
 	}
 	
 	public boolean isWithin(int mX,int mY){
@@ -46,6 +54,13 @@ public class MenuButton implements VisibleObject{
 		
 	}
 	
+	public void update(){
+		
+	}
+	
+	
+	
+	
 	public static MenuButton[] getMenuButtons(Game game){
 		MenuButton[] mb=new MenuButton[4];
 		mb[0]=new PlayButton(game);
@@ -64,6 +79,7 @@ public class MenuButton implements VisibleObject{
 			game.setScreen(Game.SC_GOLF_GAME);
 			game.startGame();
 		}
+		
 	}
 	
 	public static class TutorialButton extends MenuButton{
@@ -84,6 +100,7 @@ public class MenuButton implements VisibleObject{
 		public void click(){
 			game.setScreen(Game.SC_SETTINGS_GAME);
 		}
+		
 	}
 	
 	public static class QuitButton extends MenuButton{
@@ -92,7 +109,128 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			//game.setScreen(Game.SC_SETTINGS_GAME);
+			int n = JOptionPane.showConfirmDialog(
+				    game.display,
+				    "Are you sure you'd like to quit?",
+				    "Tropical Cruise Putt-Putt",
+				    JOptionPane.YES_NO_OPTION);
+			if(n==0)
+			System.exit(0);
+		}
+	}
+	
+	
+	
+	public static MenuButton[] getSettingsButtons(Game game){
+		MenuButton[] mb=new MenuButton[3];
+		mb[0]=new BackButton(game);
+		mb[1]=new VolumeSlider(game);
+		mb[2]=new DifficultySlider(game);
+		return mb;
+	}
+	
+	public static class BackButton extends MenuButton{
+		public BackButton(Game g){
+			super(50,500,Texture.getSpriteSheet(buttons, 150, 50, 4),g);
+		}
+		
+		public void click(){
+			game.setScreen(Game.SC_MAIN_MENU);
+		}
+	}
+	
+	public static class VolumeSlider extends MenuButton{
+		Render slider;
+		
+		int sliderX=0;
+		int sliderY=0;
+		
+		boolean pressed=false;
+		
+		public VolumeSlider(Game g){
+			super(200,130,new Render(400,50),g);
+			sliderX=sprite.width/2;
+			slider=Texture.loadBitmap("textures/slider.png");
+			sliderY=y+sprite.height/2-slider.height/2;
+		}
+		
+		public void click(){
+			pressed=true;
+		}
+		
+		public void update(int mX,int mY){
+			if(!game.getMouseDown())
+			{
+				pressed=false;
+				
+			}
+			else if(pressed){
+				sliderX=Math.max(mX-x,0);
+				sliderX=Math.min(sliderX, sprite.width);
+				game.setVolume(sliderX/(sprite.width*1.0));
+			}
+		}
+		
+		public void render(Render2D r){
+			int lineThickness=2;
+				for(int y=-(lineThickness/2);y<lineThickness/2;y++){
+					Render2D.drawLine(r, 1, x, y+sprite.height/2+this.y, x+sprite.width, y+sprite.height/2+this.y);
+				}
+				for(int x=0;x<lineThickness;x++){
+					Render2D.drawLine(r, 1, x+this.x, y, x+this.x, y+sprite.height);
+					Render2D.drawLine(r, 1, this.x-x+sprite.width, y, this.x-x+sprite.width, y+sprite.height);
+				}
+				r.draw(slider, x+sliderX-slider.width/2, sliderY);
+				r.drawString("Volume: "+(int)(sliderX*100/(sprite.width*1.0))+"%", x, sliderY-5, 1);
+		}
+	}
+	
+	public static class DifficultySlider extends MenuButton{
+		Render slider;
+		
+		int sliderX=0;
+		int sliderY=0;
+		
+		boolean pressed=false;
+		
+		public DifficultySlider(Game g){
+			super(200,300,new Render(400,50),g);
+			sliderX=sprite.width/2;
+			slider=Texture.loadBitmap("textures/slider.png");
+			sliderY=y+sprite.height/2-slider.height/2;
+		}
+		
+		public void click(){
+			pressed=true;
+		}
+		
+		public void update(int mX,int mY){
+			if(!game.getMouseDown())
+			{
+				pressed=false;
+				
+			}
+			else if(pressed){
+				sliderX=Math.max(mX-x,0);
+				sliderX=Math.min(sliderX, sprite.width);
+				game.setDifficulty(sliderX/(sprite.width*1.0));
+			}
+		}
+		
+		public void render(Render2D r){
+			int lineThickness=2;
+				for(int y=-(lineThickness/2);y<lineThickness/2;y++){
+					Render2D.drawLine(r, 1, x, y+sprite.height/2+this.y, x+sprite.width, y+sprite.height/2+this.y);
+				}
+				for(int x=0;x<lineThickness;x++){
+					Render2D.drawLine(r, 1, x+this.x, y, x+this.x, y+sprite.height);
+					Render2D.drawLine(r, 1, this.x-x+sprite.width, y, this.x-x+sprite.width, y+sprite.height);
+				}
+				r.draw(slider, x+sliderX-slider.width/2, sliderY);
+				if((int)(sliderX*100/(sprite.width*1.0))!=0)
+					r.drawString("Difficulty: "+(int)(sliderX*100/(sprite.width*1.0))+"%", x, sliderY-5, 1);
+				else
+					r.drawString("Difficulty: Baby", x, sliderY-5, 1);
 		}
 	}
 }
