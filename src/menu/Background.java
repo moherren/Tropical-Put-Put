@@ -17,6 +17,7 @@ public class Background implements VisibleObject{
 	Render sun;
 	Render title;
 	Render cloud;
+	Render settingsBack;
 	int[] cloudXs, cloudYs;
 	
 	public Background(Game g){
@@ -26,6 +27,13 @@ public class Background implements VisibleObject{
 		sun=Texture.loadBitmap("textures/sun.png");
 		title=Texture.loadBitmap("textures/Title.png");
 		cloud=Texture.loadBitmap("textures/cloud.png");
+		
+		
+		settingsBack=Texture.loadBitmap("textures/background.png");
+		Render panel=new Render(500,350);
+		Texture.addGUIEdging(panel, 0xffffff, 10);
+		settingsBack.draw(panel, 150, 55);
+		
 		Random rand=new Random();
 		int cloudCount=3;
 		cloudXs=new int[cloudCount];
@@ -110,5 +118,10 @@ public class Background implements VisibleObject{
 	
 	public void drawCloud(int x,int y,Render r){
 		r.draw(cloud, x, y);
+	}
+
+	public void renderSettings(Render2D r) {
+		r.draw(settingsBack, 0, 0);
+		
 	}
 }
