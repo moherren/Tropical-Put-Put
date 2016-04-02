@@ -71,12 +71,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		c1.addObstacle(new Wall(new Rectangle(760,250,40,300)));
 		c1.addSurface(new Grass(new Rectangle(500,250,400,300)));
 		c1.addHole(new Hole(new Vector2D(200,200),8));
-		c2=new GolfCourse(new Vector2D(400,300), 5);
+		c2=new GolfCourse(new Vector2D(400,300), 2);
 		c2.addObstacle(new Wall(new Rectangle(40,250,40,300)));
 		c2.addObstacle(new Wall(new Rectangle(400,80,760,40)));
 		c2.addObstacle(new Wall(new Rectangle(400,420,760,40)));
 		c2.addObstacle(new Wall(new Rectangle(760,250,40,300)));
 		c2.addSurface(new Ice(new Rectangle(500,250,400,300)));
+		c2.addHole(new Hole(new Vector2D(600,200),8));
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);
@@ -195,11 +196,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_GOLF_GAME:{
-			
+			mouseDown=true;
 			break;
 		}
 		}
-		mouseDown=true;
 		
 	}
 
@@ -218,11 +218,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				ball.putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
 				gui.strokesNum++;
+				mouseDown=false;
 			}
 			break;
 		}
 		}
-		mouseDown=false;
 	}
 
 
