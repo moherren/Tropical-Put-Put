@@ -132,6 +132,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		for(Surface s:surfaces){
 			s.render(r);
 		}
+		for(Hole h:holes){
+			h.render(r);
+		}
 		for(Entity e:entities){
 			if(e instanceof VisibleObject){
 				((VisibleObject)e).render(r);

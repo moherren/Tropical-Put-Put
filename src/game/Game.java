@@ -17,6 +17,7 @@ import javax.swing.Timer;
 
 import course.GolfCourse;
 import course.Grass;
+import course.Hole;
 import course.Ice;
 import course.Wall;
 import entities.GolfBall;
@@ -63,13 +64,14 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		menuButtons=MenuButton.getMenuButtons(this);
 		settingsButtons=MenuButton.getSettingsButtons(this);
 		
-		c1=new GolfCourse(new Vector2D(400,400), 5);
+		c1=new GolfCourse(new Vector2D(400,300), 5);
 		c1.addObstacle(new Wall(new Rectangle(40,250,40,300)));
 		c1.addObstacle(new Wall(new Rectangle(400,80,760,40)));
 		c1.addObstacle(new Wall(new Rectangle(400,420,760,40)));
 		c1.addObstacle(new Wall(new Rectangle(760,250,40,300)));
 		c1.addSurface(new Grass(new Rectangle(500,250,400,300)));
-		c2=new GolfCourse(new Vector2D(400,400), 5);
+		c1.addHole(new Hole(new Vector2D(200,200),8));
+		c2=new GolfCourse(new Vector2D(400,300), 5);
 		c2.addObstacle(new Wall(new Rectangle(40,250,40,300)));
 		c2.addObstacle(new Wall(new Rectangle(400,80,760,40)));
 		c2.addObstacle(new Wall(new Rectangle(400,420,760,40)));
@@ -104,7 +106,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_GOLF_GAME:{
-			course.render(r);
+			if(course!=null)
+				course.render(r);
 			
 			if(putting){
 				double x=ball.getPosition().x;
