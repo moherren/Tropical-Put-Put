@@ -42,18 +42,18 @@ public class GolfBall extends GameEntity implements VisibleObject{
 		
 		int length=(int) BALL_RADIUS;
 		double perimeter=(length)*Math.PI*2;
-		for(double angle=Math.PI/2.0;angle<=Math.PI*3/2.0;angle+=Math.PI*2/perimeter){
-			
-			int x=(int) (Math.cos(angle)*length+X);
-			int y=(int) (Math.sin(angle)*length+Y);
-			int lineLength=(int) (Math.cos(angle)*2*length);
-			r.drawPixel(1,x,y);
-			for(int line=-1;line>lineLength;line--)
-				if(r.pixels[x+y*r.width-line]!=1)
-					r.drawPixel(0xffffff, x-line,y);
-			r.drawPixel(1,x-lineLength,y);
-			
-		}
+			for(double angle=Math.PI/2.0;angle<=Math.PI*3/2.0;angle+=Math.PI*2/perimeter){
+				
+				int x=(int) (Math.cos(angle)*length+X);
+				int y=(int) (Math.sin(angle)*length+Y);
+				int lineLength=(int) (Math.cos(angle)*2*length);
+				r.drawPixel(1,x,y);
+				for(int line=-1;line>lineLength;line--)
+					if(r.pixels[x+y*r.width-line]!=1)
+						r.drawPixel(0xffffff, x-line,y);
+				r.drawPixel(1,x-lineLength,y);
+				
+			}
 	}
 	
 	public void putt(double strength, Vector2D direction){

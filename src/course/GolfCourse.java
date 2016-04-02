@@ -22,42 +22,33 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	private ArrayList<Entity> entities;
 	private ArrayList<Obstacle> obstacles;
 	private ArrayList<Surface> surfaces;
-	private ArrayList<Hole> holes;
 	public long time=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
 	public double tiltAngle=0;//in degrees
 	public double maxTilt=20;
 	public Vector2D tiltDirection;
-	public Vector2D ballStart;
-	public int par;
 	public static Render tiles=Texture.loadBitmap("textures/tiles.png");
 	public static Render tilesA[]=new Render[3];
 	
-	public GolfCourse(Vector2D ballStart,int par) {
+	public GolfCourse() {
 		entities=new ArrayList<Entity>();
 		obstacles=new ArrayList<Obstacle>();
 		surfaces=new ArrayList<Surface>();
-		holes=new ArrayList<Hole>();
 		mu=.20;
 		g=0.1;
-		this.ballStart=ballStart;
-		this.par=par;
 		tiltDirection=new Vector2D(1,0);
 		for(int i=0;i<tilesA.length;i++){
 			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
 		}
 	}
-
-	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles,ArrayList<Surface> surfaces,ArrayList<Hole> holes,Vector2D ballStart,int par){
+	
+	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles,ArrayList<Surface> surfaces){
 		this.entities=entities;
 		this.obstacles=obstacles;
 		this.surfaces=surfaces;
-		this.holes=holes;
 		mu=.20;
 		g=0.1;
-		this.ballStart=ballStart;
-		this.par=par;
 		tiltDirection=new Vector2D(1,0);
 		tiles=Texture.loadBitmap("textures/tiles.png");
 		for(int i=0;i<tilesA.length;i++){
@@ -120,10 +111,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		surfaces.add(s);
 	}
 	
-	public void addHole(Hole h){
-		holes.add(h);
-	}
-	
 	public void render(Render2D r){
 		
 		for(int x=0;x<r.width;x++)
@@ -153,14 +140,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				o.handleCollision(e);
 			}
 		}
-	}
-	
-	public boolean scored(GolfBall b){
-		for(Hole h:holes){
-			if(h.contains(b))
-				return true;
-		}
-		return false;
 	}
 
 	@Override
