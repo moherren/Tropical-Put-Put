@@ -281,6 +281,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void actionPerformed(ActionEvent e) {
 		course.update((int)(1000/updatePerSecond)/10);
 		if(course.scored(ball)){
+			course.removeEntity(ball);
 			loadCourse(c2);
 		}
 		if(ball.getVelocity().isZeroed()&&!putting){
@@ -293,7 +294,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	
 	public void loadCourse(GolfCourse gc){
 		course=gc;
-		ball=new GolfBall(gc.ballStart,gc);
+		ball=new GolfBall(gc.ballStart.clone(),gc);
 		course.addEntity(ball);
 		gui=new GUI(course);
 		gui.parNum=course.par;
