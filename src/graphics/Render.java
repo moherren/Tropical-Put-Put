@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Shape;
@@ -131,6 +132,43 @@ public class Render {
 			for(int Y=(int) Math.max(y-rect.getHeight(), 0);Y<Math.min(y+rect.getHeight()/2.000,height);Y++){
 				if(shape.contains(X, Y))
 					pixels[X+Y*width]=color;
+			}
+		}
+	}
+	
+	public void drawDetailedString(String s,int x,int y,int color){
+		FontRenderContext frc=new FontRenderContext(null,true,true);
+		GlyphVector gv=font.createGlyphVector(frc, s);
+		Shape shape=gv.getOutline(x, y);
+		Rectangle2D rect=gv.getVisualBounds();
+		if(!shape.intersects(0, 0, width, height))
+			return;
+		for(int X=Math.max(x, 0);X<Math.min(x+rect.getWidth()+50,width);X++){
+			for(int Y=(int) Math.max(y-rect.getHeight(), 0);Y<Math.min(y+rect.getHeight()/2.000,height);Y++){			
+				
+				Color oldC=new Color(pixels[X+Y*width]);
+				Color newC=new Color(color);
+				
+				int red,green,blue;
+				
+				if(shape.intersects(X, Y, 1/3.0, 1))
+					red=newC.getRed();
+				else
+					red=oldC.getRed();
+				if(shape.intersects(X+1/3.0, Y, 1/3.0, 1))
+					green=newC.getGreen();
+				else
+					green=oldC.getGreen();
+				if(shape.intersects(X+2/3.0, Y, 1/3.0, 1))
+					blue=newC.getBlue();
+				else
+					blue=oldC.getBlue();
+				
+				int rgb = red;
+				rgb = (rgb << 8) + green;
+				rgb = (rgb << 8) + blue;
+				pixels[X+Y*width]=rgb;
+				
 			}
 		}
 	}

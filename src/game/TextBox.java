@@ -50,8 +50,8 @@ public class TextBox implements VisibleObject{
 		
 		Arrays.fill(sprite.pixels, 0);
 		
-		sprite.setFont("LithosBlack.ttf");
-		sprite.setFont(sprite.getFont().deriveFont(Font.BOLD,16f));
+		//sprite.setFont("LithosBlack.ttf");
+		sprite.setFont(sprite.getFont().deriveFont(16f));
 		
 		
 		for(int x=0;x<width/30;x++){
@@ -89,7 +89,7 @@ public class TextBox implements VisibleObject{
 				y+=rec.getHeight()+3;
 				x=5;
 			}
-			sprite.drawString(words[i], x, y, 1);
+			sprite.drawDetailedString(words[i], x, y, 1);
 			x+=rec.getWidth()+f.getStringBounds(" ", frc).getWidth();
 		}
 		

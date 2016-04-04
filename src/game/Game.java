@@ -63,6 +63,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addMouseListener(this);
 		menuButtons=MenuButton.getMenuButtons(this);
 		settingsButtons=MenuButton.getSettingsButtons(this);
+		course=new GolfCourse(new Vector2D(0,0),0);
+		gui=new GUI(course);
 		
 		c1=new GolfCourse(new Vector2D(400,300), 5);
 		c1.addObstacle(new Wall(new Rectangle(40,250,40,300)));
@@ -190,6 +192,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_SETTINGS_GAME:{
+			mouseDown=true;
 			for(MenuButton mb:settingsButtons)
 				mb.click(mX, mY);
 			break;
@@ -209,6 +212,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_MAIN_MENU:{
 			for(MenuButton mb:menuButtons)
 				mb.click(mX, mY);
+			break;
+		}
+		
+		case SC_SETTINGS_GAME:{
+			mouseDown=false;
 			break;
 		}
 		
