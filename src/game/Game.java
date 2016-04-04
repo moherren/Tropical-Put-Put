@@ -51,7 +51,6 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	private boolean mouseDown=false;
 	double volume=0.5;
 	
-	
 	public static void main(String[] args) {
 		new Game();
 	}
@@ -109,9 +108,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_GOLF_GAME:{
-			if(course!=null)
+			if(course!=null){
 				course.render(r);
-			
+			}
 			if(putting){
 				double x=ball.getPosition().x;
 				double y=ball.getPosition().y;
@@ -223,7 +222,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_GOLF_GAME:{
 			if(putting&&mouseDown){
 				Vector2D toBall=new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y);
-				ball.putt(gui.powerLevel*10, toBall.normalize().negative());
+				putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
 				gui.strokesNum++;
 				mouseDown=false;
@@ -233,6 +232,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 	}
 
+
+	public void putt(double power, Vector2D direction) {
+		ball.putt(power, direction);
+	}
 
 	public void keyPressed(KeyEvent arg0) {
 		

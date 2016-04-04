@@ -26,11 +26,18 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public long time=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
+	
 	public double tiltAngle=0;//in degrees
-	public double maxTilt=20;
 	public Vector2D tiltDirection;
+	public double targetTilt=0;//in degrees
+	public Vector2D targetTiltDirection=new Vector2D(1,0);
+	public double maxTilt=20;//in degrees
+	public double tiltAngleSpeed=1;
+	public double tiltDirectionSpeed=1;
+	
 	public Vector2D ballStart;
 	public int par;
+	
 	public static Render tiles=Texture.loadBitmap("textures/tiles.png");
 	public static Render tilesA[]=new Render[3];
 	
@@ -100,7 +107,13 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		return surfaces;
 	}
 	
+	public void setTilt(double angle,Vector2D direction){
+		targetTilt=angle;
+		targetTiltDirection=direction;
+	}
+	
 	public void update(double time){
+		//move tilt towards targetTilt
 		this.time+=time;
 		ArrayList<Entity> temp=new ArrayList<Entity>(entities);
 		for(Entity e:temp){
