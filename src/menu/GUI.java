@@ -26,7 +26,7 @@ public class GUI implements VisibleObject{
 	TextBox tip;
 	
 	public GUI(GolfCourse gc){
-		tip=TextBox.newHelpBox(200, 0, 300, 90, "Hello, I'm a text box. Who are you????");
+		tip=TextBox.newChatBox(200, 0, 300, 90, "Hello, I'm a text box. Who are you????");
 		
 		wordArt=new Render(100,20);
 		Arrays.fill(wordArt.pixels,0);
