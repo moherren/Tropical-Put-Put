@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import course.GolfCourse;
 import game.Game;
+import game.Scorecard;
 import game.TextBox;
 import geometry.Vector2D;
 import graphics.Render;
@@ -24,9 +25,12 @@ public class GUI implements VisibleObject{
 	public int parNum;
 	GolfCourse gc;
 	TextBox tip;
+	Scorecard scorecard;
 	
 	public GUI(GolfCourse gc){
-		tip=TextBox.newHelpBox(200, 0, 300, 90, "Hello, I'm a text box. Who are you????");
+		tip=TextBox.newChatBox(200, 0, 300, 90, "Hello, I'm a text box. Who are you????");
+		
+		scorecard=new Scorecard();
 		
 		wordArt=new Render(100,20);
 		Arrays.fill(wordArt.pixels,0);
@@ -91,6 +95,7 @@ public class GUI implements VisibleObject{
 		renderStrokes(r);
 		renderTilt(r);
 		tip.render(r);
+		scorecard.render(r);
 	}
 
 	public void renderPowerBar(Render2D r){

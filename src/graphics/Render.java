@@ -167,8 +167,11 @@ public class Render {
 				int rgb = red;
 				rgb = (rgb << 8) + green;
 				rgb = (rgb << 8) + blue;
-				pixels[X+Y*width]=rgb;
 				
+				if(color==0||pixels[X+Y*width]==0)
+					pixels[X+Y*width]=rgb;
+				else 
+					pixels[X+Y*width]=Math.max(1, rgb);
 			}
 		}
 	}
