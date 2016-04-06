@@ -1,5 +1,9 @@
 package game;
 
+import java.awt.Font;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +17,7 @@ public class Scorecard implements VisibleObject{
 	Render card=null;
 
 	public Scorecard(){
-		addPlayer("player 1");
+		addPlayer("Player 1");
 	}
 	
 	public void addPlayer(String name){
@@ -24,7 +28,11 @@ public class Scorecard implements VisibleObject{
 	public void generateCard(){
 		card=new Render(620,players.size()*20+24);
 		
-		Arrays.fill(card.pixels, 0xFF0000);
+		Arrays.fill(card.pixels, 0xffffff);
+		
+		for(int i=0;i<card.width*23;i++){
+			card.pixels[i]=0xff0000;
+		}
 		
 		for(int x=0;x<card.width;x++){
 			card.pixels[x]=1;
@@ -39,13 +47,13 @@ public class Scorecard implements VisibleObject{
 			card.pixels[y*card.width+card.width-1]=1;
 		}
 		
-		card.drawDetailedString("Hole", 3, 23, 1);
-		card.setFont(card.getFont().deriveFont(16f));
+		card.drawDetailedString("Hole", 3, 21, 1);
+		card.setFont(card.getFont().deriveFont(18f));
 		for(int i=1;i<=18;i++){
 			if(i>9)
-			card.drawString(i+"", 86+(i-1)*30, 20, 1);
+			card.drawDetailedString(i+"", 86+(i-1)*30, 20, 1);
 			else
-				card.drawString(i+"", 91+(i-1)*30, 20, 1);
+				card.drawDetailedString(i+"", 91+(i-1)*30, 20, 1);
 		}
 		
 		int y=24;
@@ -91,10 +99,39 @@ class Player{
 	
 	public void generateSlot(){
 		slot=new Render(800,20);
-		Arrays.fill(slot.pixels,0);
+		
+		Arrays.fill(slot.pixels,0xffffff);
+		
+		String name=this.name;
+		boolean tooLong=false;
+
+		slot.setFont(slot.getFont().deriveFont(17f));
+		
+		AffineTransform affinetransform = new AffineTransform();   
+		FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+		Font f = slot.getFont();
+		Rectangle2D rec=f.getStringBounds(name, frc);
+		while(rec.getWidth()>74){
+			tooLong=true;
+			name=name.substring(0, name.length()-1);
+			rec=f.getStringBounds(name+"...", frc);
+		}
+		
+		
+		
+		if(tooLong)
+			slot.drawDetailedString(name+"...", 3, 17, 1);
+		else
+			slot.drawDetailedString(name, 3, 17, 1);
+		
 		for(int i=0;i<strokes.length;i++){
 			if(strokes[i]>-1)
 			slot.drawString(strokes[i]+"", 82+30*i, 19, 1);
+		}
+		
+		for(int i=0;i<slot.width*slot.height;i++){
+			if(slot.pixels[i]==0xffffff)
+				slot.pixels[i]=0;
 		}
 	}
 }
