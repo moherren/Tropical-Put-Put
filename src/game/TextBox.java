@@ -3,6 +3,7 @@ package game;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -22,6 +23,7 @@ public class TextBox implements VisibleObject{
 	static Render[] guis;
 	boolean visible=true;
 	static Render PuttyFace=null;
+	public boolean waitingForResponse=false;
 	
 	private TextBox(int type,int x,int y,int width,int height,String text){
 		this.type=type;
@@ -140,6 +142,8 @@ public class TextBox implements VisibleObject{
 			}
 		}
 		
+		text="Putty: "+text;
+		
 		String[] words=text.split(" ");
 		
 		AffineTransform affinetransform = new AffineTransform();   
@@ -168,7 +172,7 @@ public class TextBox implements VisibleObject{
 	
 	public static TextBox newChatBox(int x,int y,int width,int height,String text){
 		TextBox tb=new TextBox(TB_CHAT,x,y,width,height,text);
-		
+		tb.waitingForResponse=true;
 		return tb;
 	}
 
@@ -183,7 +187,15 @@ public class TextBox implements VisibleObject{
 					}
 				}
 			}
-				
 		}
+	}
+	
+	public void keyPressed(KeyEvent ke){
+		if(waitingForResponse)
+			moveOn();
+	}
+	
+	public void moveOn(){
+		visible=false;
 	}
 }
