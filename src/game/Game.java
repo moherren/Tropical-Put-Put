@@ -24,6 +24,7 @@ import entities.GolfBall;
 import geometry.Rectangle;
 import geometry.Vector2D;
 import graphics.Display;
+import graphics.Render;
 import graphics.Render2D;
 import menu.Background;
 import menu.GUI;
@@ -34,7 +35,7 @@ import visibleObjects.VisibleObject;
 
 public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter, ActionListener{
 
-	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4;
+	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4,SC_SCORECARD=5;
 	public Display display;
 	boolean running=true;
 	GolfCourse course,c1,c2;
@@ -50,6 +51,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	private boolean playing=false;
 	private boolean mouseDown=false;
 	double volume=0.5;
+	Render2D lastScreen, newScreen;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -64,6 +66,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		settingsButtons=MenuButton.getSettingsButtons(this);
 		course=new GolfCourse(new Vector2D(0,0),0);
 		gui=new GUI(course);
+		
+		newScreen=new Render2D(Display.WIDTH,Display.HEIGHT);
+		lastScreen=new Render2D(Display.WIDTH,Display.HEIGHT);
 		
 		c1=new GolfCourse(new Vector2D(400,300), 5);
 		c1.addObstacle(new Wall(new Rectangle(40,250,40,300)));
@@ -123,6 +128,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			}
 			gui.render(r);
 			break;
+		}
+		
+		case SC_SCORECARD:{
+			r.draw(lastScreen, 0, 0);
+			gui.renderScorecard(r);
 		}
 		}
 	}
@@ -253,7 +263,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void setScreen(int i){
+		render(lastScreen);
 		screen=i;
+		render(newScreen);
+		if(i==SC_SCORECARD){
+			for(int y=0;y<lastScreen.height;y++)
+				lastScreen.blurRow(3, y);
+			for(int y=0;y<lastScreen.width;y++)
+				lastScreen.blurColumn(3, y);
+		}
 	}
 	
 	public int getScreen() {
@@ -274,8 +292,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 						Vector2D newTilt=new Vector2D(scan.nextDouble(),scan.nextDouble()).normalize();
 						System.out.println("new angle:");
 						double newAngle=scan.nextDouble();
+						System.out.println("new tilt velocity:");
+						Vector2D newVelocity=new Vector2D(scan.nextDouble(),scan.nextDouble()).normalize();
 						course.tiltDirection=newTilt;
 						course.tiltAngle=newAngle;
+						course.tiltVelocity=newVelocity;
 					}
 				}
 			}.start();

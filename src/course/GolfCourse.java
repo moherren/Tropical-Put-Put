@@ -32,8 +32,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public double targetTiltAngle=0;//in degrees
 	public Vector2D targetTiltDirection=new Vector2D(1,0);
 	public double maxTilt=20;//in degrees
+	public Vector2D tiltVelocity=new Vector2D(0,0);
 	public double tiltSpeed=0.1;
-	
+	public double tiltSpringConstant=0.001;// in F=-kx, the k
 	public Vector2D ballStart;
 	public int par;
 	
@@ -114,13 +115,16 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public void update(double time){
 		//move tilt towards targetTiltasdf
 		Vector2D tilt=tiltDirection.mult(tiltAngle);
-		Vector2D targetTilt=targetTiltDirection.mult(targetTiltAngle);
-		Vector2D toTarget=targetTilt.sub(tilt);
-		if(toTarget.magnitude()>time*tiltSpeed)
-			tilt.iadd(toTarget.normalize().mult(time*tiltSpeed));
-		else{
-			tilt=targetTilt;
-		}
+		tilt.iadd(tiltVelocity.mult(time));
+		Vector2D tiltAcceleration=tilt.negative().mult(tiltSpringConstant);
+		tiltVelocity.iadd(tiltAcceleration.mult(time));
+		//Vector2D targetTilt=targetTiltDirection.mult(targetTiltAngle);
+		//Vector2D toTarget=targetTilt.sub(tilt);
+		//if(toTarget.magnitude()>time*tiltSpeed)
+		//	tilt.iadd(toTarget.normalize().mult(time*tiltSpeed));
+		//else{
+		//	tilt=targetTilt;
+		//}
 		tiltDirection=tilt.normalize();
 		tiltAngle=tilt.magnitude();
 		this.time+=time;
