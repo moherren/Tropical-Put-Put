@@ -29,11 +29,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	
 	public double tiltAngle=0;//in degrees
 	public Vector2D tiltDirection;
-	public double targetTilt=0;//in degrees
+	public double targetTiltAngle=0;//in degrees
 	public Vector2D targetTiltDirection=new Vector2D(1,0);
 	public double maxTilt=20;//in degrees
-	public double tiltAngleSpeed=1;
-	public double tiltDirectionSpeed=5;
+	public double tiltSpeed=0.1;
 	
 	public Vector2D ballStart;
 	public int par;
@@ -108,31 +107,22 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 	
 	public void setTilt(double angle,Vector2D direction){
-		targetTilt=angle;
+		targetTiltAngle=angle;
 		targetTiltDirection=direction;
 	}
 	
 	public void update(double time){
 		//move tilt towards targetTilt
-		if(tiltAngle!=targetTilt){
-			double diff=targetTilt-tiltAngle;
-			if(Math.abs(diff)>=tiltAngleSpeed*time)
-				tiltAngle+=Math.signum(diff)*tiltAngleSpeed*time;
-			else
-				tiltAngle=targetTilt;
+		Vector2D tilt=tiltDirection.mult(tiltAngle);
+		Vector2D targetTilt=targetTiltDirection.mult(targetTiltAngle);
+		Vector2D toTarget=targetTilt.sub(tilt);
+		if(toTarget.magnitude()>time*tiltSpeed)
+			tilt.iadd(toTarget.normalize().mult(time*tiltSpeed));
+		else{
+			tilt=targetTilt;
 		}
-		if(!tiltDirection.equals(targetTiltDirection)){
-			double theta=tiltDirection.angleTo(targetTiltDirection);
-			System.out.println(theta);
-			if(Math.abs(theta)>=Math.toRadians(tiltDirectionSpeed*time)){
-				System.out.println("hey");
-				System.out.println(tiltDirection);
-				tiltDirection=tiltDirection.rotate(Math.signum(theta)*Math.toRadians(tiltDirectionSpeed*time));
-				System.out.println(tiltDirection);
-			}
-			else
-				tiltDirection=targetTiltDirection.clone();
-		}
+		tiltDirection=tilt.normalize();
+		tiltAngle=tilt.magnitude();
 		this.time+=time;
 		ArrayList<Entity> temp=new ArrayList<Entity>(entities);
 		for(Entity e:temp){
