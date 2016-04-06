@@ -115,7 +115,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				double x=ball.getPosition().x;
 				double y=ball.getPosition().y;
 				Vector2D dir=new Vector2D(mX-x,mY-y).negative().normalize();
-				r.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*200, y+dir.y*gui.powerLevel*200);
+				r.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*150, y+dir.y*gui.powerLevel*150);
 				//the rendering here could be replaced with some sort of arrow maybe?
 			}
 			else{
@@ -225,8 +225,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
 				gui.strokesNum++;
-				mouseDown=false;
 			}
+			mouseDown=false;
 			break;
 		}
 		}
@@ -235,6 +235,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void putt(double power, Vector2D direction) {
 		ball.putt(power, direction);
+		course.setTilt(Math.random()*15, new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize());
 	}
 
 	public void keyPressed(KeyEvent arg0) {

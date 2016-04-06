@@ -33,7 +33,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public Vector2D targetTiltDirection=new Vector2D(1,0);
 	public double maxTilt=20;//in degrees
 	public double tiltAngleSpeed=1;
-	public double tiltDirectionSpeed=1;
+	public double tiltDirectionSpeed=5;
 	
 	public Vector2D ballStart;
 	public int par;
@@ -114,6 +114,25 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	
 	public void update(double time){
 		//move tilt towards targetTilt
+		if(tiltAngle!=targetTilt){
+			double diff=targetTilt-tiltAngle;
+			if(Math.abs(diff)>=tiltAngleSpeed*time)
+				tiltAngle+=Math.signum(diff)*tiltAngleSpeed*time;
+			else
+				tiltAngle=targetTilt;
+		}
+		if(!tiltDirection.equals(targetTiltDirection)){
+			double theta=tiltDirection.angleTo(targetTiltDirection);
+			System.out.println(theta);
+			if(Math.abs(theta)>=Math.toRadians(tiltDirectionSpeed*time)){
+				System.out.println("hey");
+				System.out.println(tiltDirection);
+				tiltDirection=tiltDirection.rotate(Math.signum(theta)*Math.toRadians(tiltDirectionSpeed*time));
+				System.out.println(tiltDirection);
+			}
+			else
+				tiltDirection=targetTiltDirection.clone();
+		}
 		this.time+=time;
 		ArrayList<Entity> temp=new ArrayList<Entity>(entities);
 		for(Entity e:temp){
