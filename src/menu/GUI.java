@@ -95,7 +95,6 @@ public class GUI implements VisibleObject{
 		renderStrokes(r);
 		renderTilt(r);
 		tip.render(r);
-		scorecard.render(r);
 	}
 
 	public void renderPowerBar(Render2D r){
@@ -141,5 +140,9 @@ public class GUI implements VisibleObject{
 		int length=50;
 		r.draw(tiltCircle, X, Y);
 		r.draw(tiltBall, tiltCircle.width/2+X+tiltX-tiltBall.width/2, tiltCircle.height/2+Y+tiltY-tiltBall.width/2);
+	}
+	
+	public void renderScorecard(Render2D r){
+		scorecard.render(r);
 	}
 }
