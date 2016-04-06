@@ -112,7 +112,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 	
 	public void update(double time){
-		//move tilt towards targetTilt
+		//move tilt towards targetTiltasdf
 		Vector2D tilt=tiltDirection.mult(tiltAngle);
 		Vector2D targetTilt=targetTiltDirection.mult(targetTiltAngle);
 		Vector2D toTarget=targetTilt.sub(tilt);
