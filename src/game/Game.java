@@ -44,6 +44,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	GUI gui;
 	MenuButton[] menuButtons;
 	MenuButton[] settingsButtons;
+	MenuButton[] scorecardButtons;
 	int mX=0,mY=0;
 	private boolean putting=false;
 	private double updatePerSecond=100;
@@ -64,6 +65,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addMouseListener(this);
 		menuButtons=MenuButton.getMenuButtons(this);
 		settingsButtons=MenuButton.getSettingsButtons(this);
+		scorecardButtons=MenuButton.getScorecardButtons(this);
+		
 		course=new GolfCourse(new Vector2D(0,0),0);
 		gui=new GUI(course);
 		
@@ -133,7 +136,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_SCORECARD:{
 			r.draw(lastScreen, 0, 0);
 			gui.renderScorecard(r);
-		}
+			for(MenuButton mb:scorecardButtons)
+				mb.render(r);
+			break;
+			}
 		}
 	}
 	
@@ -162,6 +168,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				mb.update(mX, mY);
 				
 			for(MenuButton mb:settingsButtons)
+				mb.update(mX, mY);
+			
+			for(MenuButton mb:scorecardButtons)
 				mb.update(mX, mY);
 			
 			display.Render();
@@ -203,6 +212,12 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_SETTINGS_GAME:{
 			mouseDown=true;
 			for(MenuButton mb:settingsButtons)
+				mb.click(mX, mY);
+			break;
+		}
+		
+		case SC_SCORECARD:{
+			for(MenuButton mb:scorecardButtons)
 				mb.click(mX, mY);
 			break;
 		}
@@ -268,9 +283,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		render(newScreen);
 		if(i==SC_SCORECARD){
 			for(int y=0;y<lastScreen.height;y++)
-				lastScreen.blurRow(3, y);
+				lastScreen.blurRow(5, y);
 			for(int y=0;y<lastScreen.width;y++)
-				lastScreen.blurColumn(3, y);
+				lastScreen.blurColumn(5, y);
 		}
 	}
 	
@@ -307,6 +322,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		course.update((int)(1000/updatePerSecond)/10);
 		if(course.scored(ball)){
 			course.removeEntity(ball);
+			setScreen(SC_SCORECARD);
 			loadCourse(c2);
 		}
 		if(ball.getVelocity().isZeroed()&&!putting){

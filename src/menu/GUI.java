@@ -94,7 +94,7 @@ public class GUI implements VisibleObject{
 		renderPowerBar(r);
 		renderStrokes(r);
 		renderTilt(r);
-		tip.render(r);
+		//tip.render(r);
 	}
 
 	public void renderPowerBar(Render2D r){

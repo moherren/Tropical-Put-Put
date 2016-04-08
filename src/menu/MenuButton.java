@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import game.Game;
 import geometry.Vector2D;
+import graphics.Display;
 import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
@@ -232,5 +233,26 @@ public class MenuButton implements VisibleObject{
 				else
 					r.drawString("Difficulty: Baby", x, sliderY-5, 1);
 		}
+	}
+	
+	
+	
+	
+	public static MenuButton[] getScorecardButtons(Game game){
+		MenuButton[] mb=new MenuButton[1];
+		mb[0]=new NextCourseButton(game);
+		return mb;
+	}
+	
+	public static class NextCourseButton extends MenuButton{
+		public NextCourseButton(Game g){
+			super(Display.WIDTH-50-150,Display.HEIGHT-50-50,Texture.getSpriteSheet(buttons, 150, 50, 5),g);
+		}
+		
+		public void click(){
+			game.setScreen(Game.SC_GOLF_GAME);
+			game.startGame();
+		}
+		
 	}
 }
