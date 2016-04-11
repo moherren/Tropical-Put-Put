@@ -12,7 +12,8 @@ public class GolfBall extends GameEntity implements VisibleObject{
 
 	public static double BALL_RADIUS=7;
 	private GolfCourse course;
-		
+	public int putts=0;	
+	
 	public GolfBall(Vector2D position, GolfCourse course) {
 		super(position, new Circle(BALL_RADIUS), course,-1,-1);
 		this.course=course;
@@ -57,6 +58,7 @@ public class GolfBall extends GameEntity implements VisibleObject{
 	}
 	
 	public void putt(double strength, Vector2D direction){
+		putts++;
 		applyImpulse(direction.normalize().mult(strength));
 	}
 }

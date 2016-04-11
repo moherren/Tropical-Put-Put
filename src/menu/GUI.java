@@ -25,12 +25,10 @@ public class GUI implements VisibleObject{
 	public int parNum;
 	GolfCourse gc;
 	TextBox tip;
-	Scorecard scorecard;
+	
 	
 	public GUI(GolfCourse gc){
 		tip=TextBox.newChatBox(200, 0, 300, 90, "Hello, I'm a text box. Who are you????");
-		
-		scorecard=new Scorecard();
 		
 		wordArt=new Render(100,20);
 		Arrays.fill(wordArt.pixels,0);
@@ -140,9 +138,5 @@ public class GUI implements VisibleObject{
 		int length=50;
 		r.draw(tiltCircle, X, Y);
 		r.draw(tiltBall, tiltCircle.width/2+X+tiltX-tiltBall.width/2, tiltCircle.height/2+Y+tiltY-tiltBall.width/2);
-	}
-	
-	public void renderScorecard(Render2D r){
-		scorecard.render(r);
 	}
 }

@@ -53,6 +53,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	private boolean mouseDown=false;
 	double volume=0.5;
 	Render2D lastScreen, newScreen;
+	int holeNumber=0;
+	Scorecard scorecard;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -135,7 +137,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 		case SC_SCORECARD:{
 			r.draw(lastScreen, 0, 0);
-			gui.renderScorecard(r);
+			renderScorecard(r);
 			for(MenuButton mb:scorecardButtons)
 				mb.render(r);
 			break;
@@ -294,6 +296,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void startGame() {
+		if(scorecard==null)
+			scorecard=new Scorecard();
 		if(!playing){
 			new Timer((int)(1000/updatePerSecond),this).start();
 			playing=true;
@@ -318,10 +322,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 	}
 	
+	public void endGame(){
+		scorecard=null;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		course.update((int)(1000/updatePerSecond)/10);
 		if(course.scored(ball)){
 			course.removeEntity(ball);
+			scorecard.setStrokes("Player 1", holeNumber,ball.putts);
 			setScreen(SC_SCORECARD);
 			loadCourse(c2);
 		}
@@ -339,6 +348,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		course.addEntity(ball);
 		gui=new GUI(course);
 		gui.parNum=course.par;
+		holeNumber++;
 	}
 
 	public void setVolume(double amount) {
@@ -348,6 +358,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void setDifficulty(double d) {
 		
+	}
+	
+	public void renderScorecard(Render2D r){
+		scorecard.render(r);
 	}
 
 }
