@@ -35,7 +35,8 @@ import visibleObjects.VisibleObject;
 
 public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter, ActionListener{
 
-	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4,SC_SCORECARD=5;
+	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4,
+			SC_SCORECARD=5, SC_PAUSE_MENU=6;
 	public Display display;
 	boolean running=true;
 	GolfCourse course,c1,c2;
@@ -45,6 +46,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	MenuButton[] menuButtons;
 	MenuButton[] settingsButtons;
 	MenuButton[] scorecardButtons;
+	MenuButton pauseButton;
 	int mX=0,mY=0;
 	private boolean putting=false;
 	private double updatePerSecond=100;
@@ -55,6 +57,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	Render2D lastScreen, newScreen;
 	int holeNumber=0;
 	Scorecard scorecard;
+	public static int backScreen=SC_MAIN_MENU;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -68,6 +71,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		menuButtons=MenuButton.getMenuButtons(this);
 		settingsButtons=MenuButton.getSettingsButtons(this);
 		scorecardButtons=MenuButton.getScorecardButtons(this);
+		pauseButton=new MenuButton.PauseButton(this);
 		
 		course=new GolfCourse(new Vector2D(0,0),0);
 		gui=new GUI(course);
@@ -132,6 +136,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				gui.powerLevel=0;
 			}
 			gui.render(r);
+			pauseButton.render(r);
 			break;
 		}
 		
@@ -225,7 +230,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_GOLF_GAME:{
-			mouseDown=true;
+			pauseButton.click(mX, mY);
+			if(!pauseButton.isWithin(mX, mY))
+				mouseDown=true;
 			break;
 		}
 		}
@@ -234,6 +241,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mouseReleased(MouseEvent arg0) {
+		if(arg0.getButton()==MouseEvent.BUTTON1)
 		switch(screen){
 		case SC_MAIN_MENU:{
 			for(MenuButton mb:menuButtons)
@@ -280,6 +288,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void setScreen(int i){
+		backScreen=screen;
 		render(lastScreen);
 		screen=i;
 		render(newScreen);
@@ -296,8 +305,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void startGame() {
-		if(scorecard==null)
-			scorecard=new Scorecard();
+		scorecard=new Scorecard();
 		if(!playing){
 			new Timer((int)(1000/updatePerSecond),this).start();
 			playing=true;
@@ -320,10 +328,6 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				}
 			}.start();
 		}
-	}
-	
-	public void endGame(){
-		scorecard=null;
 	}
 	
 	public void actionPerformed(ActionEvent e) {

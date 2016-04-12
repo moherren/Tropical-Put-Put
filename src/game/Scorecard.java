@@ -97,9 +97,7 @@ class Player{
 		this.strokes[hole]=strokes;
 	}
 	
-	public void generateSlot(){
-		System.out.println("remade");
-		
+	public void generateSlot(){		
 		slot=new Render(800,20);
 		
 		Arrays.fill(slot.pixels,0xffffff);
@@ -126,10 +124,20 @@ class Player{
 		else
 			slot.drawDetailedString(name, 3, 17, 1);
 		
+		int sum=0;
 		for(int i=0;i<strokes.length;i++){
-			if(strokes[i]>-1)
+			if(strokes[i]>-1){
 				slot.drawDetailedString(strokes[i]+"", 90+(i-1)*30, 16, 1);
+				sum+=strokes[i];
+			}
 		}
+		if(sum>0){
+			if(sum<10)
+				slot.drawDetailedString(sum+"", 90+(18)*30, 16, 1);
+			else
+				slot.drawDetailedString(sum+"", 86+(18)*30, 16, 1);
+		}
+			
 		
 		for(int i=0;i<slot.width*slot.height;i++){
 			if(slot.pixels[i]==0xffffff)

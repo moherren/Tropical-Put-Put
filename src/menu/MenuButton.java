@@ -136,7 +136,7 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			game.setScreen(Game.SC_MAIN_MENU);
+			game.setScreen(Game.backScreen);
 		}
 	}
 	
@@ -251,8 +251,17 @@ public class MenuButton implements VisibleObject{
 		
 		public void click(){
 			game.setScreen(Game.SC_GOLF_GAME);
-			game.startGame();
 		}
 		
+	}
+	
+	public static class PauseButton extends MenuButton{
+		public PauseButton(Game g){
+			super(Display.WIDTH-15-50,15,Texture.loadBitmap("textures/pauseButton.png"),g);
+		}
+		
+		public void click(){
+			game.setScreen(Game.SC_PAUSE_MENU);
+		}
 	}
 }
