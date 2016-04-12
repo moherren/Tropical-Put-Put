@@ -41,7 +41,7 @@ public class Scorecard implements VisibleObject{
 		}
 		for(int y=0;y<card.height-1;y++){
 			card.pixels[y*card.width]=1;
-			for(double x=80;x<card.width;x+=(card.width-80)/18.0){
+			for(double x=80;x<card.width;x+=(card.width-80)/19.0){
 				card.pixels[y*card.width+(int)x]=1;
 			}
 			card.pixels[y*card.width+card.width-1]=1;
@@ -97,7 +97,7 @@ class Player{
 		this.strokes[hole]=strokes;
 	}
 	
-	public void generateSlot(){
+	public void generateSlot(){		
 		slot=new Render(800,20);
 		
 		Arrays.fill(slot.pixels,0xffffff);
@@ -124,10 +124,20 @@ class Player{
 		else
 			slot.drawDetailedString(name, 3, 17, 1);
 		
+		int sum=0;
 		for(int i=0;i<strokes.length;i++){
-			if(strokes[i]>-1)
-			slot.drawString(strokes[i]+"", 82+30*i, 19, 1);
+			if(strokes[i]>-1){
+				slot.drawDetailedString(strokes[i]+"", 90+(i-1)*30, 16, 1);
+				sum+=strokes[i];
+			}
 		}
+		if(sum>0){
+			if(sum<10)
+				slot.drawDetailedString(sum+"", 90+(18)*30, 16, 1);
+			else
+				slot.drawDetailedString(sum+"", 86+(18)*30, 16, 1);
+		}
+			
 		
 		for(int i=0;i<slot.width*slot.height;i++){
 			if(slot.pixels[i]==0xffffff)
