@@ -20,6 +20,7 @@ import course.Grass;
 import course.Hole;
 import course.Ice;
 import course.Wall;
+import course.Windmill;
 import entities.GolfBall;
 import geometry.Rectangle;
 import geometry.Vector2D;
@@ -35,7 +36,8 @@ import visibleObjects.VisibleObject;
 
 public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,Painter, ActionListener{
 
-	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4,SC_SCORECARD=5;
+	public static final int SC_MAIN_MENU=0,SC_GOLF_GAME=1,SC_CUT_SCENE=2,SC_TUTORIAL_GAME=3,SC_SETTINGS_GAME=4,
+			SC_SCORECARD=5, SC_PAUSE_MENU=6;
 	public Display display;
 	boolean running=true;
 	GolfCourse course,c1,c2;
@@ -44,6 +46,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	GUI gui;
 	MenuButton[] menuButtons;
 	MenuButton[] settingsButtons;
+	MenuButton[] scorecardButtons;
+	MenuButton pauseButton;
 	int mX=0,mY=0;
 	private boolean putting=false;
 	private double updatePerSecond=100;
@@ -52,6 +56,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	private boolean mouseDown=false;
 	double volume=0.5;
 	Render2D lastScreen, newScreen;
+	int holeNumber=0;
+	Scorecard scorecard;
+	public static int backScreen=SC_MAIN_MENU;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -64,6 +71,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		display.addMouseListener(this);
 		menuButtons=MenuButton.getMenuButtons(this);
 		settingsButtons=MenuButton.getSettingsButtons(this);
+		scorecardButtons=MenuButton.getScorecardButtons(this);
+		pauseButton=new MenuButton.PauseButton(this);
+		
 		course=new GolfCourse(new Vector2D(0,0),0);
 		gui=new GUI(course);
 		
@@ -72,6 +82,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 		c1=new GolfCourse(new Vector2D(400,300), 5);
 		c1.addObstacle(new Wall(new Rectangle(40,250,40,300)));
+		Windmill spinny=new Windmill(new Vector2D(300,300),40,5);
+		c1.addEntity(spinny);
+		c1.addObstacle(spinny);
 		c1.addObstacle(new Wall(new Rectangle(400,80,760,40)));
 		c1.addObstacle(new Wall(new Rectangle(400,420,760,40)));
 		c1.addObstacle(new Wall(new Rectangle(760,250,40,300)));
@@ -127,13 +140,17 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				gui.powerLevel=0;
 			}
 			gui.render(r);
+			pauseButton.render(r);
 			break;
 		}
 		
 		case SC_SCORECARD:{
 			r.draw(lastScreen, 0, 0);
-			gui.renderScorecard(r);
-		}
+			renderScorecard(r);
+			for(MenuButton mb:scorecardButtons)
+				mb.render(r);
+			break;
+			}
 		}
 	}
 	
@@ -162,6 +179,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				mb.update(mX, mY);
 				
 			for(MenuButton mb:settingsButtons)
+				mb.update(mX, mY);
+			
+			for(MenuButton mb:scorecardButtons)
 				mb.update(mX, mY);
 			
 			display.Render();
@@ -207,8 +227,16 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			break;
 		}
 		
+		case SC_SCORECARD:{
+			for(MenuButton mb:scorecardButtons)
+				mb.click(mX, mY);
+			break;
+		}
+		
 		case SC_GOLF_GAME:{
-			mouseDown=true;
+			pauseButton.click(mX, mY);
+			if(!pauseButton.isWithin(mX, mY))
+				mouseDown=true;
 			break;
 		}
 		}
@@ -217,6 +245,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mouseReleased(MouseEvent arg0) {
+		if(arg0.getButton()==MouseEvent.BUTTON1)
 		switch(screen){
 		case SC_MAIN_MENU:{
 			for(MenuButton mb:menuButtons)
@@ -263,14 +292,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void setScreen(int i){
+		backScreen=screen;
 		render(lastScreen);
 		screen=i;
 		render(newScreen);
 		if(i==SC_SCORECARD){
 			for(int y=0;y<lastScreen.height;y++)
-				lastScreen.blurRow(3, y);
+				lastScreen.blurRow(5, y);
 			for(int y=0;y<lastScreen.width;y++)
-				lastScreen.blurColumn(3, y);
+				lastScreen.blurColumn(5, y);
 		}
 	}
 	
@@ -279,6 +309,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void startGame() {
+		scorecard=new Scorecard();
 		if(!playing){
 			new Timer((int)(1000/updatePerSecond),this).start();
 			playing=true;
@@ -307,6 +338,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		course.update((int)(1000/updatePerSecond)/10);
 		if(course.scored(ball)){
 			course.removeEntity(ball);
+			scorecard.setStrokes("Player 1", holeNumber,ball.putts);
+			setScreen(SC_SCORECARD);
 			loadCourse(c2);
 		}
 		if(ball.getVelocity().isZeroed()&&!putting){
@@ -323,6 +356,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		course.addEntity(ball);
 		gui=new GUI(course);
 		gui.parNum=course.par;
+		holeNumber++;
 	}
 
 	public void setVolume(double amount) {
@@ -332,6 +366,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void setDifficulty(double d) {
 		
+	}
+	
+	public void renderScorecard(Render2D r){
+		scorecard.render(r);
 	}
 
 }

@@ -219,5 +219,10 @@ public abstract class Shape implements Cloneable{
 	}
 	
 	public abstract void render(Graphics g);
+
+	public void rotateAbout(Vector2D point,double theta){
+		position=position.rotateAbout(point, theta);
+		this.rotate(theta);
+	}
 	
 }

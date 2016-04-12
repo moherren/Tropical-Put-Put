@@ -25,16 +25,10 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 	double X,Y;
 	
 	public Wall(Polygon shape,Color c) {
-		sides=shape.toLines();
 		this.shape=shape;
-		normals=calculateNormals(sides);
+		calculateNormals();
 		color=c;
-		for(Vector2D v:shape.points){
-			minX=(int) Math.min(minX, v.x);
-			minY=(int) Math.min(minY, v.y);
-			maxX=(int) Math.max(maxX, v.x);
-			maxY=(int) Math.max(maxY, v.y);
-		}
+		calculateRenderBounds();
 		int r=c.getRed();
 		int b=c.getBlue();
 		int g=c.getGreen();
@@ -42,22 +36,13 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		rgb = (rgb << 8) + g;
 		rgb = (rgb << 8) + b;
 		col=rgb;
-		Vector2D v=shape.getPosition();
-		X=v.x;
-		Y=v.y;
 	}
 
 	public Wall(Polygon shape){
-		sides=shape.toLines();
 		this.shape=shape;
-		normals=calculateNormals(sides);
+		calculateNormals();
 		color=Color.black;
-		for(Vector2D v:shape.points){
-			minX=(int) Math.min(minX, v.x);
-			minY=(int) Math.min(minY, v.y);
-			maxX=(int) Math.max(maxX, v.x);
-			maxY=(int) Math.max(maxY, v.y);
-		}
+		calculateRenderBounds();
 		Color c=new Color(1);
 		int r=c.getRed();
 		int b=c.getBlue();
@@ -66,9 +51,6 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		rgb = (rgb << 8) + g;
 		rgb = (rgb << 8) + b;
 		col=rgb;
-		Vector2D v=shape.getPosition();
-		X=v.x;
-		Y=v.y;
 	}
 	
 	public void render(Render2D r){
@@ -131,6 +113,11 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		
 	}
 	
+	public void calculateNormals(){
+		sides=shape.toLines();
+		normals=calculateNormals(sides);
+	}
+	
 	public static Vector2D[] calculateNormals(Line[] sides){
 		Vector2D[] normals=new Vector2D[sides.length];
 		
@@ -155,5 +142,18 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 	
 	public double getElasticity(){
 		return elasticity;
+	}
+	
+	public void calculateRenderBounds(){
+		for(Vector2D v:shape.points){
+			minX=(int) Math.min(minX, v.x);
+			minY=(int) Math.min(minY, v.y);
+			maxX=(int) Math.max(maxX, v.x);
+			maxY=(int) Math.max(maxY, v.y);
+		}
+		Vector2D v=shape.getPosition();
+		X=v.x;
+		Y=v.y;
+		
 	}
 }

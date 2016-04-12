@@ -26,7 +26,7 @@ public class Scorecard implements VisibleObject{
 	}
 	
 	public void generateCard(){
-		card=new Render(620,players.size()*20+24);
+		card=new Render(650,players.size()*20+24);
 		
 		Arrays.fill(card.pixels, 0xffffff);
 		

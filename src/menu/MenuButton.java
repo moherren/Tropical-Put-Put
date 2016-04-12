@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import game.Game;
 import geometry.Vector2D;
+import graphics.Display;
 import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
@@ -135,7 +136,7 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			game.setScreen(Game.SC_MAIN_MENU);
+			game.setScreen(Game.backScreen);
 		}
 	}
 	
@@ -231,6 +232,36 @@ public class MenuButton implements VisibleObject{
 					r.drawString("Difficulty: "+(int)(sliderX*100/(sprite.width*1.0))+"%", x, sliderY-5, 1);
 				else
 					r.drawString("Difficulty: Baby", x, sliderY-5, 1);
+		}
+	}
+	
+	
+	
+	
+	public static MenuButton[] getScorecardButtons(Game game){
+		MenuButton[] mb=new MenuButton[1];
+		mb[0]=new NextCourseButton(game);
+		return mb;
+	}
+	
+	public static class NextCourseButton extends MenuButton{
+		public NextCourseButton(Game g){
+			super(Display.WIDTH-50-150,Display.HEIGHT-50-50,Texture.getSpriteSheet(buttons, 150, 50, 5),g);
+		}
+		
+		public void click(){
+			game.setScreen(Game.SC_GOLF_GAME);
+		}
+		
+	}
+	
+	public static class PauseButton extends MenuButton{
+		public PauseButton(Game g){
+			super(Display.WIDTH-15-50,15,Texture.loadBitmap("textures/pauseButton.png"),g);
+		}
+		
+		public void click(){
+			game.setScreen(Game.SC_PAUSE_MENU);
 		}
 	}
 }

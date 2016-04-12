@@ -37,6 +37,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public double tiltSpringConstant=0.001;// in F=-kx, the k
 	public Vector2D ballStart;
 	public int par;
+	Render2D background=null;
 	
 	public static Render tiles=Texture.loadBitmap("textures/tiles.png");
 	public static Render tilesA[]=new Render[3];
@@ -151,23 +152,29 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 	
 	public void render(Render2D r){
+		if(background==null){
+			background=new Render2D(r.width,r.height);
+			
+			for(int x=0;x<r.width;x++)
+				for(int y=0;y<r.height;y++)
+					background.pixels[x+y*r.width]=tilesA[2].pixels[(x%tilesA[2].width)+(y%tilesA[2].height)*tilesA[2].width];
+			for(Surface s:surfaces){
+				s.render(background);
+			}
+			for(Hole h:holes){
+				h.render(background);
+			}
+		}
+		r.draw(background, 0, 0);
 		
-		for(int x=0;x<r.width;x++)
-			for(int y=0;y<r.height;y++)
-				r.pixels[x+y*r.width]=tilesA[2].pixels[(x%tilesA[2].width)+(y%tilesA[2].height)*tilesA[2].width];
-		for(Surface s:surfaces){
-			s.render(r);
-		}
-		for(Hole h:holes){
-			h.render(r);
-		}
 		for(Entity e:entities){
 			if(e instanceof VisibleObject){
 				((VisibleObject)e).render(r);
 			}
 		}
 		for(Obstacle o:obstacles){
-			o.render(r);
+			if(!(o instanceof Entity))
+				o.render(r);
 		}
 		
 	}
