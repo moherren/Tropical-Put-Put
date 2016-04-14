@@ -83,7 +83,8 @@ public class Scorecard implements VisibleObject{
 	}
 	
 	public void setPars(int hole,int strokes){
-		this.pars[hole-1]=strokes;
+		if(hole<18)
+		this.pars[hole]=strokes;
 	}
 	
 	public double getComplimentScore(String name){
@@ -92,7 +93,6 @@ public class Scorecard implements VisibleObject{
 				double strokes=p.getTotalScore();
 				strokes-=totalParScore();
 				strokes/=-18.0;
-				strokes+=1;
 				return strokes;
 			}
 		}
@@ -120,7 +120,7 @@ class Player{
 	}
 	
 	public void setStrokes(int hole,int strokes){
-		this.strokes[hole]=strokes;
+		this.strokes[hole-1]=strokes;
 	}
 	
 	public void generateSlot(){		
@@ -153,7 +153,7 @@ class Player{
 		int sum=0;
 		for(int i=0;i<strokes.length;i++){
 			if(strokes[i]>-1){
-				slot.drawDetailedString(strokes[i]+"", 90+(i-1)*30, 16, 1);
+				slot.drawDetailedString(strokes[i]+"", 90+(i)*30, 16, 1);
 				sum+=strokes[i];
 			}
 		}

@@ -149,11 +149,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_SCORECARD:{
 			r.draw(lastScreen, 0, 0);
 			renderScorecard(r);
-			if(holeNumber!=19)
+			if(holeNumber<19)
 				for(MenuButton mb:scorecardButtons)
 					mb.render(r);
-			else
+			else{
 				finalScorecard.render(r);
+				gui.renderTip(r);
+			}
 			break;
 			}
 		
@@ -248,7 +250,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_SCORECARD:{
-			if(holeNumber!=19)
+			if(holeNumber<19)
 				for(MenuButton mb:scorecardButtons)
 					mb.click(mX, mY);
 			else
@@ -354,6 +356,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void startGame() {
 		scorecard=new Scorecard();
 		if(!playing){
+			holeNumber=0;
 			timer=new Timer((int)(1000/updatePerSecond),this);
 			timer.start();
 			playing=true;
@@ -378,6 +381,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 	}
 	
+	public void stopGame(){
+		playing=false;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		course.update((int)(1000/updatePerSecond)/10);
 		if(course.scored(ball)){
@@ -385,7 +392,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			scorecard.setStrokes("Player 1", holeNumber,ball.putts);
 			setScreen(SC_SCORECARD);
 			
-			loadCourse(c2);
+			
+				loadCourse(c2);
+			if(holeNumber==19){
+				compliment("Player 1");
+			}
 		}
 		if(ball.getVelocity().isZeroed()&&!putting){
 			putting=true;
@@ -395,14 +406,31 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 	}
 	
+	private void compliment(String string) {
+		double ability=scorecard.getComplimentScore(string);
+		
+		if(ability>=1)
+			gui.setTip(TextBox.TB_CHAT, "Wow a perfect game! You're a Putt-Putt champion!");
+		else if(ability>=0.5)
+			gui.setTip(TextBox.TB_CHAT, "Really great game! You should play professionally!");
+		else if(ability>=-0.05)
+			gui.setTip(TextBox.TB_CHAT, "You got a good score! Way to go!");
+		else if(ability>=-0.3)
+			gui.setTip(TextBox.TB_CHAT, "Not bad!");
+		else if(ability>=-0.5)
+			gui.setTip(TextBox.TB_CHAT, "Don't worry about the score, you'll do better next time!");
+		else if(ability>=-0.7)
+			gui.setTip(TextBox.TB_CHAT, "Maybe you should practice some more!");
+	}
+
 	public void loadCourse(GolfCourse gc){
+		scorecard.setPars(holeNumber, course.par);
 		course=gc;
 		ball=new GolfBall(gc.ballStart.clone(),gc);
 		course.addEntity(ball);
 		gui=new GUI(course);
 		gui.parNum=course.par;
 		holeNumber++;
-		scorecard.setPars(holeNumber, course.par);
 	}
 
 	public void setVolume(double amount) {
