@@ -19,9 +19,11 @@ import course.GolfCourse;
 import course.Grass;
 import course.Hole;
 import course.Ice;
+import course.MovingWall;
 import course.Wall;
 import course.Windmill;
 import entities.GolfBall;
+import geometry.Line;
 import geometry.Rectangle;
 import geometry.Vector2D;
 import graphics.Display;
@@ -89,6 +91,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		c1.addObstacle(new Wall(new Rectangle(400,420,760,40)));
 		c1.addObstacle(new Wall(new Rectangle(760,250,40,300)));
 		c1.addSurface(new Grass(new Rectangle(500,250,400,300)));
+		MovingWall movie=new MovingWall(new Rectangle(300,300,100,10),new Line(new Vector2D(700,300),new Vector2D(300,300)));
+		c1.addEntity(movie);
+		c1.addObstacle(movie);
 		c1.addHole(new Hole(new Vector2D(200,200),8));
 		c2=new GolfCourse(new Vector2D(400,300), 2);
 		c2.addObstacle(new Wall(new Rectangle(40,250,40,300)));
@@ -328,6 +333,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 						course.tiltDirection=newTilt;
 						course.tiltAngle=newAngle;
 						course.tiltVelocity=newVelocity;
+						System.out.println("new ship heading target:");
+						Vector2D newTarget=new Vector2D(scan.nextDouble(),scan.nextDouble()).normalize();
+						System.out.println(course.shipHeadingTarget);
+						System.out.println(course.shipHeading);
+						course.setTargetHeading(newTarget);
 					}
 				}
 			}.start();
@@ -348,6 +358,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		else if(putting&&mouseDown){
 			gui.powerLevel=gui.powerLevel%1+0.005;
 		}
+		else{
+			putting=false;
+			gui.powerLevel=0;
+		}
+		
 	}
 	
 	public void loadCourse(GolfCourse gc){

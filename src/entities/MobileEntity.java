@@ -2,7 +2,7 @@ package entities;
 
 import geometry.Vector2D;
 
-public class MobileEntity extends Entity{
+public class MobileEntity implements Entity{
 
 	protected Vector2D velocity;
 	protected Vector2D acceleration=new Vector2D(0,0);

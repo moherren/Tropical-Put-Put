@@ -26,7 +26,9 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public long time=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
-	
+	public Vector2D shipHeading=new Vector2D(1,0);
+	public Vector2D shipHeadingTarget=new Vector2D(1,0);
+	public double shipTurnSpeed=0.05;//in degrees
 	public double tiltAngle=0;//in degrees
 	public Vector2D tiltDirection;
 	public double targetTiltAngle=0;//in degrees
@@ -113,8 +115,22 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		targetTiltDirection=direction;
 	}
 	
+	public void setTargetHeading(Vector2D target){
+		shipHeadingTarget=target;
+	}
+	
 	public void update(double time){
 		//move tilt towards targetTiltasdf
+		if(!shipHeading.equals(shipHeadingTarget)){
+			double theta=Math.toDegrees(shipHeading.angleTo(shipHeadingTarget));
+			if(Math.abs(theta)>shipTurnSpeed*time){
+				turn(shipTurnSpeed*time*Math.signum(theta));
+			}
+			else{
+				turn(theta);
+				shipHeadingTarget=shipHeading.clone();
+			}
+		}
 		Vector2D tilt=tiltDirection.mult(tiltAngle);
 		tilt.iadd(tiltVelocity.mult(time));
 		Vector2D tiltAcceleration=tilt.negative().mult(tiltSpringConstant);
@@ -214,6 +230,12 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		}
 		
 		
+	}
+	
+	public void turn(double theta){
+		shipHeading=shipHeading.rotate(Math.toRadians(theta));
+		tiltDirection=tiltDirection.rotate(Math.toRadians(theta));
+		tiltVelocity=tiltVelocity.rotate(Math.toRadians(theta));
 	}
 
 }

@@ -12,7 +12,7 @@ import geometry.Rectangle;
 import geometry.Shape;
 import geometry.Vector2D;
 
-public class Windmill extends Entity implements VisibleObject,Obstacle{
+public class Windmill implements VisibleObject,Obstacle,Entity{
 
 //	private ArrayList<Polygon> fins;
 	private ArrayList<Wall> fins;

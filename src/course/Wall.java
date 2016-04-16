@@ -15,10 +15,10 @@ import entities.GameEntity;
 
 public class Wall implements VisibleObject,Obstacle,TempGraphics{
 
-	private Line[] sides;
-	private Polygon shape;
-	private Vector2D[] normals;
-	private Color color;
+	protected Line[] sides;
+	protected Polygon shape;
+	protected Vector2D[] normals;
+	protected Color color;
 	private int col=0xffffff;
 	public double elasticity=0.3;//percentage of speed that is conserved in collisions
 	int minX=Integer.MAX_VALUE,minY=Integer.MAX_VALUE,maxX=Integer.MIN_VALUE,maxY=Integer.MIN_VALUE;
