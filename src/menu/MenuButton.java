@@ -18,6 +18,7 @@ public class MenuButton implements VisibleObject{
 	Render sprite;
 	boolean hover=false;
 	Game game;
+	static Render ball=Texture.loadBitmap("textures/ball.png");
 	static Render buttons=Texture.loadBitmap("textures/buttons2.png");
 	
 	private MenuButton(int x,int y,Render sprite,Game game){
@@ -52,7 +53,10 @@ public class MenuButton implements VisibleObject{
 
 	public void render(Render2D r) {
 		r.draw(sprite, x, y);
-		
+		if(hover&&game.getScreen()==Game.SC_MAIN_MENU){
+			r.draw(ball,x-50,y);
+			r.draw(ball,x+sprite.width,y);
+		}
 	}
 	
 	public void update(){
