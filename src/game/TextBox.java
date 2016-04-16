@@ -3,6 +3,8 @@ package game;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -14,7 +16,7 @@ import graphics.Render2D;
 import graphics.Texture;
 import visibleObjects.VisibleObject;
 
-public class TextBox implements VisibleObject{
+public class TextBox implements VisibleObject,ActionListener{
 	public final static int TB_HELP=0,TB_CHAT=1,TB_INSTRUCT=2;
 	int type;
 	int x,y;
@@ -197,5 +199,21 @@ public class TextBox implements VisibleObject{
 	
 	public void moveOn(){
 		visible=false;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		switch(type){
+			case TB_CHAT:{
+				visible=false;
+				break;
+			}
+			case TB_HELP:{
+				break;
+			}
+			case TB_INSTRUCT:{
+				break;
+			}
+		}
 	}
 }

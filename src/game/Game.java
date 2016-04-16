@@ -29,6 +29,7 @@ import geometry.Vector2D;
 import graphics.Display;
 import graphics.Render;
 import graphics.Render2D;
+import graphics.Texture;
 import menu.Background;
 import menu.GUI;
 import menu.MenuButton;
@@ -49,7 +50,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	MenuButton[] menuButtons;
 	MenuButton[] settingsButtons;
 	MenuButton[] scorecardButtons;
+	MenuButton[] pauseMenuButtons;
 	MenuButton pauseButton;
+	MenuButton finalScorecard;
 	int mX=0,mY=0;
 	private boolean putting=false;
 	private double updatePerSecond=100;
@@ -61,6 +64,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	int holeNumber=0;
 	Scorecard scorecard;
 	public static int backScreen=SC_MAIN_MENU;
+	Timer timer;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -74,7 +78,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		menuButtons=MenuButton.getMenuButtons(this);
 		settingsButtons=MenuButton.getSettingsButtons(this);
 		scorecardButtons=MenuButton.getScorecardButtons(this);
+		pauseMenuButtons=MenuButton.getPauseMenuButtons(this);
 		pauseButton=new MenuButton.PauseButton(this);
+		finalScorecard=new MenuButton.MainMenuReturnButton(this);
 		
 		course=new GolfCourse(new Vector2D(0,0),0);
 		gui=new GUI(course);
@@ -152,9 +158,21 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_SCORECARD:{
 			r.draw(lastScreen, 0, 0);
 			renderScorecard(r);
-			for(MenuButton mb:scorecardButtons)
-				mb.render(r);
+			if(holeNumber<19)
+				for(MenuButton mb:scorecardButtons)
+					mb.render(r);
+			else{
+				finalScorecard.render(r);
+				gui.renderTip(r);
+			}
 			break;
+			}
+		
+			case SC_PAUSE_MENU:{
+				r.draw(lastScreen, 0, 0);
+				for(MenuButton mb:pauseMenuButtons)
+					mb.render(r);
+				break;
 			}
 		}
 	}
@@ -219,6 +237,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void mousePressed(MouseEvent arg0) {
 		switch(screen){
+		case SC_GOLF_GAME:{
+			pauseButton.click(mX, mY);
+			if(!pauseButton.isWithin(mX, mY))
+				mouseDown=true;
+			break;
+		}
+		
 		case SC_MAIN_MENU:{
 			for(MenuButton mb:menuButtons)
 				mb.click(mX, mY);
@@ -226,6 +251,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_SETTINGS_GAME:{
+			if(!settingsButtons[0].isWithin(mX, mY))
 			mouseDown=true;
 			for(MenuButton mb:settingsButtons)
 				mb.click(mX, mY);
@@ -233,15 +259,11 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 		
 		case SC_SCORECARD:{
-			for(MenuButton mb:scorecardButtons)
-				mb.click(mX, mY);
-			break;
-		}
-		
-		case SC_GOLF_GAME:{
-			pauseButton.click(mX, mY);
-			if(!pauseButton.isWithin(mX, mY))
-				mouseDown=true;
+			if(holeNumber<19)
+				for(MenuButton mb:scorecardButtons)
+					mb.click(mX, mY);
+			else
+				finalScorecard.click(mX, mY);
 			break;
 		}
 		}
@@ -273,6 +295,12 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			mouseDown=false;
 			break;
 		}
+		
+		case SC_PAUSE_MENU:{
+			for(MenuButton mb:pauseMenuButtons)
+				mb.click(mX, mY);
+			break;
+		}
 		}
 	}
 
@@ -297,6 +325,12 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void setScreen(int i){
+		if(i==SC_PAUSE_MENU)
+			pause();
+		
+		else if(i==SC_GOLF_GAME&&screen==SC_GOLF_GAME)
+			unpause();
+		
 		backScreen=screen;
 		render(lastScreen);
 		screen=i;
@@ -307,6 +341,21 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			for(int y=0;y<lastScreen.width;y++)
 				lastScreen.blurColumn(5, y);
 		}
+		if(i==SC_PAUSE_MENU){
+			lastScreen.convertToGray(1);
+			Render2D panel=new Render2D(200,190);
+			Texture.addGUIEdging(panel, 0xffffff, 5);
+			lastScreen.draw(panel, lastScreen.width/2-panel.width/2, lastScreen.height/2-panel.height/2);
+			lastScreen.setFont("LithosBlack.ttf");
+			lastScreen.setFont(lastScreen.getFont().deriveFont(64f));
+			lastScreen.drawDetailedString("Paused", 260, 150, 1);
+			lastScreen.setFont(lastScreen.getFont().deriveFont(24f));
+		}
+	}
+	
+	public void setScreen(int i,int backScreen){
+		screen=backScreen;
+		setScreen(i);
 	}
 	
 	public int getScreen() {
@@ -316,7 +365,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void startGame() {
 		scorecard=new Scorecard();
 		if(!playing){
-			new Timer((int)(1000/updatePerSecond),this).start();
+			holeNumber=0;
+			timer=new Timer((int)(1000/updatePerSecond),this);
+			timer.start();
 			playing=true;
 			loadCourse(c1);
 			putting=true;
@@ -344,6 +395,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		}
 	}
 	
+	public void stopGame(){
+		playing=false;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		course.update((int)(1000/updatePerSecond)/10);
 		if(course.scored(ball)){
@@ -351,6 +406,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			scorecard.setStrokes("Player 1", holeNumber,ball.putts);
 			setScreen(SC_SCORECARD);
 			loadCourse(c2);
+			if(holeNumber==19){
+				compliment("Player 1");
+			}
 		}
 		if(ball.getVelocity().isZeroed()&&!putting){
 			putting=true;
@@ -365,7 +423,25 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 	}
 	
+	private void compliment(String string) {
+		double ability=scorecard.getComplimentScore(string);
+		
+		if(ability>=1)
+			gui.setTip(TextBox.TB_CHAT, "Wow a perfect game! You're a Putt-Putt champion!");
+		else if(ability>=0.5)
+			gui.setTip(TextBox.TB_CHAT, "Really great game! You should play professionally!");
+		else if(ability>=-0.05)
+			gui.setTip(TextBox.TB_CHAT, "You got a good score! Way to go!");
+		else if(ability>=-0.3)
+			gui.setTip(TextBox.TB_CHAT, "Not bad!");
+		else if(ability>=-0.5)
+			gui.setTip(TextBox.TB_CHAT, "Don't worry about the score, you'll do better next time!");
+		else if(ability>=-0.7)
+			gui.setTip(TextBox.TB_CHAT, "Maybe you should practice some more!");
+	}
+
 	public void loadCourse(GolfCourse gc){
+		scorecard.setPars(holeNumber, course.par);
 		course=gc;
 		ball=new GolfBall(gc.ballStart.clone(),gc);
 		course.addEntity(ball);
@@ -387,4 +463,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		scorecard.render(r);
 	}
 
+	public void pause(){
+		timer.stop();
+		timer=new Timer((int)(1000/updatePerSecond),this);
+	}
+	
+	public void unpause(){
+		
+		timer.start();
+	}
 }

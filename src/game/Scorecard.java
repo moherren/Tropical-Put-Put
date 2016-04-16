@@ -15,7 +15,8 @@ import visibleObjects.VisibleObject;
 public class Scorecard implements VisibleObject{
 	ArrayList<Player> players=new ArrayList<Player>();
 	Render card=null;
-
+	int[] pars=new int[18];
+	
 	public Scorecard(){
 		addPlayer("Player 1");
 	}
@@ -81,6 +82,31 @@ public class Scorecard implements VisibleObject{
 		r.draw(card, r.width/2-card.width/2, r.height/2-card.height/2);
 	}
 	
+	public void setPars(int hole,int strokes){
+		if(hole<18)
+		this.pars[hole]=strokes;
+	}
+	
+	public double getComplimentScore(String name){
+		for(Player p:players){
+			if(p.name.equals(name)){
+				double strokes=p.getTotalScore();
+				strokes-=totalParScore();
+				strokes/=-18.0;
+				return strokes;
+			}
+		}
+		return -1;
+	}
+
+	private int totalParScore() {
+		int sum=0;
+		for(int i=0;i<pars.length;i++){
+			sum+=pars[i];
+		}
+		return sum;
+	}
+	
 }
 
 class Player{
@@ -94,7 +120,7 @@ class Player{
 	}
 	
 	public void setStrokes(int hole,int strokes){
-		this.strokes[hole]=strokes;
+		this.strokes[hole-1]=strokes;
 	}
 	
 	public void generateSlot(){		
@@ -127,7 +153,7 @@ class Player{
 		int sum=0;
 		for(int i=0;i<strokes.length;i++){
 			if(strokes[i]>-1){
-				slot.drawDetailedString(strokes[i]+"", 90+(i-1)*30, 16, 1);
+				slot.drawDetailedString(strokes[i]+"", 90+(i)*30, 16, 1);
 				sum+=strokes[i];
 			}
 		}
@@ -143,5 +169,15 @@ class Player{
 			if(slot.pixels[i]==0xffffff)
 				slot.pixels[i]=0;
 		}
+	}
+	
+	public int getTotalScore(){
+		int sum=0;
+		for(int i=0;i<strokes.length;i++){
+			if(strokes[i]>-1){
+				sum+=strokes[i];
+			}
+		}
+		return sum;
 	}
 }
