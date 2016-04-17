@@ -139,4 +139,17 @@ public class GUI implements VisibleObject{
 		r.draw(tiltCircle, X, Y);
 		r.draw(tiltBall, tiltCircle.width/2+X+tiltX-tiltBall.width/2, tiltCircle.height/2+Y+tiltY-tiltBall.width/2);
 	}
+	
+	public void renderTip(Render2D r){
+		tip.render(r);
+	}
+	
+	public void setTip(int type,String text){
+		switch(type){
+		case TextBox.TB_CHAT:{
+			tip=TextBox.newChatBox(200, 450, 400, 100, text);
+			break;
+			}
+		}
+	}
 }

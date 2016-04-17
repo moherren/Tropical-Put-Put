@@ -405,7 +405,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			course.removeEntity(ball);
 			scorecard.setStrokes("Player 1", holeNumber,ball.putts);
 			setScreen(SC_SCORECARD);
-			loadCourse(c2);
+			
+			
+				loadCourse(c2);
 			if(holeNumber==19){
 				compliment("Player 1");
 			}

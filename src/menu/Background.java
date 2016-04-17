@@ -49,7 +49,7 @@ public class Background implements VisibleObject{
 		case Game.SC_MAIN_MENU:{
 			long time=(int) (System.currentTimeMillis());
 			for(int x=0;x<r.width;x++){
-				for(int y=400;y<r.height;y++){
+				for(int y=400;y<500;y++){
 					double alter=0.9;
 					if(y>440)
 						alter=1.1;
@@ -67,6 +67,26 @@ public class Background implements VisibleObject{
 				}
 			}
 			
+			r.draw(ship, r.width-550+(int)(Math.cos(time/1500.00)*20), r.height/2+(int)(Math.sin(time/500.00)*3)+3);
+			
+			for(int x=0;x<r.width;x++){
+				for(int y=500;y<r.height;y++){
+					double alter=0.9;
+					if(y>440)
+						alter=1.1;
+					if(y>480)
+						alter=1.3;
+					if(y>520)
+						alter=1.5;
+					if(y>560)
+						alter=1.7;
+					
+					//alter=1.6;
+					
+					int newChange=(int) (time*alter/20%waterTile.width);
+					r.pixels[x+y*r.width]=waterTile.pixels[(((x-newChange)%waterTile.width+waterTile.width)%waterTile.width)+((y-400)%waterTile.height)*waterTile.width];
+				}
+			}
 			
 			double rayRadius=175;
 			double increment=1/rayRadius;
@@ -76,23 +96,23 @@ public class Background implements VisibleObject{
 			int beginY=0;
 			
 			for(double i=0;i<Math.PI/16.0;i+=increment){
-				int endX=(int) (beginX+Math.cos((beginRad+i)%(Math.PI/2.0)-Math.PI)*rayRadius);
-				int endY=(int) (beginY+Math.sin((beginRad+i)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endX=(int) (beginX+Math.cos((beginRad-i-Math.PI/16.0*4)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endY=(int) (beginY-Math.sin((beginRad-i-Math.PI/16.0*4)%(Math.PI/2.0)-Math.PI)*rayRadius);
 				drawRay(r, 0xFCDC3B, beginX, beginY, endX, endY);
 			}
 			
 			for(double i=0;i<Math.PI/16.0;i+=increment){
-				int endX=(int) (beginX+Math.cos((beginRad+i+Math.PI/4.0)%(Math.PI/2.0)-Math.PI)*rayRadius);
-				int endY=(int) (beginY+Math.sin((beginRad+i+Math.PI/4.0)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endX=(int) (beginX+Math.cos((beginRad+i+Math.PI/16.0*7)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endY=(int) (beginY-Math.sin((beginRad+i+Math.PI/16.0*7)%(Math.PI/2.0)-Math.PI)*rayRadius);
 				drawRay(r, 0xFCDC3B, beginX, beginY, endX, endY);
 			}
 			
 			r.draw(sun, 775, -25);
 				
 			for(int i=0;i<cloudXs.length;i++){
-				drawCloud((int)((cloudXs[i]+(time/50.0))%(r.width+cloud.width))+(r.width),cloudYs[i],r);
+				drawCloud((int)((cloudXs[i]+(time/50.0))%(r.width+cloud.width)-cloud.width),cloudYs[i],r);
 			}
-			r.draw(ship, r.width-ship.width, r.height/2-ship.height/2);
+			
 			
 			r.draw(title, 250, 50);
 			
@@ -113,7 +133,9 @@ public class Background implements VisibleObject{
 			if(x>=0&&y>=0&&x<r.width&&y<r.height){
 				r.pixels[x+y*r.width]=Render.mixColor(0x87CEEB, color, 1-(i/length));
 			}
-		}			
+		}		
+		
+		
 	}
 	
 	public void drawCloud(int x,int y,Render r){
@@ -124,4 +146,5 @@ public class Background implements VisibleObject{
 		r.draw(settingsBack, 0, 0);
 		
 	}
+	
 }

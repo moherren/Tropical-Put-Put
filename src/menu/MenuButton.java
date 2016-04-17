@@ -18,6 +18,7 @@ public class MenuButton implements VisibleObject{
 	Render sprite;
 	boolean hover=false;
 	Game game;
+	static Render ball=Texture.loadBitmap("textures/ball.png");
 	static Render buttons=Texture.loadBitmap("textures/buttons2.png");
 	
 	private MenuButton(int x,int y,Render sprite,Game game){
@@ -52,7 +53,10 @@ public class MenuButton implements VisibleObject{
 
 	public void render(Render2D r) {
 		r.draw(sprite, x, y);
-		
+		if(hover&&game.getScreen()==Game.SC_MAIN_MENU){
+			r.draw(ball,x-50,y);
+			r.draw(ball,x+sprite.width,y);
+		}
 	}
 	
 	public void update(){
@@ -77,8 +81,8 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			game.setScreen(Game.SC_GOLF_GAME);
 			game.startGame();
+			game.setScreen(Game.SC_GOLF_GAME);
 		}
 		
 	}
@@ -136,7 +140,7 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			game.setScreen(Game.backScreen);
+			game.setScreen(Game.backScreen,Game.SC_GOLF_GAME);
 		}
 	}
 	
@@ -262,6 +266,43 @@ public class MenuButton implements VisibleObject{
 		
 		public void click(){
 			game.setScreen(Game.SC_PAUSE_MENU);
+		}
+	}
+	
+	public static MenuButton[] getPauseMenuButtons(Game game){
+		MenuButton[] mb=new MenuButton[3];
+		mb[0]=new SettingsButton(game);
+		mb[0].y=275-53;
+		mb[1]=new MainMenuButton(game);
+		mb[2]=new BackButton(game);
+		mb[2].x=325;
+		mb[2].y=mb[1].y+53;
+		return mb;
+	}
+	
+	public static class MainMenuButton extends MenuButton{
+		public MainMenuButton(Game g){
+			super(325,275,Texture.getSpriteSheet(buttons, 150, 50, 6),g);
+		}
+		public void click(){
+			int n = JOptionPane.showConfirmDialog(
+				    game.display,
+				    "Are you sure you'd like to quit to the main menu?",
+				    "Tropical Cruise Putt-Putt",
+				    JOptionPane.YES_NO_OPTION);
+			if(n==0)
+			game.setScreen(Game.SC_MAIN_MENU);
+		}
+	}
+	
+	public static class MainMenuReturnButton extends MenuButton{
+		public MainMenuReturnButton(Game g){
+			super(Display.WIDTH-50-150,Display.HEIGHT-50-50,Texture.getSpriteSheet(buttons, 150, 50, 6),g);
+		}
+		public void click(){
+			game.setScreen(Game.SC_MAIN_MENU);
+			game.stopGame();
+			game.pause();
 		}
 	}
 }
