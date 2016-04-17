@@ -97,9 +97,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		c1.addObstacle(new Wall(new Rectangle(400,420,760,40)));
 		c1.addObstacle(new Wall(new Rectangle(760,250,40,300)));
 		c1.addSurface(new Grass(new Rectangle(500,250,400,300)));
-		MovingWall movie=new MovingWall(new Rectangle(300,300,100,10),new Line(new Vector2D(700,300),new Vector2D(300,300)));
-		c1.addEntity(movie);
-		c1.addObstacle(movie);
+		MovingWall movie=new MovingWall(new Rectangle(300,300,100,10),new Line(new Vector2D(500,300),new Vector2D(300,300)));
+//		c1.addEntity(movie);
+//		c1.addObstacle(movie);
 		c1.addHole(new Hole(new Vector2D(200,200),8));
 		c2=new GolfCourse(new Vector2D(400,300), 2);
 		c2.addObstacle(new Wall(new Rectangle(40,250,40,300)));

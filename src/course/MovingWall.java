@@ -52,6 +52,7 @@ public class MovingWall extends Wall implements Entity{
 		}
 		position.iadd(velocity.mult(time));
 		shape.setPosition(position);
+		sides=shape.toLines();
 	}
 	
 	public void render(Render2D r){
@@ -62,8 +63,13 @@ public class MovingWall extends Wall implements Entity{
 			}
 	}
 	
-	public void handleCollision(GameEntity e){
-		
+	public void handleCollision(GameEntity entity){
+		Vector2D normal=getNormal(entity.shape);
+		if(normal!=null&&!normal.isZeroed()){
+			Vector2D relativeVelocity=entity.getVelocity().sub(velocity);
+			Vector2D impulse=normal.normalize().mult(Math.abs(relativeVelocity.dot(normal.negative()))/normal.magnitude()*(1+elasticity));
+			entity.applyImpulse(impulse);
+		}
 	}
 
 }

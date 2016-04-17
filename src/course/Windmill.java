@@ -18,7 +18,7 @@ public class Windmill implements VisibleObject,Obstacle,Entity{
 	private ArrayList<Wall> fins;
 	private double turnSpeed=1;//degrees
 	private double rotation=0;//degrees
-	private int elasticity;
+	private double elasticity=0.3;
 	private Vector2D center;
 	
 	public Windmill(Vector2D center,double finLength,double finWidth){
@@ -41,14 +41,14 @@ public class Windmill implements VisibleObject,Obstacle,Entity{
 
 	@Override
 	public void handleCollision(GameEntity entity) {
-//		Vector2D normal=getNormal(entity.shape);
-//		if(normal!=null&&!normal.isZeroed()){
-//			Vector2D impulse=normal.normalize().mult(Math.abs(entity.getVelocity().dot(normal.negative()))/normal.magnitude()*(1+elasticity));
-//			impulse.iadd(spinImpulse);
-//			entity.applyImpulse(impulse);
-//		}
 		for(Wall w:fins){
-			w.handleCollision(entity);
+			Vector2D normal=w.getNormal(entity.shape);
+			if(normal!=null&&!normal.isZeroed()){
+				Vector2D toEntity=center.sub(entity.getPosition());
+				Vector2D relativeVelocity=entity.getVelocity().add(toEntity.perpendicular().mult(Math.toRadians(turnSpeed)));
+				Vector2D impulse=normal.normalize().mult(Math.abs(relativeVelocity.dot(normal.negative()))/normal.magnitude()*(1+elasticity));
+				entity.applyImpulse(impulse);
+			}
 		}
 	}
 
