@@ -23,6 +23,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	private ArrayList<Obstacle> obstacles;
 	private ArrayList<Surface> surfaces;
 	private ArrayList<Hole> holes;
+	private ArrayList<Obstacle> staticObstacles;
 	public long time=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
@@ -49,6 +50,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		obstacles=new ArrayList<Obstacle>();
 		surfaces=new ArrayList<Surface>();
 		holes=new ArrayList<Hole>();
+		staticObstacles=new ArrayList<Obstacle>();
 		mu=.20;
 		g=0.1;
 		this.ballStart=ballStart;
@@ -157,6 +159,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	
 	public void addObstacle(Obstacle o){
 		obstacles.add(o);
+		if(o instanceof Entity)
+			addEntity((Entity)o);
+		else
+			staticObstacles.add(o);
 	}
 	
 	public void addSurface(Surface s){
@@ -180,6 +186,8 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 			for(Hole h:holes){
 				h.render(background);
 			}
+			for(Obstacle o:staticObstacles)
+				o.render(background);
 		}
 		r.draw(background, 0, 0);
 		
@@ -188,11 +196,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				((VisibleObject)e).render(r);
 			}
 		}
-		for(Obstacle o:obstacles){
-			if(!(o instanceof Entity))
-				o.render(r);
-		}
-		
 	}
 
 	public void removeEntity(Entity e) {

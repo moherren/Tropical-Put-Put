@@ -8,9 +8,16 @@ public class Rectangle extends Polygon{
 	//private double width;
 	//private double height;
 	
+	/**
+	 * 
+	 * @param x - top left corner
+	 * @param y - top left corner
+	 * @param width
+	 * @param height
+	 */
 	public Rectangle(double x,double y,double width,double height){
 		super(new double[]{-width/2,width/2,width/2,-width/2},
-				new double[]{-height/2,-height/2,height/2,height/2}, x, y);
+				new double[]{-height/2,-height/2,height/2,height/2}, x+width/2, y+height/2);
 	}
 
 	/*public void render(Graphics g) {
