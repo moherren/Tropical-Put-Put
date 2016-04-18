@@ -23,6 +23,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	private ArrayList<Obstacle> obstacles;
 	private ArrayList<Surface> surfaces;
 	private ArrayList<Hole> holes;
+	private ArrayList<Obstacle> staticObstacles;
 	public long time=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
@@ -42,21 +43,23 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	Render2D background=null;
 	
 	public static Render tiles=Texture.loadBitmap("textures/tiles.png");
-	public static Render tilesA[]=new Render[3];
+	public static Render tilesA[]=new Render[5];
 	
 	public GolfCourse(Vector2D ballStart,int par) {
 		entities=new ArrayList<Entity>();
 		obstacles=new ArrayList<Obstacle>();
 		surfaces=new ArrayList<Surface>();
 		holes=new ArrayList<Hole>();
+		staticObstacles=new ArrayList<Obstacle>();
 		mu=.20;
 		g=0.1;
 		this.ballStart=ballStart;
 		this.par=par;
 		tiltDirection=new Vector2D(1,0);
-		for(int i=0;i<tilesA.length;i++){
+		for(int i=0;i<tilesA.length-1;i++){
 			tilesA[i]=Texture.getSpriteSheet(tiles, 50, 50, i);
 		}
+		tilesA[tilesA.length-1]=Texture.generateStone(50, 50);
 	}
 
 	public GolfCourse(ArrayList<Entity> entities,ArrayList<Obstacle> obstacles,ArrayList<Surface> surfaces,ArrayList<Hole> holes,Vector2D ballStart,int par){
@@ -157,6 +160,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	
 	public void addObstacle(Obstacle o){
 		obstacles.add(o);
+		if(o instanceof Entity)
+			addEntity((Entity)o);
+		else
+			staticObstacles.add(o);
 	}
 	
 	public void addSurface(Surface s){
@@ -180,6 +187,8 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 			for(Hole h:holes){
 				h.render(background);
 			}
+			for(Obstacle o:staticObstacles)
+				o.render(background);
 		}
 		r.draw(background, 0, 0);
 		
@@ -188,11 +197,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				((VisibleObject)e).render(r);
 			}
 		}
-		for(Obstacle o:obstacles){
-			if(!(o instanceof Entity))
-				o.render(r);
-		}
-		
 	}
 
 	public void removeEntity(Entity e) {

@@ -45,6 +45,42 @@ public class Texture {
 		return render;
 	}
 	
+	public static Render generateStone(int width, int height){
+					Random random=new Random(0);
+					Render render=new Render(width,height);
+					
+					int color=0x999999;
+					
+					for(int y=0;y<height;y++){
+						for(int x=0;x<width;x++){
+							int r = (color & 0xFF0000) >> 16;
+				    		int g = (color & 0xFF00) >> 8;
+				    		int b = (color & 0xFF);
+							
+							double mult=1;
+							double range=0.2;
+							if(random.nextBoolean())
+								mult-=range*random.nextDouble();
+							else
+								mult+=range*random.nextDouble();
+							r=(int) Math.max(0,Math.min(r*mult, 255));
+							g=(int) Math.max(0,Math.min(g*mult, 255));
+							b=(int) Math.max(0,Math.min(b*mult, 255));
+							
+							int rgb = r;
+							rgb = (rgb << 8) + g;
+							rgb = (rgb << 8) + b;
+							render.pixels[x+y*width]=rgb;
+						}
+						render.blurRow(2, y);
+					}
+					
+					for(int i=0;i<render.width;i++)
+						render.blurColumn(3, i);
+		
+					return render;
+				}
+	
 	public static Render addGUIEdging(Render r,int color,int edgeLength){
 		
 		for(int x=0;x<r.width;x++){

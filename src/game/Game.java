@@ -43,7 +43,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			SC_SCORECARD=5, SC_PAUSE_MENU=6;
 	public Display display;
 	boolean running=true;
-	GolfCourse course,c1,c2;
+	GolfCourse course;
+	GolfCourse[] holes;
 	int screen=SC_MAIN_MENU;
 	Background background;
 	GUI gui;
@@ -71,6 +72,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 	
 	public Game(){
+		holes=new GolfCourse[18];
 		display=Display.createNew();
 		display.addVObject(this);
 		display.addKeyListener(this);
@@ -88,26 +90,26 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		newScreen=new Render2D(Display.WIDTH,Display.HEIGHT);
 		lastScreen=new Render2D(Display.WIDTH,Display.HEIGHT);
 		
-		c1=new GolfCourse(new Vector2D(400,300), 5);
-		c1.addObstacle(new Wall(new Rectangle(40,250,40,300)));
+		holes[0]=new GolfCourse(new Vector2D(400,300), 5);
+		holes[0].addObstacle(new Wall(new Rectangle(20,100,40,300)));
 		Windmill spinny=new Windmill(new Vector2D(300,300),40,5);
-		c1.addEntity(spinny);
-		c1.addObstacle(spinny);
-		c1.addObstacle(new Wall(new Rectangle(400,80,760,40)));
-		c1.addObstacle(new Wall(new Rectangle(400,420,760,40)));
-		c1.addObstacle(new Wall(new Rectangle(760,250,40,300)));
-		c1.addSurface(new Grass(new Rectangle(500,250,400,300)));
-		MovingWall movie=new MovingWall(new Rectangle(300,300,100,10),new Line(new Vector2D(500,300),new Vector2D(300,300)));
-//		c1.addEntity(movie);
-//		c1.addObstacle(movie);
-		c1.addHole(new Hole(new Vector2D(200,200),8));
-		c2=new GolfCourse(new Vector2D(400,300), 2);
-		c2.addObstacle(new Wall(new Rectangle(40,250,40,300)));
-		c2.addObstacle(new Wall(new Rectangle(400,80,760,40)));
-		c2.addObstacle(new Wall(new Rectangle(400,420,760,40)));
-		c2.addObstacle(new Wall(new Rectangle(760,250,40,300)));
-		c2.addSurface(new Ice(new Rectangle(500,250,400,300)));
-		c2.addHole(new Hole(new Vector2D(600,200),8));
+		holes[0].addEntity(spinny);
+		holes[0].addObstacle(spinny);
+		holes[0].addObstacle(new Wall(new Rectangle(20,60,760,40)));
+		holes[0].addObstacle(new Wall(new Rectangle(20,400,760,40)));
+		holes[0].addObstacle(new Wall(new Rectangle(740,100,40,300)));
+		holes[0].addSurface(new Grass(new Rectangle(300,100,400,300)));
+		MovingWall movie=new MovingWall(new Rectangle(250,290,100,10),new Line(new Vector2D(500,300),new Vector2D(300,300)));
+//		holes[0].addEntity(movie);
+//		holes[0].addObstacle(movie);
+		holes[0].addHole(new Hole(new Vector2D(200,200),8));
+		holes[1]=new GolfCourse(new Vector2D(400,300), 2);
+		holes[1].addObstacle(new Wall(new Rectangle(20,100,40,300)));
+		holes[1].addObstacle(new Wall(new Rectangle(20,60,760,40)));
+		holes[1].addObstacle(new Wall(new Rectangle(20,400,760,40)));
+		holes[1].addObstacle(new Wall(new Rectangle(740,100,40,300)));
+		holes[1].addSurface(new Ice(new Rectangle(300,100,400,300)));
+		holes[1].addHole(new Hole(new Vector2D(600,200),8));
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);
@@ -236,6 +238,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 
 	public void mousePressed(MouseEvent arg0) {
+		if(arg0.getButton()==MouseEvent.BUTTON1)
 		switch(screen){
 		case SC_GOLF_GAME:{
 			pauseButton.click(mX, mY);
@@ -369,7 +372,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			timer=new Timer((int)(1000/updatePerSecond),this);
 			timer.start();
 			playing=true;
-			loadCourse(c1);
+			loadCourse(holes[0]);
 			putting=true;
 			new Thread(){
 				public void run(){
@@ -405,10 +408,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			course.removeEntity(ball);
 			scorecard.setStrokes("Player 1", holeNumber,ball.putts);
 			setScreen(SC_SCORECARD);
-			
-			
-				loadCourse(c2);
-			if(holeNumber==19){
+			if(holeNumber<=18)
+				loadCourse(holes[holeNumber]);
+			else{
 				compliment("Player 1");
 			}
 		}
