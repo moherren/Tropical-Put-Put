@@ -24,10 +24,10 @@ public class Windmill implements VisibleObject,Obstacle,Entity{
 	public Windmill(Vector2D center,double finLength,double finWidth){
 		this.center=center;
 		fins=new ArrayList<Wall>();
-		fins.add(new Wall(new Rectangle(center.x-finWidth-finLength/2,center.y,finLength,finWidth)));
-		fins.add(new Wall(new Rectangle(center.x+finWidth+finLength/2,center.y,finLength,finWidth)));
-		fins.add(new Wall(new Rectangle(center.x,center.y-finWidth-finLength/2,finWidth,finLength)));
-		fins.add(new Wall(new Rectangle(center.x,center.y+finWidth+finLength/2,finWidth,finLength)));
+		fins.add(new Wall(new Rectangle(center.x-finWidth-finLength,center.y-finWidth/2,finLength,finWidth)));
+		fins.add(new Wall(new Rectangle(center.x+finWidth,center.y-finWidth/2,finLength,finWidth)));
+		fins.add(new Wall(new Rectangle(center.x-finWidth/2,center.y-finWidth-finLength,finWidth,finLength)));
+		fins.add(new Wall(new Rectangle(center.x-finWidth/2,center.y+finWidth,finWidth,finLength)));
 	}
 	
 	@Override
