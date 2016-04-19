@@ -189,6 +189,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 			}
 			for(Obstacle o:staticObstacles)
 				o.render(background);
+			for(Object e:entities){
+				if(e instanceof MovingWall)
+					((MovingWall) e).renderUnderside(background);
+			}
 		}
 		r.draw(background, 0, 0);
 		

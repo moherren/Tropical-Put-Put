@@ -290,8 +290,10 @@ public class MenuButton implements VisibleObject{
 				    "Are you sure you'd like to quit to the main menu?",
 				    "Tropical Cruise Putt-Putt",
 				    JOptionPane.YES_NO_OPTION);
-			if(n==0)
+			if(n==0){
+			game.stopGame();
 			game.setScreen(Game.SC_MAIN_MENU);
+			}
 		}
 	}
 	
@@ -300,9 +302,8 @@ public class MenuButton implements VisibleObject{
 			super(Display.WIDTH-50-150,Display.HEIGHT-50-50,Texture.getSpriteSheet(buttons, 150, 50, 6),g);
 		}
 		public void click(){
+			
 			game.setScreen(Game.SC_MAIN_MENU);
-			game.stopGame();
-			game.pause();
 		}
 	}
 }

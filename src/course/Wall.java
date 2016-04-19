@@ -66,7 +66,7 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		shape.render(g);
 	}
 	
-	public Shape getShape(){
+	public Polygon getShape(){
 		return shape;
 	}
 	

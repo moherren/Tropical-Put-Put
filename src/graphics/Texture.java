@@ -49,7 +49,7 @@ public class Texture {
 					Random random=new Random(0);
 					Render render=new Render(width,height);
 					
-					int color=0x999999;
+					int color=0x917567;
 					
 					for(int y=0;y<height;y++){
 						for(int x=0;x<width;x++){
@@ -58,7 +58,7 @@ public class Texture {
 				    		int b = (color & 0xFF);
 							
 							double mult=1;
-							double range=0.2;
+							double range=0.1;
 							if(random.nextBoolean())
 								mult-=range*random.nextDouble();
 							else

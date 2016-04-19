@@ -6,9 +6,9 @@ import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
 
-public class Ice extends Surface {
+public class Stone extends Surface {
 
-	public Ice(Polygon shape){
+	public Stone(Polygon shape){
 		super(shape);
 	}
 	
@@ -17,7 +17,7 @@ public class Ice extends Surface {
 		for(int x=minX;x<maxX;x++)
 			for(int y=minY;y<maxY;y++){
 				if(shape.includes(new Vector2D(x+X,y+Y)))
-					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=0x00FFFF;
+					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=GolfCourse.tilesA[4].pixels[((int)(x+X)%GolfCourse.tilesA[4].width)+((int)(y+Y)%GolfCourse.tilesA[4].height)*GolfCourse.tilesA[4].width];
 			}
 		//to be implemented
 	}
@@ -29,7 +29,7 @@ public class Ice extends Surface {
 
 	@Override
 	public double getCoefFriction() {
-		return 0.01;
+		return 0.05;
 	}
 
 }
