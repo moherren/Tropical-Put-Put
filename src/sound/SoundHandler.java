@@ -22,6 +22,11 @@ public class SoundHandler {
 	 */
 	public static String SONG_TWO = "sounds/BeautyPlus.wav";
 	
+	/**
+	 * the sound of the ball getting putted
+	 */
+	public static String PuttingSound = "sounds/BeautyPlus.wav";
+	
 	public static Clip music=null;
 	
 	public static String currentSong="";
