@@ -24,20 +24,24 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	private ArrayList<Surface> surfaces;
 	private ArrayList<Hole> holes;
 	private ArrayList<Obstacle> staticObstacles;
-	public long time=0;
+	public long totalTime=0;
 	public double mu;//coefficient of friction
 	public double g;//gravity
+	
 	public Vector2D shipHeading=new Vector2D(1,0);
 	public Vector2D shipHeadingTarget=new Vector2D(1,0);
 	public double shipTurnSpeed=0.05;//in degrees
+	public double shipTurnTime=(int)(Math.random()*200)+300;
+	
 	public double tiltAngle=0;//in degrees
 	public Vector2D tiltDirection;
-	public double targetTiltAngle=0;//in degrees
-	public Vector2D targetTiltDirection=new Vector2D(1,0);
+	
 	public double maxTilt=20;//in degrees
+	
 	public Vector2D tiltVelocity=new Vector2D(0,0);
 	public double tiltSpeed=0.1;
 	public double tiltSpringConstant=0.001;// in F=-kx, the k
+	
 	public Vector2D ballStart;
 	public int par;
 	Render2D background=null;
@@ -113,17 +117,11 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		return surfaces;
 	}
 	
-	public void setTilt(double angle,Vector2D direction){
-		targetTiltAngle=angle;
-		targetTiltDirection=direction;
-	}
-	
 	public void setTargetHeading(Vector2D target){
 		shipHeadingTarget=target;
 	}
 	
 	public void update(double time){
-		//move tilt towards targetTiltasdf
 		if(!shipHeading.equals(shipHeadingTarget)){
 			double theta=Math.toDegrees(shipHeading.angleTo(shipHeadingTarget));
 			if(Math.abs(theta)>shipTurnSpeed*time){
@@ -132,22 +130,23 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 			else{
 				turn(theta);
 				shipHeadingTarget=shipHeading.clone();
+				shipTurnTime=totalTime+(int)(Math.random()*200)+300;
 			}
+		}
+		else if(shipTurnTime<totalTime){
+			shipHeadingTarget=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
+			System.out.println("hey");
+		}
+		else{
+			System.out.println(totalTime+"  ,  "+shipTurnTime);
 		}
 		Vector2D tilt=tiltDirection.mult(tiltAngle);
 		tilt.iadd(tiltVelocity.mult(time));
 		Vector2D tiltAcceleration=tilt.negative().mult(tiltSpringConstant);
 		tiltVelocity.iadd(tiltAcceleration.mult(time));
-		//Vector2D targetTilt=targetTiltDirection.mult(targetTiltAngle);
-		//Vector2D toTarget=targetTilt.sub(tilt);
-		//if(toTarget.magnitude()>time*tiltSpeed)
-		//	tilt.iadd(toTarget.normalize().mult(time*tiltSpeed));
-		//else{
-		//	tilt=targetTilt;
-		//}
 		tiltDirection=tilt.normalize();
 		tiltAngle=tilt.magnitude();
-		this.time+=time;
+		this.totalTime+=time;
 		ArrayList<Entity> temp=new ArrayList<Entity>(entities);
 		for(Entity e:temp){
 			e.update(time);
@@ -189,6 +188,10 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 			}
 			for(Obstacle o:staticObstacles)
 				o.render(background);
+			for(Object e:entities){
+				if(e instanceof MovingWall)
+					((MovingWall) e).renderUnderside(background);
+			}
 		}
 		r.draw(background, 0, 0);
 		

@@ -181,6 +181,11 @@ public class Vector2D implements Cloneable{
 		return new Vector2D(x,y);
 	}
 	
+	public boolean equals(Object other){
+		Vector2D v=(Vector2D)other;
+		return v.x==x&&v.y==y;
+	}
+	
 	public static void main(String[] args){
 		Vector2D v1=new Vector2D(1,1),v2=new Vector2D(Math.sqrt(2),0);
 		System.out.println(v1.rotate(v1.angleTo(v2)));

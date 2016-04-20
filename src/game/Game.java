@@ -18,7 +18,8 @@ import javax.swing.Timer;
 import course.GolfCourse;
 import course.Grass;
 import course.Hole;
-import course.Ice;
+import course.Levels;
+import course.Stone;
 import course.MovingWall;
 import course.Wall;
 import course.Windmill;
@@ -95,6 +96,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		Windmill spinny=new Windmill(new Vector2D(300,300),40,5);
 		holes[0].addEntity(spinny);
 		holes[0].addObstacle(spinny);
+		MovingWall mw=new MovingWall(new Rectangle(100,100,50,50),new Line(new Vector2D(100,100),new Vector2D(300,100)));
+		holes[0].addEntity(mw);
+		holes[0].addObstacle(mw);
 		holes[0].addObstacle(new Wall(new Rectangle(20,60,760,40)));
 		holes[0].addObstacle(new Wall(new Rectangle(20,400,760,40)));
 		holes[0].addObstacle(new Wall(new Rectangle(740,100,40,300)));
@@ -310,7 +314,6 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void putt(double power, Vector2D direction) {
 		ball.putt(power, direction);
-		course.setTilt(Math.random()*15, new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize());
 	}
 
 	public void keyPressed(KeyEvent arg0) {
@@ -334,6 +337,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		else if(i==SC_GOLF_GAME&&screen==SC_GOLF_GAME)
 			unpause();
 		
+		else if(i==SC_GOLF_GAME&&SoundHandler.currentSong!=SoundHandler.SONG_TWO){
+			SoundHandler.playMusic(SoundHandler.SONG_TWO, 0f);
+			SoundHandler.setMusicVolume(volume);
+		}
+		else if(i==SC_MAIN_MENU&&SoundHandler.currentSong!=SoundHandler.SONG_ONE){
+			SoundHandler.playMusic(SoundHandler.SONG_ONE, 0f);
+			SoundHandler.setMusicVolume(volume);
+		}
+			
 		backScreen=screen;
 		render(lastScreen);
 		screen=i;
@@ -452,6 +464,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		gui=new GUI(course);
 		gui.parNum=course.par;
 		holeNumber++;
+		course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
+		course.tiltAngle=Math.random()*20;
 	}
 
 	public void setVolume(double amount) {
