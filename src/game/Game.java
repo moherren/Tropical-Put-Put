@@ -112,8 +112,9 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[1].addObstacle(new Wall(new Rectangle(20,60,760,40)));
 		holes[1].addObstacle(new Wall(new Rectangle(20,400,760,40)));
 		holes[1].addObstacle(new Wall(new Rectangle(740,100,40,300)));
-		holes[1].addSurface(new Ice(new Rectangle(300,100,400,300)));
+		holes[1].addSurface(new Stone(new Rectangle(300,100,400,300)));
 		holes[1].addHole(new Hole(new Vector2D(600,200),8));
+		holes[2]=Levels.getCourse1();
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);
@@ -412,6 +413,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	
 	public void stopGame(){
 		playing=false;
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
