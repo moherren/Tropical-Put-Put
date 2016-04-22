@@ -245,12 +245,20 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 
 	public void preventScore(GolfBall ball,double lookAheadTime) {
-		
+		double maxPush=1;
 		Line path=new Line(ball.getPosition().clone(),ball.getPosition().add(ball.getVelocity().mult(lookAheadTime)));
 		for(Hole h:holes){
 			if(h.getShape().intersects(path)){
 				//prevent scoring
 				System.out.println("about to score!");
+				Vector2D toHole=h.getShape().getPosition().sub(ball.getPosition());
+				double scoreTime=toHole.magnitude()/ball.getSpeed();
+				double dist=h.getShape().getRadius()*2;
+				System.out.println(toHole.magnitude());
+				Vector2D dir=toHole.perpendicular().normalize();
+				if(Math.random()<0.5)
+					dir=dir.negative();
+				ball.putt(Math.min(dist/scoreTime,maxPush),dir);
 			}
 		}
 	}

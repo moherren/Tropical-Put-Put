@@ -430,7 +430,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			}
 		}
 		if(difficulty>0){
-			course.preventScore(ball,5);
+			if(Math.random()<0.75)
+				course.preventScore(ball,20);
 		}
 		if(ball.getVelocity().isZeroed()&&!putting){
 			putting=true;
