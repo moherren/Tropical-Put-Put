@@ -64,6 +64,10 @@ public class MobileEntity implements Entity{
 	public double getMaxVelocity(){
 		return maxVelocity;
 	}
+	
+	public void setSpeed(double speed){
+		velocity=velocity.normalize().mult(speed);
+	}
 }
 
 

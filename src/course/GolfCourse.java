@@ -5,10 +5,13 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.omg.CORBA.BAD_PARAM;
+
 import entities.Entity;
 import entities.GameEntity;
 import entities.GolfBall;
 import geometry.Circle;
+import geometry.Line;
 import geometry.Vector2D;
 import graphics.Render;
 import graphics.Render2D;
@@ -135,10 +138,6 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		}
 		else if(shipTurnTime<totalTime){
 			shipHeadingTarget=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
-			System.out.println("hey");
-		}
-		else{
-			System.out.println(totalTime+"  ,  "+shipTurnTime);
 		}
 		Vector2D tilt=tiltDirection.mult(tiltAngle);
 		tilt.iadd(tiltVelocity.mult(time));
@@ -195,7 +194,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		}
 		r.draw(background, 0, 0);
 		
-		for(Entity e:entities){
+		for(Entity e:(ArrayList<Entity>)entities.clone()){
 			if(e instanceof VisibleObject){
 				((VisibleObject)e).render(r);
 			}
@@ -243,6 +242,17 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		shipHeading=shipHeading.rotate(Math.toRadians(theta));
 		tiltDirection=tiltDirection.rotate(Math.toRadians(theta));
 		tiltVelocity=tiltVelocity.rotate(Math.toRadians(theta));
+	}
+
+	public void preventScore(GolfBall ball,double lookAheadTime) {
+		
+		Line path=new Line(ball.getPosition().clone(),ball.getPosition().add(ball.getVelocity().mult(lookAheadTime)));
+		for(Hole h:holes){
+			if(h.getShape().intersects(path)){
+				//prevent scoring
+				System.out.println("about to score!");
+			}
+		}
 	}
 
 }
