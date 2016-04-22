@@ -42,13 +42,11 @@ public class MovingWall extends Wall implements Entity{
 			velocity=path.getPoint2().sub(position).normalize().mult(speed);
 			movingTowardsP1=false;
 			turnTime=path.getPoint2().sub(position).magnitude()/speed+totalTime;
-			System.out.println(turnTime);
 		}
 		else if(!movingTowardsP1&&turnTime<totalTime){
 			velocity=path.getPoint1().sub(position).normalize().mult(speed);
 			movingTowardsP1=true;
 			turnTime=path.getPoint1().sub(position).magnitude()/speed+totalTime;
-			System.out.println(turnTime);
 		}
 		position.iadd(velocity.mult(time));
 		shape.setPosition(position);

@@ -133,4 +133,9 @@ public class Polygon extends Shape {
 		}
 		return new Polygon(newPoints,position);
 	}
+	
+	public static void main(String[] args){
+		Polygon w=new Polygon(new double[]{0,20,0,-20},new double[]{-20,0,20,0});
+		System.out.println(w.includes(new Vector2D(0,-10)));
+	}
 }

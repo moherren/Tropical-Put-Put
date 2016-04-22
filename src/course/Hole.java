@@ -15,6 +15,7 @@ public class Hole implements VisibleObject{
 	public Hole(Vector2D p, double r){
 		position=p;
 		radius=r;
+		shape=new Circle(p.x,p.y,r);
 	}
 	
 	@Override
@@ -42,6 +43,10 @@ public class Hole implements VisibleObject{
 			return true;
 		else
 			return false;
+	}
+	
+	public Circle getShape(){
+		return shape;
 	}
 
 }

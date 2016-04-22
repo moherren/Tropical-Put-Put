@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import geometry.Line;
 import geometry.Polygon;
+import geometry.Rectangle;
 import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
@@ -40,6 +41,21 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 
 	public Wall(Polygon shape){
 		this.shape=shape;
+		calculateNormals();
+		color=Color.black;
+		calculateRenderBounds();
+		Color c=new Color(1);
+		int r=c.getRed();
+		int b=c.getBlue();
+		int g=c.getGreen();
+		int rgb = r;
+		rgb = (rgb << 8) + g;
+		rgb = (rgb << 8) + b;
+		col=rgb;
+	}
+	
+	public Wall(int x,int y,int width,int height){
+		this.shape=new Rectangle(x,y,width,height);
 		calculateNormals();
 		color=Color.black;
 		calculateRenderBounds();

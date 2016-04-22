@@ -67,6 +67,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	Scorecard scorecard;
 	public static int backScreen=SC_MAIN_MENU;
 	Timer timer;
+	private double difficulty=0.5;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -115,6 +116,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[1].addSurface(new Stone(new Rectangle(300,100,400,300)));
 		holes[1].addHole(new Hole(new Vector2D(600,200),8));
 		holes[2]=Levels.getCourse1();
+		holes[0]=Levels.getCourse3();
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);
@@ -315,7 +317,6 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 
 	public void putt(double power, Vector2D direction) {
 		ball.putt(power, direction);
-		course.setTilt(Math.random()*15, new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize());
 	}
 
 	public void keyPressed(KeyEvent arg0) {
@@ -429,6 +430,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				compliment("Player 1");
 			}
 		}
+		if(difficulty>0){
+			if(Math.random()<0.75)
+				course.preventScore(ball,20);
+		}
 		if(ball.getVelocity().isZeroed()&&!putting){
 			putting=true;
 		}
@@ -467,6 +472,14 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		gui=new GUI(course);
 		gui.parNum=course.par;
 		holeNumber++;
+		if(difficulty>0){
+//			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
+//			course.tiltAngle=Math.random()*20;
+		}
+		else{
+			course.tiltDirection=new Vector2D(0,0);
+			course.tiltAngle=0;
+		}
 	}
 
 	public void setVolume(double amount) {
@@ -475,7 +488,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 	public void setDifficulty(double d) {
-		
+		difficulty=d;
 	}
 	
 	public void renderScorecard(Render2D r){
