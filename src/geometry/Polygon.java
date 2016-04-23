@@ -79,8 +79,9 @@ public class Polygon extends Shape {
 	public boolean includes(Vector2D point){
 		int intersections=0;
 		for(Line l:toLines()){
-			if(rayIntersectsSegment(point, l))
+			if(rayIntersectsSegment(point, l)){
 				intersections++;
+			}
 		}
 		return intersections%2==1;
 	}

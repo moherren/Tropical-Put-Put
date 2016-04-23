@@ -178,7 +178,7 @@ public abstract class Shape implements Cloneable{
 	 * @return whether or not a horizontal ray going to the right intersects the segment
 	 */
 	public static boolean rayIntersectsSegment(Vector2D point,Line l){
-		Vector2D a=l.getPoint1(),b=l.getPoint2();
+		Vector2D a=l.getPoint1().clone(),b=l.getPoint2().clone();
 		Vector2D p=point.clone();
 		if(a.y>b.y){
 			Vector2D temp=b;
@@ -197,12 +197,20 @@ public abstract class Shape implements Cloneable{
 			double th1,th2;
 			if(a.x!=b.x)
 				th1=(b.y-a.y)/(b.x-a.x);
-			else
-				th1=Double.POSITIVE_INFINITY;
+			else{
+				if(b.y>a.y)
+					th1=Double.POSITIVE_INFINITY;
+				else
+					th1=Double.NEGATIVE_INFINITY;
+			}
 			if(a.x!=p.x)
 				th2=(p.y-a.y)/(p.x-a.x);
-			else
-				th2=Double.POSITIVE_INFINITY;
+			else{
+				if(Math.signum(p.y-a.y)==Math.signum(th1))
+					return true;
+				else
+					return false;
+			}
 			if(th2>=th1)
 				return true;
 			else 
