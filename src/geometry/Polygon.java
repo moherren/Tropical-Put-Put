@@ -135,6 +135,19 @@ public class Polygon extends Shape {
 		return new Polygon(newPoints,position);
 	}
 	
+	public Vector2D getCenterPoint(){
+		double x=0,y=0;
+		
+		Vector2D[] points=this.toPoints();
+		for(Vector2D v:points){
+			x+=v.x+position.x;
+			y+=v.y+position.y;
+		}
+		
+		return new Vector2D(x/points.length,y/points.length);
+		
+	}
+	
 	public static void main(String[] args){
 		Polygon w=new Polygon(new double[]{0,20,0,-20},new double[]{-20,0,20,0});
 		System.out.println(w.includes(new Vector2D(0,-10)));

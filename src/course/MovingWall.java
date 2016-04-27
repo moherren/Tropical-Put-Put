@@ -82,7 +82,7 @@ public class MovingWall extends Wall implements Entity{
 		for(int x=minX;x<maxX;x++)
 			for(int y=minY;y<maxY;y++){
 				if(shape.includes(new Vector2D(x+position.x,y+position.y)))
-					r.pixels[(int)(x+position.x)+r.width*(int)(y+position.y)]=0xff0000;
+					r.pixels[(int)(x+position.x)+r.width*(int)(y+position.y)]=0x0000ff;
 			}
 		Line[] lines=shape.toLines();
 		for(Line l:lines)

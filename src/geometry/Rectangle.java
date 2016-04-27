@@ -16,8 +16,8 @@ public class Rectangle extends Polygon{
 	 * @param height
 	 */
 	public Rectangle(double x,double y,double width,double height){
-		super(new double[]{-width/2,width/2,width/2,-width/2},
-				new double[]{-height/2,-height/2,height/2,height/2}, x+width/2, y+height/2);
+		super(new double[]{-width/2.0,width/2.0,width/2.0,-width/2.0},
+				new double[]{-height/2.0,-height/2.0,height/2.0,height/2.0}, x+width/2.0, y+height/2.0);
 	}
 
 	/*public void render(Graphics g) {

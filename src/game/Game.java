@@ -116,7 +116,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[1].addSurface(new Stone(new Rectangle(300,100,400,300)));
 		holes[1].addHole(new Hole(new Vector2D(600,200),8));
 		holes[2]=Levels.getCourse1();
-		holes[0]=Levels.getCourse3();
+		holes[0]=Levels.getCourse6();
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);
@@ -467,14 +467,15 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public void loadCourse(GolfCourse gc){
 		scorecard.setPars(holeNumber, course.par);
 		course=gc;
+		gc.removeBalls();
 		ball=new GolfBall(gc.ballStart.clone(),gc);
 		course.addEntity(ball);
 		gui=new GUI(course);
 		gui.parNum=course.par;
 		holeNumber++;
 		if(difficulty>0){
-//			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
-//			course.tiltAngle=Math.random()*20;
+			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
+			course.tiltAngle=Math.random()*20;
 		}
 		else{
 			course.tiltDirection=new Vector2D(0,0);

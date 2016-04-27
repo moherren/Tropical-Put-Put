@@ -1,5 +1,6 @@
 package course;
 
+import geometry.Line;
 import geometry.Polygon;
 import geometry.Rectangle;
 import geometry.Vector2D;
@@ -69,6 +70,60 @@ public class Levels {
 		
 		gc.addHole(new Hole(new Vector2D(600,320),8));
 		
+		return gc;
+	}
+	
+	public static GolfCourse getCourse5(){
+		GolfCourse gc=new GolfCourse(new Vector2D(160,240), 3);
+		gc.addObstacle(new Wall(40,40,40,400));
+		gc.addObstacle(new Wall(80,40,640,40));
+		gc.addObstacle(new Wall(720,40,40,400));
+		gc.addObstacle(new Wall(80,400,640,40));
+		
+		gc.addObstacle(new Wall(240,80,40,40));
+		gc.addObstacle(new Wall(520,80,40,40));
+		gc.addObstacle(new Wall(380,140,40,80));
+		
+		gc.addObstacle(new MovingWall(new Rectangle(280,180,40,40),new Line(new Vector2D(300,140),new Vector2D(300,220))));
+		gc.addObstacle(new MovingWall(new Rectangle(280,260,40,40),new Line(new Vector2D(300,260),new Vector2D(300,340))));
+		
+		gc.addObstacle(new Wall(240,360,40,40));
+		gc.addObstacle(new Wall(520,360,40,40));
+		gc.addObstacle(new Wall(380,260,40,80));
+		
+		gc.addObstacle(new MovingWall(new Rectangle(480,180,40,40),new Line(new Vector2D(500,140),new Vector2D(500,220))));
+		gc.addObstacle(new MovingWall(new Rectangle(480,260,40,40),new Line(new Vector2D(500,260),new Vector2D(500,340))));
+		
+		gc.addSurface(new Grass(new Rectangle(80,80,660,340)));
+		
+		gc.addHole(new Hole(new Vector2D(640,240),8));
+		return gc;
+	}
+	
+	public static GolfCourse getCourse6(){
+		GolfCourse gc=new GolfCourse(new Vector2D(160,240), 3);
+		gc.addObstacle(new Wall(160,40,40,80));
+		gc.addObstacle(new Wall(200,40,560,40));
+		gc.addObstacle(new Wall(720,80,40,280));
+		gc.addObstacle(new Wall(160,40,40,80));
+		gc.addObstacle(new Wall(520,360,240,40));
+		gc.addObstacle(new Wall(520,160,40,200));
+		gc.addObstacle(new Wall(80,280,440,40));
+		gc.addObstacle(new Wall(40,120,40,200));
+		gc.addObstacle(new Wall(80,120,120,40));
+		
+		gc.addObstacle(new MovingWall(new Polygon(new double[]{-20,20,20},new double[]{-20,-20,20},340,140),new Line(new Vector2D(340,140),new Vector2D(460,140))));
+		gc.addObstacle(new MovingWall(new Polygon(new double[]{-20,20,20},new double[]{-20,-20,20},460,220),new Line(new Vector2D(460,220),new Vector2D(460,180))));
+		gc.addObstacle(new Windmill(new Vector2D(640,140),40,5));
+		
+		
+		gc.addSurface(new Grass(new Rectangle(80,160,440,120)));
+		gc.addSurface(new Grass(new Rectangle(200,80,520,80)));
+		gc.addSurface(new Grass(new Rectangle(560,160,160,200)));
+		gc.addSurface(new Sand(new Polygon(new double[]{260,240,280,320,360,440},new double[]{280,220,160,140,240,280})));
+		gc.addSurface(new Stone(new Polygon(new double[]{540,620,720,720,680,600},new double[]{280,200,180,320,360,360})));
+		
+		gc.addHole(new Hole(new Vector2D(640,280),8));
 		return gc;
 	}
 }

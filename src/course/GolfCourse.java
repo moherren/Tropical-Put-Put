@@ -86,9 +86,11 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 	
 	public double getCoefFriction(Vector2D position){
-		for(Surface s:surfaces)
+		for(int i=surfaces.size()-1;i>0;i--){
+			Surface s=surfaces.get(i);
 			if(s.contains(position))
 				return s.getCoefFriction();
+		}
 		return mu;
 	}
 	
@@ -245,7 +247,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 
 	public void preventScore(GolfBall ball,double lookAheadTime) {
-		double maxPush=1;
+		double maxPush=0.2;
 		Line path=new Line(ball.getPosition().clone(),ball.getPosition().add(ball.getVelocity().mult(lookAheadTime)));
 		for(Hole h:holes){
 			if(h.getShape().intersects(path)){
@@ -263,4 +265,14 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		}
 	}
 
+	public void removeBalls(){
+		for(int i=0;i<entities.size();i++){
+			Entity e=entities.get(i);
+			if(e instanceof GolfBall){
+				entities.remove(e);
+				i--;
+			}
+		}
+			
+	}
 }
