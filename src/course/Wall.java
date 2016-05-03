@@ -131,10 +131,11 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 	
 	public void calculateNormals(){
 		sides=shape.toLines();
-		normals=calculateNormals(sides);
+		normals=calculateNormals(shape);
 	}
 	
-	public static Vector2D[] calculateNormals(Line[] sides){
+	public static Vector2D[] calculateNormals(Polygon shape){
+		Line[] sides=shape.toLines();
 		Vector2D[] normals=new Vector2D[sides.length];
 		
 		//calculate normals of sides
@@ -151,7 +152,9 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 			}
 			else
 				normals[i]=n.normalize();
-			
+			//if normal points inward, reverse it
+			if(shape.includes(sides[i].getPoint1().add(ab.div(2)).add(normals[i].mult(0.01))))
+					normals[i]=normals[i].negative();
 		}
 		return normals;
 	}
