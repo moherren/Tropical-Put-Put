@@ -260,7 +260,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				Vector2D dir=toHole.perpendicular().normalize();
 				if(Math.random()<0.5)
 					dir=dir.negative();
-				ball.putt(Math.min(dist/scoreTime,maxPush),dir);
+				ball.applyImpulse(Math.min(dist/scoreTime,maxPush),dir);
 			}
 		}
 	}

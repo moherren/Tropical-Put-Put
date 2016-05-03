@@ -29,7 +29,7 @@ public class Sand extends Surface {
 
 	@Override
 	public double getCoefFriction() {
-		return 1.0;
+		return 1.2;
 	}
 
 }

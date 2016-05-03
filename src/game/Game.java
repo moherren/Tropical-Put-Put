@@ -116,7 +116,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[1].addSurface(new Stone(new Rectangle(300,100,400,300)));
 		holes[1].addHole(new Hole(new Vector2D(600,200),8));
 		holes[2]=Levels.getCourse1();
-		holes[0]=Levels.getCourse6();
+		holes[0]=Levels.getCourse10();
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);

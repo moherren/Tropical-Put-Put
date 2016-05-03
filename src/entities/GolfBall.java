@@ -62,4 +62,8 @@ public class GolfBall extends GameEntity implements VisibleObject{
 		putts++;
 		applyImpulse(direction.normalize().mult(strength));
 	}
+	
+	public void applyImpulse(double strength, Vector2D direction){
+		applyImpulse(direction.normalize().mult(strength));
+	}
 }
