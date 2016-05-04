@@ -105,8 +105,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[0].addObstacle(new Wall(new Rectangle(740,100,40,300)));
 		holes[0].addSurface(new Grass(new Rectangle(300,100,400,300)));
 		MovingWall movie=new MovingWall(new Rectangle(250,290,100,10),new Line(new Vector2D(500,300),new Vector2D(300,300)));
-//		holes[0].addEntity(movie);
-//		holes[0].addObstacle(movie);
+		holes[0].addEntity(movie);
+		holes[0].addObstacle(movie);
 		holes[0].addHole(new Hole(new Vector2D(200,200),8));
 		holes[1]=new GolfCourse(new Vector2D(400,300), 2);
 		holes[1].addObstacle(new Wall(new Rectangle(20,100,40,300)));
@@ -116,7 +116,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[1].addSurface(new Stone(new Rectangle(300,100,400,300)));
 		holes[1].addHole(new Hole(new Vector2D(600,200),8));
 		holes[2]=Levels.getCourse1();
-		holes[0]=Levels.getCourse17();
+//		holes[0]=Levels.getCourse17();
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);

@@ -68,8 +68,8 @@ public class MovingWall extends Wall implements Entity{
 		Polygon poly2=new Polygon(oxs,oys);
 		int minx=(int)Math.min(p1.x-4,p2.x-4),miny=(int)Math.min(p1.y-4,p2.y-4),maxx=(int)Math.max(p1.x+4,p2.x+4),maxy=(int)Math.max(p1.y+4,p2.y+4);
 		
-		for(int x=minx;x<maxx;x++)
-			for(int y=miny;y<maxy;y++){
+		for(int x=minx;x<=maxx;x++)
+			for(int y=miny;y<=maxy;y++){
 				if(poly1.includes(new Vector2D(x-pos.x,y-pos.y)))
 					r.pixels[x+y*r.width]=2;
 				else if(poly2.includes(new Vector2D(x-pos.x,y-pos.y)))
@@ -79,8 +79,8 @@ public class MovingWall extends Wall implements Entity{
 	}
 	
 	public void render(Render2D r){
-		for(int x=minX;x<maxX;x++)
-			for(int y=minY;y<maxY;y++){
+		for(int x=minX;x<=maxX;x++)
+			for(int y=minY;y<=maxY;y++){
 				if(shape.includes(new Vector2D(x+position.x,y+position.y)))
 					r.pixels[(int)(x+position.x)+r.width*(int)(y+position.y)]=0x0000ff;
 			}

@@ -29,8 +29,8 @@ public class SpeedBoost implements Obstacle {
 	
 	@Override
 	public void render(Render2D r) {
-		for(int x=minX;x<maxX;x++)
-			for(int y=minY;y<maxY;y++){
+		for(int x=minX;x<=maxX;x++)
+			for(int y=minY;y<=maxY;y++){
 				if(shape.includes(new Vector2D(x+X,y+Y)))
 					r.drawPixel(0x2200FF, (int)(x+X), (int)(y+Y));
 			}

@@ -14,8 +14,8 @@ public class Grass extends Surface {
 	
 	@Override
 	public void render(Render2D r) {
-		for(int x=minX;x<maxX;x++)
-			for(int y=minY;y<maxY;y++){
+		for(int x=minX;x<=maxX;x++)
+			for(int y=minY;y<=maxY;y++){
 				if(shape.includes(new Vector2D(x+X,y+Y)))
 					r.pixels[(int)(x+X)+r.width*(int)(y+Y)]=GolfCourse.tilesA[1].pixels[((int)(x+X)%GolfCourse.tilesA[1].width)+((int)(y+Y)%GolfCourse.tilesA[1].height)*GolfCourse.tilesA[1].width];
 			}

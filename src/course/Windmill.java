@@ -76,8 +76,8 @@ public class Windmill implements VisibleObject,Obstacle,Entity{
 
 	public void renderFin(Render2D r,Wall fin){
 		Polygon shape= fin.getShape();
-		for(int x=fin.minX;x<fin.maxX;x++)
-			for(int y=fin.minY;y<fin.maxY;y++){
+		for(int x=fin.minX;x<=fin.maxX;x++)
+			for(int y=fin.minY;y<=fin.maxY;y++){
 				if(shape.includes(new Vector2D(x+fin.X,y+fin.Y)))
 					r.pixels[(int)(x+fin.X)+r.width*(int)(y+fin.Y)]=0xff0000;
 			}
