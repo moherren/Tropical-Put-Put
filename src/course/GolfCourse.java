@@ -39,7 +39,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public double tiltAngle=0;//in degrees
 	public Vector2D tiltDirection;
 	
-	public double maxTilt=20;//in degrees
+	public double maxTilt=16;//in degrees
 	
 	public Vector2D tiltVelocity=new Vector2D(0,0);
 	public double tiltSpeed=0.1;
@@ -48,6 +48,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public Vector2D ballStart;
 	public int par;
 	Render2D background=null;
+	public double maxPreventPush=0.33;
 	
 	public static Render tiles=Texture.loadBitmap("textures/tiles.png");
 	public static Render tilesA[]=new Render[5];
@@ -247,7 +248,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	}
 
 	public void preventScore(GolfBall ball,double lookAheadTime) {
-		double maxPush=0.2;
+		maxPreventPush=0.33;
 		Line path=new Line(ball.getPosition().clone(),ball.getPosition().add(ball.getVelocity().mult(lookAheadTime)));
 		for(Hole h:holes){
 			if(h.getShape().intersects(path)){
@@ -258,9 +259,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				double dist=h.getShape().getRadius()*2;
 				System.out.println(toHole.magnitude());
 				Vector2D dir=toHole.perpendicular().normalize();
-				if(Math.random()<0.5)
-					dir=dir.negative();
-				ball.applyImpulse(Math.min(dist/scoreTime,maxPush),dir);
+				ball.applyImpulse(Math.min(dist/scoreTime,maxPreventPush),dir);
 			}
 		}
 	}

@@ -116,7 +116,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[1].addSurface(new Stone(new Rectangle(300,100,400,300)));
 		holes[1].addHole(new Hole(new Vector2D(600,200),8));
 		holes[2]=Levels.getCourse1();
-		holes[0]=Levels.getCourse10();
+		holes[0]=Levels.getCourse17();
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);
@@ -298,7 +298,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_GOLF_GAME:{
 			if(putting&&mouseDown){
 				Vector2D toBall=new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y);
-				putt(gui.powerLevel*10, toBall.normalize().negative());
+				putt(gui.powerLevel*10, toBall.normalize().negative());				putt(10,new Vector2D(1,0));
 				putting=false;
 				gui.strokesNum++;
 			}
@@ -393,20 +393,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				public void run(){
 					Scanner scan=new Scanner(System.in);
 					while(true){
-						System.out.println("new tilt direction:");
-						Vector2D newTilt=new Vector2D(scan.nextDouble(),scan.nextDouble()).normalize();
-						System.out.println("new angle:");
-						double newAngle=scan.nextDouble();
-						System.out.println("new tilt velocity:");
-						Vector2D newVelocity=new Vector2D(scan.nextDouble(),scan.nextDouble()).normalize();
-						course.tiltDirection=newTilt;
-						course.tiltAngle=newAngle;
-						course.tiltVelocity=newVelocity;
-						System.out.println("new ship heading target:");
-						Vector2D newTarget=new Vector2D(scan.nextDouble(),scan.nextDouble()).normalize();
-						System.out.println(course.shipHeadingTarget);
-						System.out.println(course.shipHeading);
-						course.setTargetHeading(newTarget);
+						course.maxPreventPush=scan.nextDouble();
 					}
 				}
 			}.start();
@@ -424,21 +411,23 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			course.removeEntity(ball);
 			scorecard.setStrokes("Player 1", holeNumber,ball.putts);
 			setScreen(SC_SCORECARD);
-			if(holeNumber<=18)
+			if(holeNumber<18)
 				loadCourse(holes[holeNumber]);
 			else{
 				compliment("Player 1");
 			}
 		}
 		if(difficulty>0){
-			if(Math.random()<0.75)
+			if(Math.random()<0.5)
 				course.preventScore(ball,20);
 		}
-		if(ball.getVelocity().isZeroed()&&!putting){
-			putting=true;
-		}
-		else if(putting&&mouseDown){
-			gui.powerLevel=gui.powerLevel%1+0.005;
+		if(ball.getVelocity().isZeroed()){
+			if(!putting){
+				putting=true;
+			}
+			else if(putting&&mouseDown){
+				gui.powerLevel=gui.powerLevel%1+0.005;
+			}
 		}
 		else{
 			putting=false;
@@ -468,6 +457,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		scorecard.setPars(holeNumber, course.par);
 		course=gc;
 		gc.removeBalls();
+		gc.tiltVelocity=new Vector2D(0,0);
 		ball=new GolfBall(gc.ballStart.clone(),gc);
 		course.addEntity(ball);
 		gui=new GUI(course);
@@ -475,7 +465,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holeNumber++;
 		if(difficulty>0){
 			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
-			course.tiltAngle=Math.random()*20;
+			course.tiltAngle=Math.random()*course.maxTilt;
 		}
 		else{
 			course.tiltDirection=new Vector2D(0,0);
