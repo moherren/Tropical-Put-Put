@@ -39,7 +39,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public double tiltAngle=0;//in degrees
 	public Vector2D tiltDirection;
 	
-	public double maxTilt=20;//in degrees
+	public double maxTilt=19.5;//in degrees
 	
 	public Vector2D tiltVelocity=new Vector2D(0,0);
 	public double tiltSpeed=0.1;
