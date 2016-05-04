@@ -298,7 +298,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		case SC_GOLF_GAME:{
 			if(putting&&mouseDown){
 				Vector2D toBall=new Vector2D(mX-ball.getPosition().x,mY-ball.getPosition().y);
-				putt(gui.powerLevel*10, toBall.normalize().negative());				putt(10,new Vector2D(1,0));
+				putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
 				gui.strokesNum++;
 			}
