@@ -18,6 +18,7 @@ public class MenuButton implements VisibleObject{
 	Render sprite;
 	boolean hover=false;
 	Game game;
+	public static int gameType=Game.SC_GOLF_GAME;
 	static Render ball=Texture.loadBitmap("textures/ball.png");
 	static Render buttons=Texture.loadBitmap("textures/buttons2.png");
 	
@@ -81,8 +82,9 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			game.startGame();
 			game.setScreen(Game.SC_GOLF_GAME);
+			game.startGame();
+			
 		}
 		
 	}
@@ -94,6 +96,8 @@ public class MenuButton implements VisibleObject{
 		
 		public void click(){
 			game.setScreen(Game.SC_TUTORIAL_GAME);
+			game.startTutorial();
+			
 		}
 	}
 	
@@ -140,7 +144,7 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			game.setScreen(Game.backScreen,Game.SC_GOLF_GAME);
+			game.setScreen(Game.backScreen,gameType);
 		}
 	}
 	
@@ -254,9 +258,8 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
-			game.setScreen(Game.SC_GOLF_GAME);
+			game.setScreen(gameType);
 		}
-		
 	}
 	
 	public static class PauseButton extends MenuButton{
@@ -265,6 +268,7 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
+			gameType=game.getScreen();
 			game.setScreen(Game.SC_PAUSE_MENU);
 		}
 	}

@@ -456,6 +456,78 @@ public class Levels {
 		gc.addObstacle(new Wall(new Polygon(new double[]{360,400,440},new double[]{160,200,160})));
 		gc.addObstacle(new Wall(new Polygon(new double[]{360,400,440},new double[]{320,280,320})));
 		
+		gc.addObstacle(new MovingWall(new Polygon(new double[]{0,20,0,-20},new double[]{-20,0,20,0},200,120),new Line(new Vector2D(200,120),new Vector2D(600,360))));
+		gc.addObstacle(new MovingWall(new Polygon(new double[]{0,20,0,-20},new double[]{-20,0,20,0},400,240),new Line(new Vector2D(200,360),new Vector2D(600,120))));
+		
+		gc.addSurface(new Grass(new Rectangle(80,80,80,80)));
+		gc.addSurface(new Grass(new Rectangle(160,80,160,320)));
+		gc.addSurface(new Grass(new Rectangle(320,160,160,160)));
+		gc.addSurface(new Grass(new Rectangle(480,80,160,320)));
+		gc.addSurface(new Stone(new Rectangle(560,200,80,80)));
+		gc.addSurface(new Sand(new Polygon(new double[]{200,240,320,360,400,360,320,240},new double[]{240,200,240,240,280,320,320,280})));
+		gc.addSurface(new Sand(new Polygon(new double[]{440,440,480,560,520},new double[]{200,160,160,200,240})));
+		
+		gc.addHole(new Hole(new Vector2D(600,240),8));
+		
+		return gc;
+	}
+	public static GolfCourse getCourse18(){
+		GolfCourse gc=new GolfCourse(new Vector2D(140,280), 2);
+		
+		gc.addObstacle(new Wall(200,40,280,40));
+		gc.addObstacle(new Wall(200,80,40,120));
+		gc.addObstacle(new Wall(440,80,40,80));
+		gc.addObstacle(new Wall(480,120,200,40));
+		gc.addObstacle(new Wall(640,160,40,200));
+		gc.addObstacle(new Wall(480,360,200,40));
+		gc.addObstacle(new Wall(440,280,40,120));
+		gc.addObstacle(new Wall(80,400,400,40));
+		gc.addObstacle(new Wall(40,200,40,240));
+		gc.addObstacle(new Wall(80,200,160,40));
+		gc.addObstacle(new Wall(200,240,40,80));
+		
+		gc.addObstacle(new Wall(new Polygon(new double[]{320,320,400},new double[]{200,160,160})));
+		
+		gc.addSurface(new Grass(new Rectangle(80,240,360,160)));
+		gc.addSurface(new Grass(new Rectangle(240,160,400,120)));
+		gc.addSurface(new Grass(new Rectangle(240,80,200,80)));
+		gc.addSurface(new Sand(new Polygon(new double[]{240,280,320,320,280,240},new double[]{160,160,180,220,260,280})));
+		gc.addSurface(new Stone(new Rectangle(480,280,160,80)));
+		
+		gc.addHole(new Hole(new Vector2D(560,320),8));
+		
+		return gc;
+	}
+	
+	public static GolfCourse getTutorialLevel1(){
+		GolfCourse gc=new GolfCourse(new Vector2D(200,240), 1);
+		
+		gc.addObstacle(new Wall(120,120,560,40));
+		gc.addObstacle(new Wall(120,320,560,40));
+		gc.addObstacle(new Wall(120,160,40,160));
+		gc.addObstacle(new Wall(640,160,40,160));
+		
+		gc.addSurface(new Grass(new Rectangle(160,160,480,160)));
+		
+		gc.addHole(new Hole(new Vector2D(600,240),8));
+		
+		return gc;
+	}
+	
+	public static GolfCourse getTutorialLevel2(){
+		GolfCourse gc=new GolfCourse(new Vector2D(120,240), 1);
+		
+		gc.addObstacle(new Wall(40,80,720,40));
+		gc.addObstacle(new Wall(40,120,40,240));
+		gc.addObstacle(new Wall(720,120,40,240));
+		gc.addObstacle(new Wall(40,360,720,40));
+		
+		gc.addSurface(new Stone(new Rectangle(80,120,560,240)));
+		gc.addSurface(new Grass(new Rectangle(80,200,80,80)));
+		gc.addSurface(new Grass(new Rectangle(640,120,80,240)));
+		
+		gc.addHole(new Hole(new Vector2D(600,240),8));
+		
 		return gc;
 	}
 }
