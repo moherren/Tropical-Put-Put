@@ -24,6 +24,7 @@ import course.MovingWall;
 import course.Wall;
 import course.Windmill;
 import entities.GolfBall;
+import geometry.Circle;
 import geometry.Line;
 import geometry.Rectangle;
 import geometry.Vector2D;
@@ -319,11 +320,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 					finalScorecard.click(mX, mY);
 			}
 			else {
-				if(holeNumber<3)
+				if(holeNumber==3)
+					finalScorecard.click(mX, mY);
+				else{
+					System.out.println(""+holeNumber);
 					for(MenuButton mb:scorecardButtons)
 						mb.click(mX, mY);
-				else
-					finalScorecard.click(mX, mY);
+					}			
 			}
 			break;
 		}
@@ -446,6 +449,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		scorecard=new Scorecard();
 		if(!playing){
 			holeNumber=0;
+			if(timer!=null)
+				timer.stop();
 			timer=new Timer((int)(1000/updatePerSecond),this);
 			timer.start();
 			playing=true;
@@ -466,6 +471,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		scorecard=new Scorecard();
 		if(!playing){
 			holeNumber=0;
+			if(timer!=null)
+				timer.stop();
 			timer=new Timer((int)(1000/updatePerSecond),this);
 			timer.start();
 			playing=true;
@@ -499,12 +506,20 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 					loadCourse(holes[holeNumber]);
 				else{
 					compliment("Player 1");
+					ball=new GolfBall(new Vector2D(0,0),course);
+					holeNumber++;
+					stopGame();
 				}
 			}
 			else if(backScreen==SC_TUTORIAL_GAME){
 				MenuButton.gameType=SC_TUTORIAL_GAME;
 				if(holeNumber<tHoles.length)
 					loadCourse(tHoles[holeNumber]);
+				else{
+					ball=new GolfBall(new Vector2D(0,0),course);
+					holeNumber++;
+					stopGame();
+				}
 				compliment("good job!");
 			}
 		}
