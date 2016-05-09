@@ -96,14 +96,14 @@ public class Background implements VisibleObject{
 			int beginY=0;
 			
 			for(double i=0;i<Math.PI/16.0;i+=increment){
-				int endX=(int) (beginX+Math.cos((beginRad-i-Math.PI/16.0*4)%(Math.PI/2.0)-Math.PI)*rayRadius);
-				int endY=(int) (beginY-Math.sin((beginRad-i-Math.PI/16.0*4)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endX=(int) (beginX+Math.cos((beginRad-i-Math.PI/16.0*4)%(Math.PI/2.0)-Math.PI/2.0)*rayRadius);
+				int endY=(int) (beginY-Math.sin((beginRad-i-Math.PI/16.0*4)%(Math.PI/2.0)-Math.PI/2.0)*rayRadius);
 				drawRay(r, 0xFCDC3B, beginX, beginY, endX, endY);
 			}
 			
 			for(double i=0;i<Math.PI/16.0;i+=increment){
-				int endX=(int) (beginX+Math.cos((beginRad+i+Math.PI/16.0*7)%(Math.PI/2.0)-Math.PI)*rayRadius);
-				int endY=(int) (beginY-Math.sin((beginRad+i+Math.PI/16.0*7)%(Math.PI/2.0)-Math.PI)*rayRadius);
+				int endX=(int) (beginX+Math.cos((beginRad+i+Math.PI/16.0*7)%(Math.PI/2.0)-Math.PI/2.0)*rayRadius);
+				int endY=(int) (beginY-Math.sin((beginRad+i+Math.PI/16.0*7)%(Math.PI/2.0)-Math.PI/2.0)*rayRadius);
 				drawRay(r, 0xFCDC3B, beginX, beginY, endX, endY);
 			}
 			
