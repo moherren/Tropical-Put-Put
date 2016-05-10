@@ -110,7 +110,7 @@ public class Background implements VisibleObject{
 			r.draw(sun, 775, -25);
 				
 			for(int i=0;i<cloudXs.length;i++){
-				drawCloud((int)((cloudXs[i]+(time/50.0))%(r.width+cloud.width)-cloud.width),cloudYs[i],r);
+				drawCloud((int)((cloudXs[i]+(time/50.0))%(r.width+cloud.width))+r.width,cloudYs[i],r);
 			}
 			
 			

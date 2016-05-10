@@ -2,6 +2,8 @@ package course;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,6 +46,8 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 	public Vector2D tiltVelocity=new Vector2D(0,0);
 	public double tiltSpeed=0.1;
 	public double tiltSpringConstant=0.001;// in F=-kx, the k
+	
+	public boolean turn=true;
 	
 	public Vector2D ballStart;
 	public int par;
@@ -139,7 +143,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				shipTurnTime=totalTime+(int)(Math.random()*200)+300;
 			}
 		}
-		else if(shipTurnTime<totalTime){
+		else if(shipTurnTime<totalTime&&turn){
 			shipHeadingTarget=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
 		}
 		Vector2D tilt=tiltDirection.mult(tiltAngle);

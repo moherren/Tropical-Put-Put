@@ -172,8 +172,12 @@ public class Render {
 				rgb = (rgb << 8) + green;
 				rgb = (rgb << 8) + blue;
 				
-				if(color==0||pixels[X+Y*width]==0)
-					pixels[X+Y*width]=rgb;
+				if(color!=0&&pixels[X+Y*width]!=0){
+					if(rgb==color)
+						pixels[X+Y*width]=color;
+					else
+						pixels[X+Y*width]=mixColor(oldC.getRGB(),rgb,0.5);
+				}
 				else 
 					pixels[X+Y*width]=Math.max(1, rgb);
 			}

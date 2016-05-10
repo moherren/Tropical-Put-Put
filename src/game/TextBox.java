@@ -17,10 +17,10 @@ import graphics.Texture;
 import visibleObjects.VisibleObject;
 
 public class TextBox implements VisibleObject,ActionListener{
-	public final static int TB_HELP=0,TB_CHAT=1,TB_INSTRUCT=2;
+	public final static int TB_HELP=0,TB_CHAT=1,TB_INSTRUCT=2,TB_BLANK=3;
 	int type;
 	int x,y;
-	Render box;
+	Render box=new Render(0,0);
 	static Render gui=null;
 	static Render[] guis;
 	boolean visible=true;
@@ -154,7 +154,7 @@ public class TextBox implements VisibleObject,ActionListener{
 		int x=0,y=0;
 		for(int i=0;i<words.length;i++){
 			Rectangle2D rec=f.getStringBounds(words[i], frc);
-			if(y==0||x+rec.getWidth()>width-5){
+			if(y==0||x+rec.getWidth()>width-10){
 				y+=rec.getHeight()+3;
 				x=95;
 			}
@@ -163,6 +163,10 @@ public class TextBox implements VisibleObject,ActionListener{
 		}
 		
 		return sprite;
+	}
+	
+	public static TextBox blankTextBox(){
+		return new TextBox(TB_BLANK,0,0,0,0,"");
 	}
 
 	public static TextBox newHelpBox(int x,int y,int width,int height,String text){

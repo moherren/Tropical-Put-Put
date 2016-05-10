@@ -528,6 +528,8 @@ public class Levels {
 		
 		gc.addHole(new Hole(new Vector2D(600,240),8));
 		
+		gc.turn=false;
+		
 		return gc;
 	}
 }
