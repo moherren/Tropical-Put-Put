@@ -115,7 +115,6 @@ public class Background implements VisibleObject{
 			
 			
 			r.draw(title, 250, 50);
-			
 			break;
 			}
 		

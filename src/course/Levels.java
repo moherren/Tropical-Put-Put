@@ -7,6 +7,15 @@ import geometry.Vector2D;
 
 public class Levels {
 	
+	public static GolfCourse[] getCourses(){
+		return new GolfCourse[]{
+				getCourse1(),getCourse2(),getCourse3(),getCourse12(),getCourse14(),
+				getCourse10(),getCourse18(),getCourse9(),getCourse4(),getCourse11(),
+				getCourse15(),getCourse17(),getCourse13(),getCourse5(),getCourse6(),
+				getCourse7(),getCourse8(),getCourse16()
+		};
+	}
+	
 	public static GolfCourse getCourse1(){
 		GolfCourse gc=new GolfCourse(new Vector2D(160,220), 2);
 		

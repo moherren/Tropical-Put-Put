@@ -101,7 +101,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		newScreen=new Render2D(Display.WIDTH,Display.HEIGHT);
 		lastScreen=new Render2D(Display.WIDTH,Display.HEIGHT);
 		
-		holes[0]=new GolfCourse(new Vector2D(400,300), 5);
+		/*holes[0]=new GolfCourse(new Vector2D(400,300), 5);
 		holes[0].addObstacle(new Wall(new Rectangle(20,100,40,300)));
 		Windmill spinny=new Windmill(new Vector2D(300,300),40,5);
 		holes[0].addEntity(spinny);
@@ -125,7 +125,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holes[1].addSurface(new Stone(new Rectangle(300,100,400,300)));
 		holes[1].addHole(new Hole(new Vector2D(600,200),8));
 		holes[2]=Levels.getCourse1();
-		holes[0]=Levels.getCourse18();
+		holes[0]=Levels.getCourse18();*/
+		holes=Levels.getCourses();
 		background=new Background(this);
 		SoundHandler.playMusic(SoundHandler.SONG_ONE, 0);
 		SoundHandler.setMusicVolume(volume);
@@ -595,7 +596,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		gui=new GUI(course);
 		gui.parNum=course.par;
 		holeNumber++;
-		if((difficulty>0&&screen==SC_GOLF_GAME)){
+		if((difficulty>0&&(screen==SC_GOLF_GAME||backScreen==SC_GOLF_GAME))){
 			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
 			course.tiltAngle=Math.random()*course.maxTilt;
 		}
