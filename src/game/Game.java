@@ -596,7 +596,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		gui=new GUI(course);
 		gui.parNum=course.par;
 		holeNumber++;
-		if((difficulty>0&&screen==SC_GOLF_GAME)){
+		if((difficulty>0&&screen!=SC_TUTORIAL_GAME)){
 			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
 			course.tiltAngle=Math.random()*course.maxTilt;
 		}
