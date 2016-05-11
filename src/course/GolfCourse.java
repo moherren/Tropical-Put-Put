@@ -268,7 +268,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				Vector2D toHole=h.getShape().getPosition().sub(ball.getPosition());
 				double scoreTime=toHole.magnitude()/ball.getSpeed();
 				double dist=h.getShape().getRadius();
-				if(toHole.magnitude()<10+30/tiltPeak)
+				if(toHole.magnitude()<20+30/((int)tiltPeak))
 					return;
 				Vector2D dir=toHole.perpendicular().normalize().mult(Math.signum(toHole.dot(ball.getVelocity())));
 				ball.applyImpulse(Math.min(dist/scoreTime,maxPreventPush),dir);
