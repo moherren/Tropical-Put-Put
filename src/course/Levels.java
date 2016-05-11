@@ -541,4 +541,24 @@ public class Levels {
 		
 		return gc;
 	}
+	
+	public static void main(String[] args){
+		double p=0.5;
+		double impulse=0.33;
+		double successes=0;
+		int trials=100000;
+		for(int i=0;i<trials;i++){
+			double d=0;
+			double v=0;
+			for(int j=0;j<10;j++){
+				if(Math.random()<p)
+					v+=impulse;
+				d+=v;
+			}
+			if(d>=8)
+				successes++;
+		}
+		System.out.println(successes+"     "+successes/trials);
+		System.out.println(new Vector2D(0,1).dot(new Vector2D(0.5,-0.5)));
+	}
 }
