@@ -565,7 +565,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 	
 	private void compliment(String string) {
-		if(backScreen==SC_GOLF_GAME){
+		if(backScreen==SC_GOLF_GAME||screen==SC_GOLF_GAME){
 			double ability=scorecard.getComplimentScore(string);
 		
 			if(ability>=1)
@@ -578,7 +578,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				gui.setTip(TextBox.TB_CHAT, "Not bad!");
 			else if(ability>=-0.5)
 				gui.setTip(TextBox.TB_CHAT, "Don't worry about the score, you'll do better next time!");
-			else if(ability>=-0.7)
+			else
 				gui.setTip(TextBox.TB_CHAT, "Maybe you should practice some more!");
 		}
 		else if(backScreen==SC_TUTORIAL_GAME){
