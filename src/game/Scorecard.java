@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -107,6 +109,51 @@ public class Scorecard implements VisibleObject{
 		return sum;
 	}
 	
+	public ActionListener tutorialTips1(){
+		return new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String command=arg0.getActionCommand();
+				if(command.equals("mouse down")){
+					((Game)arg0.getSource()).gui.setTip(TextBox.TB_INSTRUCT, "Now that your shot is you're holding down your mouse line up your shot with the white line. Release the mouse button once the power level is at a proper length.");
+				}
+			}
+			
+		};
+	}
+	public ActionListener tutorialTips2(){
+		return new ActionListener(){
+			int stage=0;
+			public void actionPerformed(ActionEvent arg0) {
+				String command=arg0.getActionCommand();
+				if(command.equals("mouse down")){
+					if(stage==0){
+						((Game)arg0.getSource()).gui.setTip(TextBox.TB_CHAT, "But to the putters on board that just means more fun!");
+						stage++;
+					}
+					else if(stage==1){
+						((Game)arg0.getSource()).gui.setTip(TextBox.TB_CHAT, "You can see which direction the ship is tilting by looking at the tilt-visualizer at the bottom of the screen.");
+						stage++;
+					}
+					else if(stage==2){
+						((Game)arg0.getSource()).gui.setTip(TextBox.TB_INSTRUCT, "Try putting into that hole over there and see what happens.");
+						stage++;
+					}
+					else if(stage==4){
+						((Game)arg0.getSource()).gui.clearTip();
+					}
+					
+				}
+				else if(command.equals("putt")){
+					if(stage==3)
+					((Game)arg0.getSource()).gui.setTip(TextBox.TB_CHAT, "See how the tilt affects your ball's path?");
+					stage++;
+				}
+			}
+			
+		};
+	}
+	
 }
 
 class Player{
@@ -180,4 +227,6 @@ class Player{
 		}
 		return sum;
 	}
+	
+	
 }

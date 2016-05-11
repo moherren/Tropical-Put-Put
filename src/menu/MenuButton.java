@@ -7,6 +7,7 @@ import java.awt.Point;
 import javax.swing.JOptionPane;
 
 import game.Game;
+import game.TextBox;
 import geometry.Vector2D;
 import graphics.Display;
 import graphics.Render;
@@ -97,8 +98,7 @@ public class MenuButton implements VisibleObject{
 		public void click(){
 			game.setScreen(Game.SC_TUTORIAL_GAME);
 			game.startTutorial();
-			
-		}
+			game.gui.setTip(TextBox.TB_INSTRUCT, "Hold down the left mouse button the prepare your swing.");		}
 	}
 	
 	public static class SettingsButton extends MenuButton{
@@ -258,6 +258,8 @@ public class MenuButton implements VisibleObject{
 		}
 		
 		public void click(){
+			if(gameType==Game.SC_TUTORIAL_GAME)
+				game.gui.setTip(TextBox.TB_CHAT, "On windy days the cruise ship we're on playing on can rock back and forth.");
 			game.setScreen(gameType);
 		}
 	}

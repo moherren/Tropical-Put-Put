@@ -50,7 +50,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	GolfCourse[] tHoles;
 	int screen=SC_MAIN_MENU;
 	Background background;
-	GUI gui;
+	public GUI gui;
 	MenuButton[] menuButtons;
 	MenuButton[] settingsButtons;
 	MenuButton[] scorecardButtons;
@@ -70,6 +70,12 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	public static int backScreen=SC_MAIN_MENU;
 	Timer timer;
 	private double difficulty=0.5;
+	
+	ActionListener listener=new ActionListener(){
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}};
 	
 	public static void main(String[] args) {
 		new Game();
@@ -186,6 +192,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				gui.powerLevel=0;
 			}
 			gui.render(r);
+			gui.renderTip(r);
 			pauseButton.render(r);
 			break;
 		}
@@ -286,15 +293,24 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		switch(screen){
 		case SC_GOLF_GAME:{
 			pauseButton.click(mX, mY);
-			if(!pauseButton.isWithin(mX, mY))
+			if(!pauseButton.isWithin(mX, mY)){
 				mouseDown=true;
+				listener.actionPerformed(new ActionEvent(this,0,"mouse down"));
+			}
 			break;
 		}
 		
 		case SC_TUTORIAL_GAME:{
-			pauseButton.click(mX, mY);
-			if(!pauseButton.isWithin(mX, mY))
-				mouseDown=true;
+			if(!gui.clickToNext){
+				pauseButton.click(mX, mY);
+				if(!pauseButton.isWithin(mX, mY)){
+					listener.actionPerformed(new ActionEvent(this,0,"mouse down"));
+					mouseDown=true;
+				}
+			}
+			else{
+				listener.actionPerformed(new ActionEvent(this,0,"mouse down"));
+			}
 			break;
 		}
 		
@@ -367,6 +383,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				putt(gui.powerLevel*10, toBall.normalize().negative());
 				putting=false;
 				gui.strokesNum++;
+				listener.actionPerformed(new ActionEvent(this,0,"putt"));
 			}
 			mouseDown=false;
 			break;
@@ -478,6 +495,8 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			timer.start();
 			playing=true;
 			loadCourse(tHoles[0]);
+			
+			listener=scorecard.tutorialTips1();
 			putting=true;
 			new Thread(){
 				public void run(){
@@ -514,8 +533,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			}
 			else if(backScreen==SC_TUTORIAL_GAME){
 				MenuButton.gameType=SC_TUTORIAL_GAME;
-				if(holeNumber<tHoles.length)
+				if(holeNumber<tHoles.length){
 					loadCourse(tHoles[holeNumber]);
+					listener=scorecard.tutorialTips2();					
+				}
 				else{
 					ball=new GolfBall(new Vector2D(0,0),course);
 					holeNumber++;
@@ -578,6 +599,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		if((difficulty>0&&screen==SC_GOLF_GAME)){
 			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
 			course.tiltAngle=Math.random()*course.maxTilt;
+		}
+		else if(backScreen==SC_TUTORIAL_GAME&&holeNumber!=1){
+			course.tiltDirection=new Vector2D(0,1).normalize();
+			course.tiltAngle=course.maxTilt;
 		}
 		else{
 			course.tiltDirection=new Vector2D(0,0);

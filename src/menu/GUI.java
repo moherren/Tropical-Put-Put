@@ -25,7 +25,7 @@ public class GUI implements VisibleObject{
 	public int parNum;
 	GolfCourse gc;
 	TextBox tip;
-	
+	public boolean clickToNext=false;
 	
 	public GUI(GolfCourse gc){
 		tip=TextBox.newChatBox(200, 0, 300, 90, "Hello, I'm a text box. Who are you????");
@@ -147,9 +147,19 @@ public class GUI implements VisibleObject{
 	public void setTip(int type,String text){
 		switch(type){
 		case TextBox.TB_CHAT:{
-			tip=TextBox.newChatBox(200, 450, 400, 100, text);
+			tip=TextBox.newChatBox(200, 350, 400, 100, text);
+			clickToNext=true;
 			break;
 			}
+		case TextBox.TB_INSTRUCT:{
+			clickToNext=false;
+			tip=TextBox.newHelpBox(200, 0, 450, 100, text);
 		}
+		}
+	}
+
+	public void clearTip() {
+		tip=TextBox.blankTextBox();
+		clickToNext=false;
 	}
 }
