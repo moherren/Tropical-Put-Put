@@ -598,16 +598,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holeNumber++;
 
 		if((difficulty>0&&(screen==SC_GOLF_GAME||backScreen==SC_GOLF_GAME))){
-			course.tiltDirection=new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize();
-			course.tiltAngle=Math.random()*course.maxTilt;
+			course.setTilt(new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize(),Math.random()*course.maxTilt);
 		}
 		else if(backScreen==SC_TUTORIAL_GAME&&holeNumber!=1){
-			course.tiltDirection=new Vector2D(0,1).normalize();
-			course.tiltAngle=course.maxTilt;
+			course.setTilt(new Vector2D(0,1).normalize(),course.maxTilt);
 		}
 		else{
-			course.tiltDirection=new Vector2D(0,0);
-			course.tiltAngle=0;
+			course.setTilt(new Vector2D(0,0),0);
 		}
 	}
 
