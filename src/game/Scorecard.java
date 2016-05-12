@@ -115,7 +115,7 @@ public class Scorecard implements VisibleObject{
 			public void actionPerformed(ActionEvent arg0) {
 				String command=arg0.getActionCommand();
 				if(command.equals("mouse down")){
-					((Game)arg0.getSource()).gui.setTip(TextBox.TB_INSTRUCT, "Now that your shot is you're holding down your mouse line up your shot with the white line. Release the mouse button once the power level is at a proper length.");
+					((Game)arg0.getSource()).gui.setTip(TextBox.TB_INSTRUCT, "Now that you're holding down your mouse line up your shot with the white line. Release the mouse button once the power level is at a proper length.");
 				}
 			}
 			
