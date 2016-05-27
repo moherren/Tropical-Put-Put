@@ -1,6 +1,5 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -9,27 +8,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.Timer;
 
 import course.GolfCourse;
-import course.Grass;
-import course.Hole;
 import course.Levels;
-import course.Stone;
-import course.MovingWall;
-import course.Wall;
-import course.Windmill;
 import entities.GolfBall;
-import geometry.Circle;
-import geometry.Line;
-import geometry.Rectangle;
 import geometry.Vector2D;
 import graphics.Display;
-import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
 import menu.Background;
@@ -137,9 +125,10 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		new Thread(this).run();
 	}
 
+	@Override
 	public void render(Render2D r) {
 		
-		r.setFont("LithosBlack.ttf");
+		//r.setFont("LithosBlack.ttf");
 		
 		switch(screen){
 		
@@ -166,7 +155,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				double x=ball.getPosition().x;
 				double y=ball.getPosition().y;
 				Vector2D dir=new Vector2D(mX-x,mY-y).negative().normalize();
-				r.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*150, y+dir.y*gui.powerLevel*150);
+				Render2D.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*150, y+dir.y*gui.powerLevel*150);
 				//the rendering here could be replaced with some sort of arrow maybe?
 			}
 			else{
@@ -185,7 +174,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 				double x=ball.getPosition().x;
 				double y=ball.getPosition().y;
 				Vector2D dir=new Vector2D(mX-x,mY-y).negative().normalize();
-				r.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*150, y+dir.y*gui.powerLevel*150);
+				Render2D.drawLine(r, 0, 0xFFFFFF, x, y, x+dir.x*gui.powerLevel*150, y+dir.y*gui.powerLevel*150);
 				//the rendering here could be replaced with some sort of arrow maybe?
 			}
 			else{
@@ -238,11 +227,13 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		return mouseDown;
 	}
 	
+	@Override
 	public void paint(Graphics g) {
 		
 	}
 
 
+	@Override
 	public void run() {
 		while(running){
 			Point mouse=display.getMousePosition();
@@ -265,6 +256,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 
+	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		switch(screen){
 		case SC_MAIN_MENU:{
@@ -278,16 +270,19 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 
+	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		
 	}
 
 
+	@Override
 	public void mouseExited(MouseEvent arg0) {
 		
 	}
 
 
+	@Override
 	public void mousePressed(MouseEvent arg0) {
 		if(arg0.getButton()==MouseEvent.BUTTON1)
 		switch(screen){
@@ -352,6 +347,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 	}
 
 
+	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		if(arg0.getButton()==MouseEvent.BUTTON1)
 		switch(screen){
@@ -402,16 +398,19 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		ball.putt(power, direction);
 	}
 
+	@Override
 	public void keyPressed(KeyEvent arg0) {
 		
 	}
 
 
+	@Override
 	public void keyReleased(KeyEvent arg0) {
 		
 	}
 
 
+	@Override
 	public void keyTyped(KeyEvent arg0) {
 		
 	}
@@ -475,6 +474,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			loadCourse(holes[0]);
 			putting=true;
 			new Thread(){
+				@Override
 				public void run(){
 					Scanner scan=new Scanner(System.in);
 					while(true){
@@ -499,6 +499,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 			listener=scorecard.tutorialTips1();
 			putting=true;
 			new Thread(){
+				@Override
 				public void run(){
 					Scanner scan=new Scanner(System.in);
 					while(true){
@@ -514,6 +515,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		
 	}
 	
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		course.update((int)(1000/updatePerSecond)/10);
 		if(course.scored(ball)){
@@ -598,7 +600,7 @@ public class Game implements VisibleObject,KeyListener, MouseListener, Runnable,
 		holeNumber++;
 
 		if((difficulty>0&&(screen==SC_GOLF_GAME||backScreen==SC_GOLF_GAME))){
-			course.setTilt(new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize(),Math.random()*course.maxTilt);
+			course.setTilt(new Vector2D(Math.random()*2-1,Math.random()*2-1).normalize(),Math.abs(Math.cos(2*Math.PI*Math.random()))*course.maxTilt);
 		}
 		else if(backScreen==SC_TUTORIAL_GAME&&holeNumber!=1){
 			course.setTilt(new Vector2D(0,1).normalize(),course.maxTilt);

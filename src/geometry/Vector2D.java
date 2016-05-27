@@ -168,19 +168,22 @@ public class Vector2D implements Cloneable{
 		return new Point((int)x,(int)y);
 	}
 
+	@Override
 	public String toString(){
 		return "Vector2D["+x+","+y+"]";
 	}
 
 	public static double round(double n,int digits){
 		double multiplier=Math.pow(10, digits);
-		return (double)Math.round(n*multiplier)/multiplier;
+		return Math.round(n*multiplier)/multiplier;
 	}
 	
+	@Override
 	public Vector2D clone(){
 		return new Vector2D(x,y);
 	}
 	
+	@Override
 	public boolean equals(Object other){
 		Vector2D v=(Vector2D)other;
 		return v.x==x&&v.y==y;

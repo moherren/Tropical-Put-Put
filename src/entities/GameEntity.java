@@ -65,6 +65,7 @@ public class GameEntity extends MobileEntity implements VisibleObject,TempGraphi
 		this.heading=heading;
 	}
 	
+	@Override
 	public void update(double time){
 		super.update(time);
 		shape.setPosition(position);
@@ -87,6 +88,7 @@ public class GameEntity extends MobileEntity implements VisibleObject,TempGraphi
 		//Graphics for this not yet added
 	}
 	
+	@Override
 	public void render(Graphics g){
 		g.setColor(c);
 		shape.render(g);

@@ -3,7 +3,6 @@ import java.awt.Graphics;
 
 import entities.GameEntity;
 import geometry.Polygon;
-import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
 

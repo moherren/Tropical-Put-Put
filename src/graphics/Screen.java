@@ -1,8 +1,6 @@
 package graphics;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import visibleObjects.VisibleObject;
 
 public class Screen extends Render{

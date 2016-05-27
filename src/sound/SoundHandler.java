@@ -1,17 +1,22 @@
 package sound;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundHandler {
 	
+	
+	/**
+	 * "Wellness Center" tutorial music
+	 */
+	public static String SONG_THREE = "sounds/WellnessCenter.wav";
+
 	/**
 	 * "Loading" menu music
 	 */
@@ -35,8 +40,12 @@ public class SoundHandler {
 	
 	public static void play(String ref) {
 		try {
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					ref));
+			//read audio data from whatever source (file/classloader/etc.)
+			InputStream audioSrc = SoundHandler.class.getResourceAsStream(ref);
+			//add buffer for mark/reset support
+			InputStream bufferedIn = new BufferedInputStream(audioSrc);
+			AudioInputStream audio = AudioSystem.getAudioInputStream(bufferedIn);		
+			
 			Clip clip = AudioSystem.getClip();
 
 			clip.open(audio);
@@ -51,8 +60,12 @@ public class SoundHandler {
 
 	public static void play(String ref, float deltaGain) {
 		try {
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					ref));
+			//read audio data from whatever source (file/classloader/etc.)
+			InputStream audioSrc = SoundHandler.class.getResourceAsStream(ref);
+			//add buffer for mark/reset support
+			InputStream bufferedIn = new BufferedInputStream(audioSrc);
+			AudioInputStream audio = AudioSystem.getAudioInputStream(bufferedIn);		
+			
 			Clip clip = AudioSystem.getClip();
 
 			clip.open(audio);
@@ -73,8 +86,12 @@ public class SoundHandler {
 	
 	public static void play(String ref, float deltaGain, float deltaPitch) {
 		try {
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					ref));
+			//read audio data from whatever source (file/classloader/etc.)
+			InputStream audioSrc = SoundHandler.class.getResourceAsStream(ref);
+			//add buffer for mark/reset support
+			InputStream bufferedIn = new BufferedInputStream(audioSrc);
+			AudioInputStream audio = AudioSystem.getAudioInputStream(bufferedIn);		
+			
 			Clip clip = AudioSystem.getClip();
 
 			clip.open(audio);
@@ -101,8 +118,11 @@ public class SoundHandler {
 			if(!(music==null))
 			music.stop();
 			
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					ref));
+			//read audio data from whatever source (file/classloader/etc.)
+			InputStream audioSrc = SoundHandler.class.getResourceAsStream(ref);
+			//add buffer for mark/reset support
+			InputStream bufferedIn = new BufferedInputStream(audioSrc);
+			AudioInputStream audio = AudioSystem.getAudioInputStream(bufferedIn);			
 			
 			currentSong=ref;
 			
@@ -127,4 +147,20 @@ public class SoundHandler {
 		gainControl.setValue((float) (Math.log(gain) / Math.log(10.0) * 20.0));
 	}
 	
+	private static AudioInputStream convertToPCM(AudioInputStream audioInputStream)
+    {
+        AudioFormat m_format = audioInputStream.getFormat();
+
+        if ((m_format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) &&
+            (m_format.getEncoding() != AudioFormat.Encoding.PCM_UNSIGNED))
+        {
+            AudioFormat targetFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+                m_format.getSampleRate(), 16,
+                m_format.getChannels(), m_format.getChannels() * 2,
+                m_format.getSampleRate(), m_format.isBigEndian());
+            audioInputStream = AudioSystem.getAudioInputStream(targetFormat, audioInputStream);
+    }
+
+    return audioInputStream;
+}
 }

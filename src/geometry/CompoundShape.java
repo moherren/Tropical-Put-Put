@@ -34,12 +34,14 @@ public class CompoundShape extends Shape {
 		}
 	}
 
+	@Override
 	public void render(Graphics g) {
 		for(Shape s:shapes){
 			s.translate(position).render(g);
 		}
 	}
 
+	@Override
 	public Area toArea() {
 		Area a=new Area();
 		for(Shape s:shapes){
@@ -56,6 +58,7 @@ public class CompoundShape extends Shape {
 		}
 	}
 
+	@Override
 	public Shape translate(Vector2D translation) {
 		Shape[] newShapes=new Shape[shapes.length];
 		for(int i=0;i<shapes.length;i++){
@@ -64,6 +67,7 @@ public class CompoundShape extends Shape {
 		return new CompoundShape(newShapes,position.add(translation));
 	}
 
+	@Override
 	public Shape clone() {
 		Shape[] newShapes=new Shape[shapes.length];
 		for(int i=0;i<shapes.length;i++){

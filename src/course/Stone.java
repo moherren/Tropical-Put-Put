@@ -2,7 +2,6 @@ package course;
 import java.awt.Graphics;
 
 import geometry.Polygon;
-import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
 
@@ -28,7 +27,7 @@ public class Stone extends Surface {
 
 	@Override
 	public double getCoefFriction() {
-		return 0.05;
+		return 0.08;
 	}
 
 }

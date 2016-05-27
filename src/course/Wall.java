@@ -2,8 +2,6 @@ package course;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.geom.Point2D;
-
 import geometry.Line;
 import geometry.Polygon;
 import geometry.Rectangle;
@@ -69,6 +67,7 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		col=rgb;
 	}
 	
+	@Override
 	public void render(Render2D r){
 		//Still needs to be added
 		for(int x=minX;x<=maxX;x++)
@@ -78,6 +77,7 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 			}
 	}
 	
+	@Override
 	public void render(Graphics g){
 		shape.render(g);
 	}
@@ -90,10 +90,12 @@ public class Wall implements VisibleObject,Obstacle,TempGraphics{
 		return shape.includes(point);
 	}
 	
+	@Override
 	public boolean intersects(GameEntity entity){
 		return shape.intersects(entity.shape);
 	}
 	
+	@Override
 	public void handleCollision(GameEntity entity){
 		Vector2D normal=getNormal(entity.shape);
 		if(normal!=null&&!normal.isZeroed()){

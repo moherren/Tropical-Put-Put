@@ -24,15 +24,18 @@ public class Circle extends Shape{
 		rotation=0;
 	}
 
+	@Override
 	public Area toArea() {
 		return new Area(new Ellipse2D.Double(position.getX()-radius,position.getY()-radius,radius*2,radius*2));
 	}
 
+	@Override
 	public void rotate(double theta) {
 		rotation+=theta;
 		rotation=modulus(rotation, 2*Math.PI);
 	}
 	
+	@Override
 	public Shape translate(Vector2D translation){
 		return new Circle(position.getX()+translation.getX(),position.getY()+translation.getY(),radius);
 	}
@@ -41,6 +44,7 @@ public class Circle extends Shape{
 		return radius;
 	}
 	
+	@Override
 	public boolean intersects(Line line){
 		Vector2D toStart=position.sub(line.getPoint1());
 		Vector2D toP2=line.getPoint2().sub(line.getPoint1());
@@ -57,6 +61,7 @@ public class Circle extends Shape{
 		return toPoint.magnitudeSq()<=radius*radius;
 	}
 	
+	@Override
 	public boolean includes(Vector2D point){
 		return position.sub(point).magnitudeSq()<=radius*radius;
 	}
@@ -66,6 +71,7 @@ public class Circle extends Shape{
 		return new Circle(position.x,position.y,radius);
 	}
 	
+	@Override
 	public void render(Graphics g){
 		g.fillOval((int)(position.getX()-radius),(int)(position.getY()-radius),(int)radius*2,(int)radius*2);
 		g.setColor(Color.black);

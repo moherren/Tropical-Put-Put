@@ -2,13 +2,10 @@ package menu;
 
 import visibleObjects.VisibleObject;
 
-import java.awt.Point;
-
 import javax.swing.JOptionPane;
 
 import game.Game;
 import game.TextBox;
-import geometry.Vector2D;
 import graphics.Display;
 import graphics.Render;
 import graphics.Render2D;
@@ -53,6 +50,7 @@ public class MenuButton implements VisibleObject{
 		
 	}
 
+	@Override
 	public void render(Render2D r) {
 		r.draw(sprite, x, y);
 		if(hover&&game.getScreen()==Game.SC_MAIN_MENU){
@@ -82,6 +80,7 @@ public class MenuButton implements VisibleObject{
 			super(325,275,Texture.getSpriteSheet(buttons, 150, 50, 0),g);
 		}
 		
+		@Override
 		public void click(){
 			game.setScreen(Game.SC_GOLF_GAME);
 			game.startGame();
@@ -95,6 +94,7 @@ public class MenuButton implements VisibleObject{
 			super(325,350,Texture.getSpriteSheet(buttons, 150, 50, 1),g);
 		}
 		
+		@Override
 		public void click(){
 			game.setScreen(Game.SC_TUTORIAL_GAME);
 			game.startTutorial();
@@ -106,6 +106,7 @@ public class MenuButton implements VisibleObject{
 			super(325,425,Texture.getSpriteSheet(buttons, 150, 50, 2),g);
 		}
 		
+		@Override
 		public void click(){
 			game.setScreen(Game.SC_SETTINGS_GAME);
 		}
@@ -117,6 +118,7 @@ public class MenuButton implements VisibleObject{
 			super(325,500,Texture.getSpriteSheet(buttons, 150, 50, 3),g);
 		}
 		
+		@Override
 		public void click(){
 			int n = JOptionPane.showConfirmDialog(
 				    game.display,
@@ -143,6 +145,7 @@ public class MenuButton implements VisibleObject{
 			super(50,500,Texture.getSpriteSheet(buttons, 150, 50, 4),g);
 		}
 		
+		@Override
 		public void click(){
 			game.setScreen(Game.backScreen,gameType);
 		}
@@ -163,10 +166,12 @@ public class MenuButton implements VisibleObject{
 			sliderY=y+sprite.height/2-slider.height/2;
 		}
 		
+		@Override
 		public void click(){
 			pressed=true;
 		}
 		
+		@Override
 		public void update(int mX,int mY){
 			if(!game.getMouseDown())
 			{
@@ -180,6 +185,7 @@ public class MenuButton implements VisibleObject{
 			}
 		}
 		
+		@Override
 		public void render(Render2D r){
 			int lineThickness=2;
 				for(int y=-(lineThickness/2);y<lineThickness/2;y++){
@@ -209,10 +215,12 @@ public class MenuButton implements VisibleObject{
 			sliderY=y+sprite.height/2-slider.height/2;
 		}
 		
+		@Override
 		public void click(){
 			pressed=true;
 		}
 		
+		@Override
 		public void update(int mX,int mY){
 			if(!game.getMouseDown())
 			{
@@ -226,6 +234,7 @@ public class MenuButton implements VisibleObject{
 			}
 		}
 		
+		@Override
 		public void render(Render2D r){
 			int lineThickness=2;
 				for(int y=-(lineThickness/2);y<lineThickness/2;y++){
@@ -257,6 +266,7 @@ public class MenuButton implements VisibleObject{
 			super(Display.WIDTH-50-150,Display.HEIGHT-50-50,Texture.getSpriteSheet(buttons, 150, 50, 5),g);
 		}
 		
+		@Override
 		public void click(){
 			if(gameType==Game.SC_TUTORIAL_GAME)
 				game.gui.setTip(TextBox.TB_CHAT, "On windy days the cruise ship we're on playing on can rock back and forth.");
@@ -269,6 +279,7 @@ public class MenuButton implements VisibleObject{
 			super(Display.WIDTH-15-50,15,Texture.loadBitmap("textures/pauseButton.png"),g);
 		}
 		
+		@Override
 		public void click(){
 			gameType=game.getScreen();
 			game.setScreen(Game.SC_PAUSE_MENU);
@@ -290,6 +301,7 @@ public class MenuButton implements VisibleObject{
 		public MainMenuButton(Game g){
 			super(325,275,Texture.getSpriteSheet(buttons, 150, 50, 6),g);
 		}
+		@Override
 		public void click(){
 			int n = JOptionPane.showConfirmDialog(
 				    game.display,
@@ -307,6 +319,7 @@ public class MenuButton implements VisibleObject{
 		public MainMenuReturnButton(Game g){
 			super(Display.WIDTH-50-150,Display.HEIGHT-50-50,Texture.getSpriteSheet(buttons, 150, 50, 6),g);
 		}
+		@Override
 		public void click(){
 			
 			game.setScreen(Game.SC_MAIN_MENU);

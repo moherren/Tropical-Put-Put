@@ -11,7 +11,6 @@ import geometry.Circle;
 import geometry.Line;
 import geometry.Polygon;
 import geometry.Rectangle;
-import geometry.Shape;
 import geometry.Vector2D;
 
 public class Windmill implements VisibleObject,Obstacle,Entity{
@@ -111,6 +110,7 @@ public class Windmill implements VisibleObject,Obstacle,Entity{
 			}
 	}
 	
+	@Override
 	public void update(double t){
 		rotation+=turnSpeed*t;
 		for(Wall w:fins){

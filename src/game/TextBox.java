@@ -1,8 +1,6 @@
 package game;
 
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -183,6 +181,7 @@ public class TextBox implements VisibleObject,ActionListener{
 	}
 
 
+	@Override
 	public void render(Render2D r) {
 		if(visible){
 			r.draw(box, x, y);

@@ -40,6 +40,7 @@ public class Polygon extends Shape {
 		}
 	}
 
+	@Override
 	public Area toArea(){
 		int[] xpos=new int[points.length],ypos=new int[points.length];
 		for(int i=0;i<points.length;i++){
@@ -49,12 +50,14 @@ public class Polygon extends Shape {
 		return new Area(new java.awt.Polygon(xpos, ypos, points.length));
 	}
 
+	@Override
 	public void rotate(double theta) {
 		for(int i=0;i<points.length;i++){
 			points[i]=points[i].rotate(theta);
 		}
 	}
 	
+	@Override
 	public Shape translate(Vector2D translation){
 		return new Polygon(points,position.add(translation));
 	}
@@ -76,6 +79,7 @@ public class Polygon extends Shape {
 		return actualPoints;
 	}
 	
+	@Override
 	public boolean includes(Vector2D point){
 		int intersections=0;
 		for(Line l:toLines()){
@@ -86,6 +90,7 @@ public class Polygon extends Shape {
 		return intersections%2==1;
 	}
 
+	@Override
 	public Shape clone() {
 		Vector2D[] newPoints=new Vector2D[points.length];
 		for(int i=0;i<points.length;i++){
@@ -95,6 +100,7 @@ public class Polygon extends Shape {
 		return new Polygon(newPoints,new Vector2D(position.x,position.y));
 	}
 
+	@Override
 	public boolean intersects(Line line) {
 		if(includes(line.getPoint1())||includes(line.getPoint2()))
 			return true;

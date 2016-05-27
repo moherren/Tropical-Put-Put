@@ -3,7 +3,6 @@ package course;
 import java.awt.Graphics;
 
 import geometry.Polygon;
-import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
 import visibleObjects.VisibleObject;
@@ -32,6 +31,7 @@ public abstract class Surface implements VisibleObject{
 		return shape.includes(point);
 	}
 	
+	@Override
 	public abstract void render(Render2D r);
 	
 	public abstract void render(Graphics g);

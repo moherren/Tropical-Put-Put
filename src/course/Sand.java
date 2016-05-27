@@ -2,7 +2,6 @@ package course;
 import java.awt.Graphics;
 
 import geometry.Polygon;
-import geometry.Shape;
 import geometry.Vector2D;
 import graphics.Render2D;
 

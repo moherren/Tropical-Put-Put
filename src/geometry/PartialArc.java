@@ -4,8 +4,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Arc2D.Double;
-import java.util.Arrays;
 
 public class PartialArc extends Shape{
 
@@ -47,6 +45,7 @@ public class PartialArc extends Shape{
 		points[3]=new Vector2D(Math.cos(orientation+arcAngle/2)*radius,Math.sin(orientation+arcAngle/2)*radius);
 	}
 
+	@Override
 	public Area toArea() {
 		Area outer=new Area(new Arc2D.Double(position.x-radius,position.y-radius,radius*2,radius*2,-Math.toDegrees(orientation-arcAngle/2),-Math.toDegrees(arcAngle),Arc2D.PIE));
 		Area hole=new Area(new Arc2D.Double(position.x-holeRadius,position.y-holeRadius,holeRadius*2,holeRadius*2,-Math.toDegrees(orientation-arcAngle/2),-Math.toDegrees(arcAngle),Arc2D.PIE));
@@ -62,6 +61,7 @@ public class PartialArc extends Shape{
 		}
 	}
 
+	@Override
 	public boolean includes(Vector2D point){
 		Vector2D toPoint=point.sub(position);
 		double distSq=toPoint.magnitudeSq();
@@ -75,6 +75,7 @@ public class PartialArc extends Shape{
 		return false;
 	}
 	
+	@Override
 	public boolean intersects(Line line) {
 		if(includes(line.getPoint1()))
 			return true;

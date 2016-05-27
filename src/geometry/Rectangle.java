@@ -1,8 +1,5 @@
 package geometry;
 
-import java.awt.Graphics;
-import java.awt.geom.Area;
-
 public class Rectangle extends Polygon{
 
 	//private double width;

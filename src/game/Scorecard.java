@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -77,6 +76,7 @@ public class Scorecard implements VisibleObject{
 		}
 	}
 	
+	@Override
 	public void render(Render2D r) {
 		if(card==null)
 			generateCard();
@@ -124,6 +124,7 @@ public class Scorecard implements VisibleObject{
 	public ActionListener tutorialTips2(){
 		return new ActionListener(){
 			int stage=0;
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String command=arg0.getActionCommand();
 				if(command.equals("mouse down")){
