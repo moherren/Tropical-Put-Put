@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -77,6 +76,7 @@ public class Scorecard implements VisibleObject{
 		}
 	}
 	
+	@Override
 	public void render(Render2D r) {
 		if(card==null)
 			generateCard();
@@ -115,7 +115,7 @@ public class Scorecard implements VisibleObject{
 			public void actionPerformed(ActionEvent arg0) {
 				String command=arg0.getActionCommand();
 				if(command.equals("mouse down")){
-					((Game)arg0.getSource()).gui.setTip(TextBox.TB_INSTRUCT, "Now that your shot is you're holding down your mouse line up your shot with the white line. Release the mouse button once the power level is at a proper length.");
+					((Game)arg0.getSource()).gui.setTip(TextBox.TB_INSTRUCT, "Now that you're holding down your mouse line up your shot with the white line. Release the mouse button once the power level is at a proper length.");
 				}
 			}
 			
@@ -124,6 +124,7 @@ public class Scorecard implements VisibleObject{
 	public ActionListener tutorialTips2(){
 		return new ActionListener(){
 			int stage=0;
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String command=arg0.getActionCommand();
 				if(command.equals("mouse down")){

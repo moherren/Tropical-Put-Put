@@ -78,6 +78,7 @@ public class MovingWall extends Wall implements Entity{
 		
 	}
 	
+	@Override
 	public void render(Render2D r){
 		for(int x=minX;x<=maxX;x++)
 			for(int y=minY;y<=maxY;y++){
@@ -89,6 +90,7 @@ public class MovingWall extends Wall implements Entity{
 			Render2D.drawLine(r, 1, l.getPoint1().x, l.getPoint1().y, l.getPoint2().x, l.getPoint2().y);
 	}
 	
+	@Override
 	public void handleCollision(GameEntity entity){
 		Vector2D normal=getNormal(entity.shape);
 		if(normal!=null&&!normal.isZeroed()){

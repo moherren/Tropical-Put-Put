@@ -7,9 +7,8 @@ import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
 import java.io.IOException;
-
+import java.io.InputStream;
 import javax.swing.JLabel;
 
 public class Render {
@@ -113,7 +112,9 @@ public class Render {
 	
 	public void setFont(String file){
 		try {
-			font=Font.createFont(Font.TRUETYPE_FONT, new File(file)).deriveFont(font.getStyle(),font.getSize());
+			InputStream is=Render.class.getResourceAsStream(file);
+
+			font=Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(font.getStyle(),font.getSize());
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

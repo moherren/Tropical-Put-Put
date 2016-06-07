@@ -1,24 +1,15 @@
 package course;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.omg.CORBA.BAD_PARAM;
-
 import entities.Entity;
 import entities.GameEntity;
 import entities.GolfBall;
-import geometry.Circle;
 import geometry.Line;
 import geometry.Vector2D;
 import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
-import menu.GUI;
 import visibleObjects.TempGraphics;
 import visibleObjects.VisibleObject;
 
@@ -186,6 +177,7 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 		holes.add(h);
 	}
 	
+	@Override
 	public void render(Render2D r){
 		if(background==null){
 			background=new Render2D(r.width,r.height);
@@ -268,12 +260,19 @@ public class GolfCourse implements VisibleObject, TempGraphics{
 				Vector2D toHole=h.getShape().getPosition().sub(ball.getPosition());
 				double scoreTime=toHole.magnitude()/ball.getSpeed();
 				double dist=h.getShape().getRadius();
-				if(toHole.magnitude()<20+30/((int)tiltPeak))
+				if(toHole.magnitude()<20+30/notZero((int)tiltPeak))
 					return;
 				Vector2D dir=toHole.perpendicular().normalize().mult(Math.signum(toHole.dot(ball.getVelocity())));
 				ball.applyImpulse(Math.min(dist/scoreTime,maxPreventPush),dir);
 			}
 		}
+	}
+
+	private int notZero(int tiltPeak2) {
+		if(tiltPeak2==0)
+			return 1;
+		else
+			return tiltPeak2;
 	}
 
 	public void removeBalls(){

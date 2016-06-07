@@ -1,7 +1,6 @@
 package graphics;
 
 import java.awt.Canvas;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
@@ -10,8 +9,6 @@ import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import visibleObjects.Painter;
 import visibleObjects.VisibleObject;
 

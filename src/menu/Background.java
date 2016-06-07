@@ -3,7 +3,6 @@ package menu;
 import java.util.Random;
 
 import game.Game;
-import graphics.Display;
 import graphics.Render;
 import graphics.Render2D;
 import graphics.Texture;
@@ -44,6 +43,7 @@ public class Background implements VisibleObject{
 		}
 	}
 	
+	@Override
 	public void render(Render2D r) {
 		switch(game.getScreen()){
 		case Game.SC_MAIN_MENU:{

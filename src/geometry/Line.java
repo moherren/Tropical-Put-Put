@@ -66,6 +66,7 @@ public class Line {
 		return point.distanceToSq(nearestPoint(point));
 	}
 	
+	@Override
 	public String toString(){
 		return "Line["+p1+","+p2+"]";
 	}

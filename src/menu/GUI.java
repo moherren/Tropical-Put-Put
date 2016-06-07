@@ -3,8 +3,6 @@ package menu;
 import java.util.Arrays;
 
 import course.GolfCourse;
-import game.Game;
-import game.Scorecard;
 import game.TextBox;
 import geometry.Vector2D;
 import graphics.Render;
@@ -63,7 +61,7 @@ public class GUI implements VisibleObject{
 			tiltCircle.drawPixel(0x0000ff,x,y);
 			for(int line=-1;line>lineLength;line--)
 				if(tiltCircle.pixels[x+y*tiltCircle.width-line]!=0x0000ff){
-					tiltCircle.drawPixel(Render2D.mixColor(wood.pixels[((x-line)%wood.width)+(y%wood.height)*wood.width], 0x0000ff,0.3), x-line,y);
+					tiltCircle.drawPixel(Render.mixColor(wood.pixels[((x-line)%wood.width)+(y%wood.height)*wood.width], 0x0000ff,0.3), x-line,y);
 				}
 			tiltCircle.drawPixel(0x0000ff,x-lineLength,y);
 			
@@ -88,6 +86,7 @@ public class GUI implements VisibleObject{
 		}
 	}
 	
+	@Override
 	public void render(Render2D r) {
 		renderPowerBar(r);
 		renderStrokes(r);
@@ -101,7 +100,7 @@ public class GUI implements VisibleObject{
 		int width=300;
 		int height=20;
 		int startColor=0xffff00,endColor=0xff0000;
-		int color=Render2D.mixColor(startColor, endColor, powerLevel);
+		int color=Render.mixColor(startColor, endColor, powerLevel);
 		
 		Render2D.drawLine(r, 1, x+1, y, x+width, y);
 		Render2D.drawLine(r, 1, x+1, y+height, x+width, y+height);

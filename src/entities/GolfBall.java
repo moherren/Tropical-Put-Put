@@ -3,11 +3,8 @@ package entities;
 import visibleObjects.VisibleObject;
 import course.GolfCourse;
 import geometry.Circle;
-import geometry.Shape;
 import geometry.Vector2D;
-import graphics.Display;
 import graphics.Render2D;
-import sound.SoundHandler;
 
 public class GolfBall extends GameEntity implements VisibleObject{
 
@@ -20,6 +17,7 @@ public class GolfBall extends GameEntity implements VisibleObject{
 		this.course=course;
 	}
 	
+	@Override
 	public void update(double time){
 		super.update(time);
 		if(!velocity.isZeroed())
@@ -39,6 +37,7 @@ public class GolfBall extends GameEntity implements VisibleObject{
 		}
 	}
 	
+	@Override
 	public void render(Render2D r){
 		Vector2D v=position;
 		int X=(int) v.x,Y=(int) v.y;

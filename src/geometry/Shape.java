@@ -165,6 +165,7 @@ public abstract class Shape implements Cloneable{
 		System.out.println(total);
 	}
 	
+	@Override
 	public abstract Shape clone();
 	
 	public double getBoundingRadius(){

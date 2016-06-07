@@ -41,7 +41,7 @@ public class SoundTest extends JFrame {
 				volume = ((JSlider) e.getSource()).getValue();
 				// volText = new JLabel(Integer.toString(volume));
 				volText.setText("Gain: " + Integer.toString(volume));
-				volFloat = (float) volume;
+				volFloat = volume;
 			}
 		});
 		sliderPanel.add(volText);
